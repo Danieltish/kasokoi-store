@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -42,21 +43,42 @@ export default async function OrderPage({
 
   const order = await prisma.order.findUnique({
     where: { orderNumber },
-    include: { items: true, deliveryZone: true },
+    include: {
+      items: {
+        include: { product: { select: { slug: true } } },
+      },
+      deliveryZone: true,
+    },
   });
 
   if (!order) {
     notFound();
   }
 
+  const requestHeaders = await headers();
+  const host = (
+    requestHeaders.get("x-forwarded-host") ??
+    requestHeaders.get("host") ??
+    ""
+  )
+    .split(",")[0]
+    .trim();
+  const protocol = (requestHeaders.get("x-forwarded-proto") ?? "https")
+    .split(",")[0]
+    .trim();
+  const origin = host ? `${protocol}://${host}` : SITE.url;
+
   const message = [
     `Hi ${SITE.name}, I placed order ${order.orderNumber}.`,
     "",
     "Items:",
-    ...order.items.map(
-      (item) =>
-        `- ${item.name} x${item.quantity} — ${formatKes(item.lineTotalKes)}`,
-    ),
+    ...order.items.map((item) => {
+      const link = item.product?.slug
+        ? `\n   ${origin}/product/${item.product.slug}`
+        : "";
+
+      return `- ${item.name} x${item.quantity} — ${formatKes(item.lineTotalKes)}${link}`;
+    }),
     "",
     `Subtotal: ${formatKes(order.subtotalKes)}`,
     `Delivery: ${

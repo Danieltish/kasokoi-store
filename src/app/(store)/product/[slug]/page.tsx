@@ -5,16 +5,16 @@ import { Suspense } from "react";
 
 import { ProductSkeleton } from "@/components/catalog-skeleton";
 import { AddToCartButton } from "@/components/add-to-cart-button";
-import { WhatsAppIcon } from "@/components/icons";
 import { Price } from "@/components/price";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
+import { ProductWhatsAppButton } from "@/components/product-whatsapp-button";
 import {
   getProductBySlug,
   getProducts,
   getRelatedProducts,
 } from "@/lib/catalog";
-import { formatKes, SITE, whatsappUrl } from "@/lib/site";
+import { SITE } from "@/lib/site";
 
 const conditionLabels = {
   NEW: "New",
@@ -92,7 +92,6 @@ async function ProductContent({
 
   const related = await getRelatedProducts(product.category.slug, product.slug);
   const productUrl = `${SITE.url}/product/${product.slug}`;
-  const orderMessage = `Hi ${SITE.name}, I'd like to order:\n\n${product.name} (${product.brand})\nPrice: ${formatKes(product.priceKes)}\nLink: ${productUrl}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -190,13 +189,13 @@ async function ProductContent({
               stock={product.stock}
               className="w-full sm:w-auto"
             />
-            <a
-              href={whatsappUrl(orderMessage)}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:w-auto"
-            >
-              <WhatsAppIcon className="size-5" />
-              {product.stock > 0 ? "Order on WhatsApp" : "Ask about availability"}
-            </a>
+            <ProductWhatsAppButton
+              slug={product.slug}
+              name={product.name}
+              brand={product.brand}
+              priceKes={product.priceKes}
+              inStock={product.stock > 0}
+            />
             <Link
               href={`/category/${product.category.slug}`}
               className="inline-flex w-full items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold hover:bg-muted sm:w-auto"
