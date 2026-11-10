@@ -28,6 +28,9 @@ pnpm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# prisma generated client
+/src/generated/
+
 # testing
 coverage/
 
@@ -36,3 +39,5 @@ coverage/
 *.pem
 .idea/
 .vscode/
+
+/src/generated/prisma

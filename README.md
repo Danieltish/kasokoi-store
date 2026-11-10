@@ -4,6 +4,35 @@ Mobile-first electronics store for Kenya. **WhatsApp-first ordering** (+254 717 
 
 ---
 
+## Quick Start
+
+**Prerequisites:** Node.js 22+, npm, and a PostgreSQL database (Neon, Supabase or local).
+
+```bash
+npm install                 # installs deps and runs prisma generate
+cp .env.example .env        # then set DATABASE_URL
+npm run db:push             # create tables (or: npm run db:migrate)
+npm run dev                 # http://localhost:3000
+```
+
+**Scripts**
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript (`tsc --noEmit`) |
+| `npm run db:generate` | Regenerate the Prisma client |
+| `npm run db:push` | Push schema to the database (no migration) |
+| `npm run db:migrate` | Create and apply a migration |
+| `npm run db:deploy` | Apply pending migrations (production) |
+| `npm run db:studio` | Open Prisma Studio |
+
+> Prisma 7 uses the `prisma-client` generator (`src/generated/prisma`, git-ignored) with the `@prisma/adapter-pg` driver adapter. Client singleton: `src/lib/prisma.ts`.
+
+---
+
 ## Table of Contents
 1. [Vision & Scope](#1-vision--scope)
 2. [Tech Stack](#2-tech-stack)
@@ -47,7 +76,7 @@ Mobile-first electronics store for Kenya. **WhatsApp-first ordering** (+254 717 
 
 | Layer | Choice |
 |---|---|
-| Framework | Next.js 15 (App Router) + TypeScript |
+| Framework | Next.js 16 (App Router) + TypeScript |
 | UI | Tailwind CSS + shadcn/ui + Lucide icons |
 | Database | PostgreSQL (Neon or Supabase) |
 | ORM | Prisma |
@@ -174,7 +203,7 @@ Order items store snapshots so price changes never rewrite history.
 
 | Phase | Deliverable | Est. |
 |---|---|---|
-| 0 | Repo, Next.js + Prisma + Neon, design tokens, env, CI | 2–3 days |
+| 0 | Repo, Next.js 16 + Prisma 7 + Neon, design tokens, env, CI | 2–3 days |
 | 1 | Catalog, categories, product pages, search, SEO | 1 wk |
 | 2 | Cart, checkout, WhatsApp handoff, order creation | 4–5 days |
 | 3 | Admin: products, orders, zones, settings | 1 wk |
