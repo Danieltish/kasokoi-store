@@ -12,6 +12,7 @@ Mobile-first electronics store for Kenya. **WhatsApp-first ordering** (+254 717 
 npm install                 # installs deps and runs prisma generate
 cp .env.example .env        # then set DATABASE_URL
 npm run db:push             # create tables (or: npm run db:migrate)
+npm run seed                # seed categories and sample products
 npm run dev                 # http://localhost:3000
 ```
 
@@ -28,6 +29,7 @@ npm run dev                 # http://localhost:3000
 | `npm run db:migrate` | Create and apply a migration |
 | `npm run db:deploy` | Apply pending migrations (production) |
 | `npm run db:studio` | Open Prisma Studio |
+| `npm run seed` | Seed categories and sample products |
 
 > Prisma 7 uses the `prisma-client` generator (`src/generated/prisma`, git-ignored) with the `@prisma/adapter-pg` driver adapter. Client singleton: `src/lib/prisma.ts`.
 

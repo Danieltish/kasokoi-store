@@ -1,0 +1,234 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+
+import { ProductSkeleton } from "@/components/catalog-skeleton";
+import { WhatsAppIcon } from "@/components/icons";
+import { Price } from "@/components/price";
+import { ProductGrid } from "@/components/product-grid";
+import {
+  getProductBySlug,
+  getProducts,
+  getRelatedProducts,
+} from "@/lib/catalog";
+import { formatKes, SITE, whatsappUrl } from "@/lib/site";
+
+const conditionLabels = {
+  NEW: "New",
+  REFURBISHED: "Refurbished",
+  USED: "Used",
+} as const;
+
+const schemaConditions = {
+  NEW: "https://schema.org/NewCondition",
+  REFURBISHED: "https://schema.org/RefurbishedCondition",
+  USED: "https://schema.org/UsedCondition",
+} as const;
+
+export async function generateStaticParams() {
+  const products = await getProducts();
+
+  return products.map((product) => ({ slug: product.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    return { title: "Product not found" };
+  }
+
+  return {
+    title: `${product.name} — ${product.brand}`,
+    description: product.description,
+    openGraph: {
+      type: "website",
+      title: `${product.name} — ${product.brand}`,
+      description: product.description,
+      images: product.image ? [{ url: product.image }] : undefined,
+    },
+  };
+}
+
+export default function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  return (
+    <Suspense fallback={<ProductSkeleton />}>
+      <ProductContent params={params} />
+    </Suspense>
+  );
+}
+
+async function ProductContent({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  const related = await getRelatedProducts(product.category.slug, product.slug);
+  const productUrl = `${SITE.url}/product/${product.slug}`;
+  const orderMessage = `Hi ${SITE.name}, I'd like to order:\n\n${product.name} (${product.brand})\nPrice: ${formatKes(product.priceKes)}\nLink: ${productUrl}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    sku: product.slug,
+    brand: { "@type": "Brand", name: product.brand },
+    category: product.category.name,
+    image: product.image ? `${SITE.url}${product.image}` : undefined,
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "KES",
+      price: product.priceKes,
+      availability:
+        product.stock > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+      itemCondition: schemaConditions[product.condition],
+    },
+  };
+
+  return (
+    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <nav className="text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-foreground">
+          Home
+        </Link>
+        <span className="mx-2">/</span>
+        <Link
+          href={`/category/${product.category.slug}`}
+          className="hover:text-foreground"
+        >
+          {product.category.name}
+        </Link>
+        <span className="mx-2">/</span>
+        <span className="text-foreground">{product.name}</span>
+      </nav>
+
+      <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
+          {product.image ? (
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          ) : null}
+        </div>
+
+        <div>
+          <span className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+            {product.brand}
+          </span>
+          <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+            {product.name}
+          </h1>
+
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <Price
+              amountKes={product.priceKes}
+              compareAtKes={product.compareAtPriceKes}
+              size="lg"
+            />
+            <span className="rounded-full border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground">
+              {conditionLabels[product.condition]}
+            </span>
+            <span
+              className={
+                product.stock > 0
+                  ? "text-sm font-medium text-success"
+                  : "text-sm font-medium text-danger"
+              }
+            >
+              {product.stock > 0
+                ? `In stock (${product.stock})`
+                : "Out of stock"}
+            </span>
+          </div>
+
+          <p className="mt-4 text-muted-foreground">{product.description}</p>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={whatsappUrl(orderMessage)}
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90"
+            >
+              <WhatsAppIcon className="size-5" />
+              {product.stock > 0 ? "Order on WhatsApp" : "Ask about availability"}
+            </a>
+            <Link
+              href={`/category/${product.category.slug}`}
+              className="inline-flex items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold hover:bg-muted"
+            >
+              More {product.category.name.toLowerCase()}
+            </Link>
+          </div>
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            Delivery in Nairobi and nationwide. We confirm stock, delivery fee
+            and payment on WhatsApp.
+          </p>
+
+          {product.specs && Object.keys(product.specs).length > 0 ? (
+            <div className="mt-8">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                Specifications
+              </h2>
+              <dl className="mt-3 divide-y divide-border rounded-xl border border-border">
+                {Object.entries(product.specs).map(([key, value]) => (
+                  <div
+                    key={key}
+                    className="flex gap-4 px-4 py-3 text-sm"
+                  >
+                    <dt className="w-40 shrink-0 text-muted-foreground">
+                      {key}
+                    </dt>
+                    <dd className="font-medium">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {related.length > 0 ? (
+        <section className="mt-14">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            You may also like
+          </h2>
+          <div className="mt-5">
+            <ProductGrid products={related} />
+          </div>
+        </section>
+      ) : null}
+    </div>
+  );
+}
