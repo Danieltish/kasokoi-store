@@ -1,6 +1,8 @@
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { CATALOG_TAGS } from "@/lib/catalog";
 import { deliveryFeeFor } from "@/lib/pricing";
 import { normalizeKenyanPhone } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
@@ -192,6 +194,8 @@ export async function POST(request: Request) {
         },
         select: { orderNumber: true },
       });
+
+      revalidateTag(CATALOG_TAGS.products, { expire: 0 });
 
       return NextResponse.json({ orderNumber: order.orderNumber }, { status: 201 });
     } catch (error) {

@@ -85,13 +85,22 @@ export function MobileMenu({ categories }: { categories: CategorySummary[] }) {
                 </li>
               ))}
             </ul>
-            <Link
-              href="/cart"
-              onClick={() => setOpen(false)}
-              className="block border-t border-border px-4 py-3 text-sm font-semibold hover:bg-muted"
-            >
-              View cart
-            </Link>
+            <div className="border-t border-border">
+              <Link
+                href="/about"
+                onClick={() => setOpen(false)}
+                className="block px-4 py-3 text-sm font-semibold hover:bg-muted"
+              >
+                About us
+              </Link>
+              <Link
+                href="/cart"
+                onClick={() => setOpen(false)}
+                className="block border-t border-border px-4 py-3 text-sm font-semibold hover:bg-muted"
+              >
+                View cart
+              </Link>
+            </div>
           </nav>
         </>
       ) : null}

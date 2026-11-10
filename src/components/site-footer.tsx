@@ -53,6 +53,11 @@ export async function SiteFooter() {
         <div>
           <h2 className="text-sm font-semibold">Help</h2>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            <li>
+              <Link href="/about" className="hover:text-foreground">
+                About us
+              </Link>
+            </li>
             <li>Delivery in Nairobi &amp; nationwide</li>
             <li>Order on WhatsApp</li>
             <li>Prices in Kenyan Shillings</li>

@@ -216,6 +216,37 @@ export async function getProducts(
   }));
 }
 
+export async function getPopularProducts(
+  limit = 12,
+): Promise<ProductSummary[]> {
+  "use cache";
+  cacheTag(CATALOG_TAGS.products);
+  cacheLife("hours");
+
+  const rows = await prisma.product.findMany({
+    where: { isActive: true },
+    take: limit,
+    orderBy: [{ orderItems: { _count: "desc" } }, { createdAt: "desc" }],
+    include: {
+      category: { select: { slug: true, name: true } },
+      images: { orderBy: { position: "asc" }, take: 1 },
+    },
+  });
+
+  return rows.map((row) => ({
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    brand: row.brand,
+    priceKes: row.priceKes,
+    compareAtPriceKes: row.compareAtPriceKes,
+    condition: row.condition,
+    stock: row.stock,
+    image: row.images[0]?.url ?? null,
+    category: row.category,
+  }));
+}
+
 export async function getProductBySlug(
   slug: string,
 ): Promise<ProductDetail | null> {
