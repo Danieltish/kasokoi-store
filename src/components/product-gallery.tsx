@@ -1,19 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
   ExpandIcon,
+  GripIcon,
 } from "@/components/icons";
 
 type GalleryImage = {
   url: string;
   alt: string | null;
 };
+
+type Position = {
+  x: number;
+  y: number;
+};
+
+function clampPercentage(value: number) {
+  return Math.min(100, Math.max(0, value));
+}
 
 export function ProductGallery({
   images,
@@ -24,7 +39,16 @@ export function ProductGallery({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [position, setPosition] = useState<Position>({ x: 50, y: 50 });
   const active = images[activeIndex] ?? images[0];
+  const drag = useRef<{
+    startX: number;
+    startY: number;
+    posX: number;
+    posY: number;
+    moved: boolean;
+  } | null>(null);
+  const hasDragged = useRef(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -57,6 +81,67 @@ export function ProductGallery({
     };
   }, [isOpen, images.length]);
 
+  function handlePointerDown(event: ReactPointerEvent<HTMLButtonElement>) {
+    if (event.pointerType === "touch") {
+      return;
+    }
+
+    hasDragged.current = false;
+    drag.current = {
+      startX: event.clientX,
+      startY: event.clientY,
+      posX: position.x,
+      posY: position.y,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handlePointerMove(event: ReactPointerEvent<HTMLButtonElement>) {
+    const state = drag.current;
+
+    if (!state) {
+      return;
+    }
+
+    const dx = event.clientX - state.startX;
+    const dy = event.clientY - state.startY;
+
+    if (!state.moved && Math.hypot(dx, dy) > 4) {
+      state.moved = true;
+      hasDragged.current = true;
+    }
+
+    if (!state.moved) {
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+
+    setPosition({
+      x: clampPercentage(state.posX - (dx / rect.width) * 100),
+      y: clampPercentage(state.posY - (dy / rect.height) * 100),
+    });
+  }
+
+  function handlePointerUp() {
+    drag.current = null;
+    window.setTimeout(() => {
+      hasDragged.current = false;
+    }, 0);
+  }
+
+  function handleImageClick() {
+    if (hasDragged.current) {
+      hasDragged.current = false;
+      return;
+    }
+
+    if (active) {
+      setIsOpen(true);
+    }
+  }
+
   function showPrevious() {
     setActiveIndex((index) => (index - 1 + images.length) % images.length);
   }
@@ -69,13 +154,13 @@ export function ProductGallery({
     <div>
       <button
         type="button"
-        onClick={() => {
-          if (active) {
-            setIsOpen(true);
-          }
-        }}
+        onClick={handleImageClick}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
         aria-label="View full-size image"
-        className="group relative block aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-square lg:max-h-[calc(100vh-10rem)]"
+        className="group relative block aspect-[4/3] w-full touch-pan-y select-none overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-square sm:cursor-grab sm:touch-none sm:active:cursor-grabbing lg:aspect-[4/3] lg:max-h-[calc(100vh-10rem)]"
       >
         {active ? (
           <Image draggable={false}
@@ -85,7 +170,8 @@ export function ProductGallery({
             priority
             quality={90}
             sizes="(min-width: 1024px) 600px, 100vw"
-            className="object-cover object-center"
+            style={{ objectPosition: `${position.x}% ${position.y}%` }}
+            className="object-cover"
           />
         ) : (
           <span className="flex size-full items-center justify-center text-sm text-muted-foreground">
@@ -94,10 +180,16 @@ export function ProductGallery({
         )}
 
         {active ? (
-          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm sm:hidden">
-            <ExpandIcon className="size-3.5" />
-            Tap to enlarge
-          </span>
+          <>
+            <span className="pointer-events-none absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm sm:hidden">
+              <ExpandIcon className="size-3.5" />
+              Tap to enlarge
+            </span>
+            <span className="pointer-events-none absolute bottom-3 left-3 hidden items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm sm:inline-flex">
+              <GripIcon className="size-3.5" />
+              Drag to move
+            </span>
+          </>
         ) : null}
 
         {images.length > 1 ? (
@@ -113,7 +205,10 @@ export function ProductGallery({
             <li key={`${image.url}-${index}`} className="shrink-0">
               <button
                 type="button"
-                onClick={() => setActiveIndex(index)}
+                onClick={() => {
+                  setActiveIndex(index);
+                  setPosition({ x: 50, y: 50 });
+                }}
                 aria-label={`View image ${index + 1} of ${images.length}`}
                 aria-pressed={index === activeIndex}
                 className={`relative size-16 overflow-hidden rounded-lg border bg-muted transition sm:size-20 ${
