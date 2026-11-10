@@ -9,7 +9,9 @@ import {
 } from "@/generated/prisma/client";
 import { requireAdmin } from "@/lib/auth";
 import { CATALOG_TAGS } from "@/lib/catalog";
+import { isAllowedImageUrl } from "@/lib/image-urls";
 import { prisma } from "@/lib/prisma";
+import { deleteStorageImages } from "@/lib/storage";
 
 export type ProductFormState = { error?: string };
 
@@ -77,7 +79,11 @@ export async function saveProductAction(
   const categoryId = String(formData.get("categoryId") ?? "");
   const sku = String(formData.get("sku") ?? "").trim();
   const conditionValue = String(formData.get("condition") ?? "NEW");
-  const imageUrl = String(formData.get("imageUrl") ?? "").trim();
+  const rawImageUrls = formData
+    .getAll("imageUrls")
+    .map((value) => String(value).trim())
+    .filter(Boolean);
+  const imageUrls = [...new Set(rawImageUrls)];
   const specsText = String(formData.get("specs") ?? "");
   const isActive = formData.get("isActive") === "on";
 
@@ -114,6 +120,10 @@ export async function saveProductAction(
     return { error: "Enter a valid stock quantity." };
   }
 
+  if (rawImageUrls.some((url) => !isAllowedImageUrl(url))) {
+    return { error: "One or more image links are not supported." };
+  }
+
   const category = await prisma.category.findUnique({
     where: { id: categoryId },
     select: { id: true, image: true },
@@ -124,6 +134,12 @@ export async function saveProductAction(
   }
 
   const slug = slugify(String(formData.get("slug") ?? "") || name);
+  const existingImages = id
+    ? await prisma.productImage.findMany({
+        where: { productId: id },
+        select: { url: true },
+      })
+    : [];
   const specs = parseSpecs(specsText);
   const specsValue: Prisma.InputJsonValue | typeof Prisma.DbNull = specs
     ? specs
@@ -149,14 +165,31 @@ export async function saveProductAction(
         },
       });
 
-      if (imageUrl) {
-        await prisma.productImage.deleteMany({ where: { productId: id } });
-        await prisma.productImage.create({
-          data: { productId: id, url: imageUrl, alt: name, position: 0 },
+      await prisma.productImage.deleteMany({ where: { productId: id } });
+
+      if (imageUrls.length > 0) {
+        await prisma.productImage.createMany({
+          data: imageUrls.map((url, position) => ({
+            productId: id,
+            url,
+            alt: name,
+            position,
+          })),
         });
       }
+
+      const removedImages = existingImages
+        .map((image) => image.url)
+        .filter((url) => !imageUrls.includes(url));
+
+      await deleteStorageImages(removedImages);
     } else {
-      const image = imageUrl || category.image;
+      const images =
+        imageUrls.length > 0
+          ? imageUrls
+          : category.image
+            ? [category.image]
+            : [];
 
       await prisma.product.create({
         data: {
@@ -172,8 +205,16 @@ export async function saveProductAction(
           stock,
           isActive,
           specs: specsValue,
-          ...(image
-            ? { images: { create: { url: image, alt: name, position: 0 } } }
+          ...(images.length > 0
+            ? {
+                images: {
+                  create: images.map((url, position) => ({
+                    url,
+                    alt: name,
+                    position,
+                  })),
+                },
+              }
             : {}),
         },
       });

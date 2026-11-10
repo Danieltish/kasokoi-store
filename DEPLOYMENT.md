@@ -26,6 +26,9 @@ Set these in **Vercel → Project → Settings → Environment Variables** (Prod
 | `NEXT_PUBLIC_SITE_URL` | `https://your-domain.co.ke` (use the Vercel URL until the domain is live) |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | `254717376964` (digits only) |
 | `AUTH_SECRET` | `openssl rand -base64 32` — unique, never committed |
+| `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase **secret key** — server-only, never expose |
+| `SUPABASE_STORAGE_BUCKET` | `product-images` (created and made public on first upload) |
 
 `SUPERADMIN_EMAIL` / `SUPERADMIN_PASSWORD` are **only used by seed scripts**, not at runtime. Keep them in your local `.env`; you do not need them in Vercel.
 

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -8,6 +7,7 @@ import { ProductSkeleton } from "@/components/catalog-skeleton";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 import { WhatsAppIcon } from "@/components/icons";
 import { Price } from "@/components/price";
+import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
 import {
   getProductBySlug,
@@ -53,7 +53,15 @@ export async function generateMetadata({
       type: "website",
       title: `${product.name} — ${product.brand}`,
       description: product.description,
-      images: product.image ? [{ url: product.image }] : undefined,
+      images: product.image
+        ? [
+            {
+              url: product.image.startsWith("http")
+                ? product.image
+                : `${SITE.url}${product.image}`,
+            },
+          ]
+        : undefined,
     },
   };
 }
@@ -94,7 +102,14 @@ async function ProductContent({
     sku: product.slug,
     brand: { "@type": "Brand", name: product.brand },
     category: product.category.name,
-    image: product.image ? `${SITE.url}${product.image}` : undefined,
+    image:
+      product.images.length > 0
+        ? product.images.map((image) =>
+            image.url.startsWith("http")
+              ? image.url
+              : `${SITE.url}${image.url}`,
+          )
+        : undefined,
     offers: {
       "@type": "Offer",
       url: productUrl,
@@ -131,18 +146,7 @@ async function ProductContent({
       </nav>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
-          {product.image ? (
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          ) : null}
-        </div>
+        <ProductGallery images={product.images} name={product.name} />
 
         <div>
           <span className="text-sm font-medium uppercase tracking-wide text-muted-foreground">

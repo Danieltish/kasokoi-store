@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 
 import { saveProductAction, type ProductFormState } from "./actions";
+import { ProductImages, type ProductImageInput } from "./product-images";
 
 type CategoryOption = { id: string; name: string };
 
@@ -20,7 +21,7 @@ export type ProductInitial = {
   compareAtPriceKes: number | null;
   stock: number;
   isActive: boolean;
-  imageUrl: string;
+  images: ProductImageInput[];
   specsText: string;
 };
 
@@ -154,15 +155,6 @@ export function ProductForm({
               className={fieldClass}
             />
           </label>
-          <label className={labelClass}>
-            Image URL
-            <input
-              name="imageUrl"
-              defaultValue={product?.imageUrl}
-              placeholder="/products/networking.svg"
-              className={fieldClass}
-            />
-          </label>
           <label className="flex items-center gap-2 text-sm font-medium sm:col-span-2">
             <input
               type="checkbox"
@@ -195,6 +187,8 @@ export function ProductForm({
           </label>
         </div>
       </section>
+
+      <ProductImages initialImages={product?.images ?? []} />
 
       {state.error ? (
         <p
