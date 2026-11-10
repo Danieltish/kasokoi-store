@@ -66,8 +66,16 @@ export async function SiteFooter() {
       </div>
 
       <div className="border-t border-border">
-        <div className="mx-auto w-full max-w-6xl px-4 py-6 text-sm text-muted-foreground sm:px-6">
-          &copy; {SITE.name}. All rights reserved.
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <span>
+            &copy; {SITE.name}. All rights reserved.
+          </span>
+          <Link
+            href="/admin/login"
+            className="font-medium hover:text-foreground"
+          >
+            Admin login
+          </Link>
         </div>
       </div>
     </footer>
