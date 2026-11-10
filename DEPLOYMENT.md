@@ -23,7 +23,7 @@ Set these in **Vercel → Project → Settings → Environment Variables** (Prod
 |---|---|
 | `DATABASE_URL` | Supabase **transaction pooler** URI, port `6543` |
 | `DIRECT_URL` | Supabase **session pooler** URI, port `5432` (migrations/seed) |
-| `NEXT_PUBLIC_SITE_URL` | `https://your-domain.co.ke` (use the Vercel URL until the domain is live) |
+| `NEXT_PUBLIC_SITE_URL` | `https://kasokoi.co.ke` |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | `254717376964` (digits only) |
 | `AUTH_SECRET` | `openssl rand -base64 32` — unique, never committed |
 | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
@@ -85,7 +85,7 @@ npx vercel --prod
 
 ## 6. Domain
 
-1. Vercel → **Domains** → add `kasokoistore.co.ke` (or your domain).
+1. Vercel → **Domains** → add `kasokoi.co.ke` and `www.kasokoi.co.ke`.
 2. Point DNS (A / CNAME) as instructed by Vercel.
 3. Update `NEXT_PUBLIC_SITE_URL` to `https://<domain>` and redeploy so metadata, sitemap and
    canonical URLs use the final domain.

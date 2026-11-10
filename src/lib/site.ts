@@ -1,3 +1,12 @@
+const DEFAULT_SITE_URL = "https://kasokoi.co.ke";
+
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const siteUrl =
+  configuredSiteUrl &&
+  !/^https?:\/\/localhost(:\d+)?$/i.test(configuredSiteUrl)
+    ? configuredSiteUrl.replace(/\/+$/, "")
+    : DEFAULT_SITE_URL;
+
 const whatsappNumber =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "254717376964";
 
@@ -6,7 +15,7 @@ export const SITE = {
   tagline: "Everyday essentials, delivered across Kenya",
   description:
     "Shop phones, electronics, home appliances, fashion, beauty, farm supplies and more in Kenya. Order on WhatsApp with delivery in Nairobi and nationwide.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: siteUrl,
   whatsappNumber,
   whatsappDisplay: `+${whatsappNumber.slice(0, 3)} ${whatsappNumber.slice(3, 6)} ${whatsappNumber.slice(6)}`,
   currency: "KES",
