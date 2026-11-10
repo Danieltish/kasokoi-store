@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { ProductSkeleton } from "@/components/catalog-skeleton";
+import { AddToCartButton } from "@/components/add-to-cart-button";
 import { WhatsAppIcon } from "@/components/icons";
 import { Price } from "@/components/price";
 import { ProductGrid } from "@/components/product-grid";
@@ -175,7 +176,15 @@ async function ProductContent({
 
           <p className="mt-4 text-muted-foreground">{product.description}</p>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <AddToCartButton
+              slug={product.slug}
+              name={product.name}
+              brand={product.brand}
+              priceKes={product.priceKes}
+              image={product.image}
+              stock={product.stock}
+            />
             <a
               href={whatsappUrl(orderMessage)}
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90"

@@ -102,7 +102,7 @@ model ProductImage {
 
 model DeliveryZone {
   id            String   @id @default(cuid())
-  name          String
+  name          String   @unique
   counties      String[]
   feeKes        Int
   freeOverKes   Int?

@@ -4,6 +4,7 @@ import { getCategories } from "@/lib/catalog";
 import { SITE, whatsappUrl } from "@/lib/site";
 
 import { SearchIcon, WhatsAppIcon } from "./icons";
+import { CartLink } from "./cart-link";
 
 export async function SiteHeader() {
   const categories = await getCategories();
@@ -31,13 +32,16 @@ export async function SiteHeader() {
           </div>
         </form>
 
-        <a
-          href={whatsappUrl(`Hi ${SITE.name}, I have a question.`)}
-          className="ml-auto inline-flex items-center gap-2 rounded-lg bg-whatsapp px-3 py-2 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:ml-0"
-        >
-          <WhatsAppIcon className="size-4" />
-          <span className="hidden sm:inline">WhatsApp</span>
-        </a>
+        <div className="ml-auto flex items-center gap-2">
+          <CartLink />
+          <a
+            href={whatsappUrl(`Hi ${SITE.name}, I have a question.`)}
+            className="inline-flex items-center gap-2 rounded-lg bg-whatsapp px-3 py-2 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90"
+          >
+            <WhatsAppIcon className="size-4" />
+            <span className="hidden sm:inline">WhatsApp</span>
+          </a>
+        </div>
       </div>
 
       <nav className="mx-auto flex w-full max-w-6xl gap-1 overflow-x-auto px-4 pb-2 sm:px-6">

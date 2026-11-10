@@ -33,6 +33,11 @@ npm run dev                 # http://localhost:3000
 
 > Prisma 7 uses the `prisma-client` generator (`src/generated/prisma`, git-ignored) with the `@prisma/adapter-pg` driver adapter. Client singleton: `src/lib/prisma.ts`.
 
+**Implemented so far**
+- **Phase 0** — Next.js 16 scaffold, Prisma 7 + Supabase, design tokens, CI
+- **Phase 1** — catalog, category/product pages, search, SEO, seed data
+- **Phase 2** — cart (localStorage), checkout, delivery zones/fees, order creation and WhatsApp handoff
+
 ---
 
 ## Table of Contents

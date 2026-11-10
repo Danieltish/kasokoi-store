@@ -397,6 +397,103 @@ const products: SeedProduct[] = [
   },
 ];
 
+const deliveryZones = [
+  {
+    name: "Nairobi Delivery",
+    counties: ["Nairobi"],
+    feeKes: 300,
+    freeOverKes: 50000,
+    isPickup: false,
+  },
+  {
+    name: "Nairobi Pickup",
+    counties: [] as string[],
+    feeKes: 0,
+    freeOverKes: null as number | null,
+    isPickup: true,
+  },
+  {
+    name: "Central Kenya",
+    counties: ["Kiambu", "Murang'a", "Nyeri", "Kirinyaga", "Nyandarua"],
+    feeKes: 500,
+    freeOverKes: 70000,
+    isPickup: false,
+  },
+  {
+    name: "Rift Valley",
+    counties: [
+      "Nakuru",
+      "Uasin Gishu",
+      "Nandi",
+      "Kericho",
+      "Bomet",
+      "Narok",
+      "Kajiado",
+      "Laikipia",
+      "Baringo",
+      "Elgeyo-Marakwet",
+      "West Pokot",
+      "Samburu",
+      "Trans Nzoia",
+      "Turkana",
+    ],
+    feeKes: 600,
+    freeOverKes: 70000,
+    isPickup: false,
+  },
+  {
+    name: "Western Kenya",
+    counties: ["Kakamega", "Bungoma", "Busia", "Vihiga"],
+    feeKes: 650,
+    freeOverKes: 70000,
+    isPickup: false,
+  },
+  {
+    name: "Nyanza",
+    counties: ["Kisumu", "Siaya", "Homa Bay", "Migori", "Kisii", "Nyamira"],
+    feeKes: 650,
+    freeOverKes: 70000,
+    isPickup: false,
+  },
+  {
+    name: "Coast",
+    counties: [
+      "Mombasa",
+      "Kilifi",
+      "Kwale",
+      "Lamu",
+      "Taita-Taveta",
+      "Tana River",
+    ],
+    feeKes: 700,
+    freeOverKes: 70000,
+    isPickup: false,
+  },
+  {
+    name: "Eastern Kenya",
+    counties: [
+      "Machakos",
+      "Kitui",
+      "Makueni",
+      "Meru",
+      "Embu",
+      "Tharaka-Nithi",
+      "Isiolo",
+      "Marsabit",
+    ],
+    feeKes: 600,
+    freeOverKes: 70000,
+    isPickup: false,
+  },
+  {
+    name: "North Eastern",
+    counties: ["Garissa", "Wajir", "Mandera"],
+    feeKes: 800,
+    freeOverKes: 90000,
+    isPickup: false,
+  },
+];
+
 async function main() {
   for (const category of categories) {
     await prisma.category.upsert({
@@ -441,8 +538,16 @@ async function main() {
     create: { key: "whatsapp_number", value: "254717376964" },
   });
 
+  for (const zone of deliveryZones) {
+    await prisma.deliveryZone.upsert({
+      where: { name: zone.name },
+      update: zone,
+      create: zone,
+    });
+  }
+
   console.log(
-    `Seeded ${categories.length} categories and ${products.length} products.`,
+    `Seeded ${categories.length} categories, ${products.length} products and ${deliveryZones.length} delivery zones.`,
   );
 }
 
