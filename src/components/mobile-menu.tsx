@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { CategorySummary } from "@/lib/catalog";
 
 import { CloseIcon, MenuIcon } from "./icons";
+import { Logo } from "./logo";
 
 export function MobileMenu({ categories }: { categories: CategorySummary[] }) {
   const [open, setOpen] = useState(false);
@@ -56,6 +57,9 @@ export function MobileMenu({ categories }: { categories: CategorySummary[] }) {
             aria-label="Store menu"
             className="absolute right-0 top-full z-50 mt-2 w-64 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-border bg-card shadow-lg"
           >
+            <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+              <Logo />
+            </div>
             <ul className="max-h-[70vh] divide-y divide-border overflow-y-auto">
               <li>
                 <Link

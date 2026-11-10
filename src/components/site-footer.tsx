@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import { getCategories } from "@/lib/catalog";
+import { getTopLevelCategories } from "@/lib/catalog";
 import { SITE, whatsappUrl } from "@/lib/site";
 
 import { WhatsAppIcon } from "./icons";
-import { Logo } from "./logo";
+import { Logo, LogoMark } from "./logo";
 
 export async function SiteFooter() {
-  const categories = await getCategories();
+  const categories = await getTopLevelCategories(8);
 
   return (
     <footer className="border-t border-border bg-muted/40">
@@ -17,8 +17,8 @@ export async function SiteFooter() {
             <Logo />
           </Link>
           <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-            {SITE.tagline}. Niche networking gear, WiFi tools and beauty
-            electronics — at honest prices in KES.
+            {SITE.tagline}. Phones, electronics, home essentials, fashion,
+            beauty, farm supplies and more — at honest prices in KES.
           </p>
           <a
             href={whatsappUrl(`Hi ${SITE.name}, I have a question.`)}
@@ -70,7 +70,8 @@ export async function SiteFooter() {
 
       <div className="border-t border-border">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:pr-24">
-          <span>
+          <span className="inline-flex items-center gap-2">
+            <LogoMark className="size-4" />
             &copy; {SITE.name}. All rights reserved.
           </span>
           <Link

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 
 import { CatalogSkeleton } from "@/components/catalog-skeleton";
 import { ProductFilters } from "@/components/product-filters";
+import { LogoMark } from "@/components/logo";
 import { ProductGrid } from "@/components/product-grid";
 import { getBrands, getProducts } from "@/lib/catalog";
 import {
@@ -83,7 +85,27 @@ async function SearchContent({
             />
           </div>
         </>
-      ) : null}
+      ) : (
+        <div className="mt-8 flex flex-col items-center rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+          <LogoMark className="size-12" />
+          <p className="mt-4 font-medium">Search the Kasokoi catalogue</p>
+          <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+            Try a product name, brand or keyword — or jump straight to a
+            popular search.
+          </p>
+          <div className="mt-5 flex flex-wrap justify-center gap-2">
+            {["MikroTik", "Ubiquiti", "Yeastar", "Beauty"].map((term) => (
+              <Link
+                key={term}
+                href={`/search?q=${encodeURIComponent(term)}`}
+                className="rounded-full border border-border px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                {term}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

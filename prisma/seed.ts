@@ -8,6 +8,7 @@ import {
   ProductCondition,
   type Prisma,
 } from "../src/generated/prisma/client";
+import { BROAD_CATEGORIES } from "../src/lib/categories";
 
 const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
 
@@ -19,36 +20,7 @@ const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString }),
 });
 
-const categories = [
-  {
-    slug: "networking-equipment",
-    name: "Networking Equipment",
-    image: "/products/networking.svg",
-    description:
-      "Routers, switches, access points and PoE gear for homes, offices and ISPs.",
-  },
-  {
-    slug: "wifi-tools-testers",
-    name: "WiFi Tools & Testers",
-    image: "/products/wifi.svg",
-    description:
-      "Long-range adapters, analyzers, extenders and installation tools that are hard to find locally.",
-  },
-  {
-    slug: "voip-pbx-systems",
-    name: "VoIP & PBX Systems",
-    image: "/products/voip.svg",
-    description:
-      "Yeastar PBX, GSM gateways and IP phones for offices and call centres.",
-  },
-  {
-    slug: "beauty-electronics",
-    name: "Beauty Electronics",
-    image: "/products/beauty.svg",
-    description:
-      "Premium hair, skin and wellness devices from trusted brands.",
-  },
-];
+const categories = BROAD_CATEGORIES;
 
 type SeedProduct = {
   slug: string;
@@ -83,7 +55,7 @@ const products: SeedProduct[] = [
     compareAtPriceKes: 32000,
     sku: "NET-UBI-U6P",
     stock: 8,
-    categorySlug: "networking-equipment",
+    categorySlug: "networking-security",
     image: "/products/networking.svg",
   },
   {
@@ -101,7 +73,7 @@ const products: SeedProduct[] = [
     priceKes: 9800,
     sku: "NET-MTK-HEXS",
     stock: 15,
-    categorySlug: "networking-equipment",
+    categorySlug: "networking-security",
     image: "/products/networking.svg",
   },
   {
@@ -119,7 +91,7 @@ const products: SeedProduct[] = [
     priceKes: 12500,
     sku: "NET-TPL-SG1024D",
     stock: 6,
-    categorySlug: "networking-equipment",
+    categorySlug: "networking-security",
     image: "/products/networking.svg",
   },
   {
@@ -137,7 +109,7 @@ const products: SeedProduct[] = [
     priceKes: 24500,
     sku: "NET-UBI-ES8",
     stock: 4,
-    categorySlug: "networking-equipment",
+    categorySlug: "networking-security",
     image: "/products/networking.svg",
   },
   {
@@ -155,7 +127,7 @@ const products: SeedProduct[] = [
     priceKes: 31500,
     sku: "NET-MTK-CRS326",
     stock: 3,
-    categorySlug: "networking-equipment",
+    categorySlug: "networking-security",
     image: "/products/networking.svg",
   },
   {
@@ -173,7 +145,7 @@ const products: SeedProduct[] = [
     priceKes: 6500,
     sku: "WFT-ALFA-036ACH",
     stock: 12,
-    categorySlug: "wifi-tools-testers",
+    categorySlug: "networking-security",
     image: "/products/wifi.svg",
   },
   {
@@ -191,7 +163,7 @@ const products: SeedProduct[] = [
     priceKes: 8900,
     sku: "WFT-TPL-RE650",
     stock: 9,
-    categorySlug: "wifi-tools-testers",
+    categorySlug: "networking-security",
     image: "/products/wifi.svg",
   },
   {
@@ -209,7 +181,7 @@ const products: SeedProduct[] = [
     priceKes: 11500,
     sku: "WFT-UBI-LBE5AC",
     stock: 7,
-    categorySlug: "wifi-tools-testers",
+    categorySlug: "networking-security",
     image: "/products/wifi.svg",
   },
   {
@@ -229,7 +201,7 @@ const products: SeedProduct[] = [
     sku: "WFT-NGR-EX8000",
     stock: 4,
     condition: ProductCondition.REFURBISHED,
-    categorySlug: "wifi-tools-testers",
+    categorySlug: "networking-security",
     image: "/products/wifi.svg",
   },
   {
@@ -247,7 +219,7 @@ const products: SeedProduct[] = [
     priceKes: 3500,
     sku: "WFT-TESTER-PKT",
     stock: 20,
-    categorySlug: "wifi-tools-testers",
+    categorySlug: "networking-security",
     image: "/products/wifi.svg",
   },
   {
@@ -265,7 +237,7 @@ const products: SeedProduct[] = [
     priceKes: 32000,
     sku: "VOIP-YST-S20",
     stock: 3,
-    categorySlug: "voip-pbx-systems",
+    categorySlug: "networking-security",
     image: "/products/voip.svg",
   },
   {
@@ -283,7 +255,7 @@ const products: SeedProduct[] = [
     priceKes: 26500,
     sku: "VOIP-YST-TG100",
     stock: 4,
-    categorySlug: "voip-pbx-systems",
+    categorySlug: "networking-security",
     image: "/products/voip.svg",
   },
   {
@@ -301,7 +273,7 @@ const products: SeedProduct[] = [
     priceKes: 14500,
     sku: "VOIP-YST-P570",
     stock: 8,
-    categorySlug: "voip-pbx-systems",
+    categorySlug: "networking-security",
     image: "/products/voip.svg",
   },
   {
@@ -319,7 +291,7 @@ const products: SeedProduct[] = [
     priceKes: 9800,
     sku: "VOIP-FAN-X4U",
     stock: 10,
-    categorySlug: "voip-pbx-systems",
+    categorySlug: "networking-security",
     image: "/products/voip.svg",
   },
   {
@@ -339,7 +311,7 @@ const products: SeedProduct[] = [
     sku: "BTY-DYS-SUP",
     stock: 5,
     condition: ProductCondition.REFURBISHED,
-    categorySlug: "beauty-electronics",
+    categorySlug: "beauty-personal-care",
     image: "/products/beauty.svg",
   },
   {
@@ -357,7 +329,7 @@ const products: SeedProduct[] = [
     priceKes: 4500,
     sku: "BTY-PHL-HP8320",
     stock: 18,
-    categorySlug: "beauty-electronics",
+    categorySlug: "beauty-personal-care",
     image: "/products/beauty.svg",
   },
   {
@@ -375,7 +347,7 @@ const products: SeedProduct[] = [
     priceKes: 8500,
     sku: "BTY-LED-MASK",
     stock: 10,
-    categorySlug: "beauty-electronics",
+    categorySlug: "beauty-personal-care",
     image: "/products/beauty.svg",
   },
   {
@@ -393,7 +365,7 @@ const products: SeedProduct[] = [
     priceKes: 6900,
     sku: "BTY-MASSAGE-PRO",
     stock: 14,
-    categorySlug: "beauty-electronics",
+    categorySlug: "beauty-personal-care",
     image: "/products/beauty.svg",
   },
 ];
@@ -499,7 +471,11 @@ async function main() {
   for (const category of categories) {
     await prisma.category.upsert({
       where: { slug: category.slug },
-      update: { name: category.name, image: category.image },
+      update: {
+        name: category.name,
+        description: category.description,
+        image: category.image,
+      },
       create: category,
     });
   }

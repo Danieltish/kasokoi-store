@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { WhatsAppIcon } from "@/components/icons";
+import { LogoMark } from "@/components/logo";
 import { displayKenyanPhone } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 import { formatKes, SITE, whatsappUrl } from "@/lib/site";
@@ -74,6 +75,7 @@ export default async function OrderPage({
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
+      <LogoMark className="mb-4 size-12" />
       <span className="inline-flex items-center rounded-full bg-success/10 px-3 py-1 text-xs font-semibold text-success">
         Order received
       </span>

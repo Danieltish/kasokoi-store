@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 
 import type { ProductCondition } from "@/generated/prisma/client";
+import { CATEGORY_ORDER } from "@/lib/categories";
 import { prisma } from "@/lib/prisma";
 
 export const CATALOG_TAGS = {
@@ -72,6 +73,44 @@ export async function getCategories(): Promise<CategorySummary[]> {
   });
 
   return rows.map((row) => ({
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    description: row.description,
+    image: row.image,
+    productCount: row._count.products,
+  }));
+}
+
+export async function getTopLevelCategories(
+  limit?: number,
+): Promise<CategorySummary[]> {
+  "use cache";
+  cacheTag(CATALOG_TAGS.categories);
+  cacheLife("days");
+
+  const rows = await prisma.category.findMany({
+    where: { parentId: null },
+    orderBy: { name: "asc" },
+    include: {
+      _count: { select: { products: { where: { isActive: true } } } },
+    },
+  });
+
+  const order = new Map(
+    CATEGORY_ORDER.map((slug, index) => [slug, index] as const),
+  );
+
+  const sorted = rows.sort((a, b) => {
+    const aIndex = order.get(a.slug) ?? Number.MAX_SAFE_INTEGER;
+    const bIndex = order.get(b.slug) ?? Number.MAX_SAFE_INTEGER;
+
+    return aIndex - bIndex || a.name.localeCompare(b.name);
+  });
+
+  const visible = typeof limit === "number" ? sorted.slice(0, limit) : sorted;
+
+  return visible.map((row) => ({
     id: row.id,
     name: row.name,
     slug: row.slug,

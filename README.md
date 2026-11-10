@@ -1,6 +1,6 @@
 # Kasokoi Store — E-Commerce Plan
 
-Mobile-first electronics store for Kenya. **WhatsApp-first ordering** (+254 717 376 964) with optional M-Pesa and card payments. Launch catalog <100 products, KES pricing, Nairobi pickup + nationwide courier.
+Mobile-first general store for Kenya. **WhatsApp-first ordering** (+254 717 376 964) with optional M-Pesa and card payments. Broad catalog — phones, electronics, appliances, fashion, beauty, groceries, farm and livestock supplies — KES pricing, Nairobi pickup + nationwide courier.
 
 ---
 
@@ -31,6 +31,7 @@ npm run dev                 # http://localhost:3000
 | `npm run db:studio` | Open Prisma Studio |
 | `npm run seed` | Seed categories and sample products |
 | `npm run seed:admin` | Create/refresh only the superadmin (production-safe) |
+| `npm run seed:categories` | Add broad categories and move products off legacy categories (production-safe) |
 
 > Prisma 7 uses the `prisma-client` generator (`src/generated/prisma`, git-ignored) with the `@prisma/adapter-pg` driver adapter. Client singleton: `src/lib/prisma.ts`.
 

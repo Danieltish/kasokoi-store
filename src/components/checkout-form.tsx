@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, type FormEvent } from "react";
 
 import { useCart } from "@/components/cart-provider";
+import { LogoMark } from "@/components/logo";
 import type { DeliveryZoneOption } from "@/lib/delivery";
 import { deliveryFeeFor } from "@/lib/pricing";
 import { normalizeKenyanPhone } from "@/lib/phone";
@@ -63,8 +64,9 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
 
   if (items.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-border bg-card p-10 text-center">
-        <p className="font-medium">Your cart is empty</p>
+      <div className="flex flex-col items-center rounded-xl border border-dashed border-border bg-card p-10 text-center">
+        <LogoMark className="size-10" />
+        <p className="mt-4 font-medium">Your cart is empty</p>
         <p className="mt-1 text-sm text-muted-foreground">
           Add a product before checking out.
         </p>

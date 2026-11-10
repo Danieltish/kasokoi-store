@@ -1,11 +1,13 @@
 import Link from "next/link";
 
+import { LogoMark } from "@/components/logo";
 import { SITE, whatsappUrl } from "@/lib/site";
 
 export default function NotFound() {
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-24 text-center sm:px-6">
-      <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+      <LogoMark className="size-14" />
+      <p className="mt-5 text-sm font-semibold uppercase tracking-wide text-primary">
         404
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">

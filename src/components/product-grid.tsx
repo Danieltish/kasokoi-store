@@ -1,5 +1,6 @@
 import type { ProductSummary } from "@/lib/catalog";
 
+import { LogoMark } from "./logo";
 import { ProductCard } from "./product-card";
 
 export function ProductGrid({
@@ -11,8 +12,9 @@ export function ProductGrid({
 }) {
   if (products.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-border bg-card p-10 text-center">
-        <p className="font-medium">{emptyMessage}</p>
+      <div className="flex flex-col items-center rounded-xl border border-dashed border-border bg-card p-10 text-center">
+        <LogoMark className="size-10" />
+        <p className="mt-4 font-medium">{emptyMessage}</p>
         <p className="mt-1 text-sm text-muted-foreground">
           Try a different search or browse all products.
         </p>

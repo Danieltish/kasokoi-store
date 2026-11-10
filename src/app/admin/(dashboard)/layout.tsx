@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { AdminRole } from "@/generated/prisma/client";
 import { AdminNav } from "@/components/admin/admin-nav";
-import { Logo } from "@/components/logo";
+import { Logo, LogoMark } from "@/components/logo";
 import { requireAdmin } from "@/lib/auth";
 
 import { logoutAction } from "../actions";
@@ -73,8 +73,9 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
       <div className="min-w-0 flex-1">
         <header className="flex items-center justify-between gap-3 border-b border-border bg-card px-4 py-3 sm:px-6">
-          <span className="truncate text-sm text-muted-foreground">
-            Admin console
+          <span className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
+            <LogoMark className="size-5 shrink-0" />
+            <span className="truncate">Admin console</span>
           </span>
           <Link
             href="/"

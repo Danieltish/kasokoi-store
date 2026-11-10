@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useCart } from "@/components/cart-provider";
-import { CartIcon } from "@/components/icons";
+import { LogoMark } from "@/components/logo";
 import { formatKes } from "@/lib/site";
 
 export default function CartPage() {
@@ -22,7 +22,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-4 py-20 text-center sm:px-6">
-        <CartIcon className="size-10 text-muted-foreground" />
+        <LogoMark className="size-14" />
         <h1 className="mt-4 text-2xl font-semibold tracking-tight">
           Your cart is empty
         </h1>

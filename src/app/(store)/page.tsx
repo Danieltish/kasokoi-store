@@ -1,33 +1,43 @@
 import Link from "next/link";
 
 import { CategoryCard } from "@/components/category-card";
-import { WhatsAppIcon } from "@/components/icons";
+import { HeroBrand } from "@/components/hero-brand";
+import {
+  ChatIcon,
+  ShieldCheckIcon,
+  TruckIcon,
+  WhatsAppIcon,
+} from "@/components/icons";
+import { LogoMark } from "@/components/logo";
 import { ProductGrid } from "@/components/product-grid";
-import { getCategories, getProducts } from "@/lib/catalog";
+import { getProducts, getTopLevelCategories } from "@/lib/catalog";
 import { SITE, whatsappUrl } from "@/lib/site";
 
 export default async function Home() {
   const [categories, products] = await Promise.all([
-    getCategories(),
+    getTopLevelCategories(8),
     getProducts({ limit: 8 }),
   ]);
 
   return (
     <div>
       <section className="border-b border-border bg-gradient-to-b from-brand-50 to-background dark:from-brand-950/30">
-        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-24">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center rounded-full bg-accent-100 px-3 py-1 text-xs font-semibold text-accent-700">
-              Delivering across Kenya
-            </span>
+            <div className="flex items-center gap-3">
+              <LogoMark className="size-10 lg:hidden" />
+              <span className="inline-flex items-center rounded-full bg-accent-100 px-3 py-1 text-xs font-semibold text-accent-700">
+                Delivering across Kenya
+              </span>
+            </div>
             <h1 className="mt-5 text-3xl font-semibold tracking-tight sm:mt-6 sm:text-4xl lg:text-5xl">
-              Rare networking gear &amp; premium beauty tech,{" "}
+              Everything you need, from tech to farm supplies —{" "}
               <span className="text-primary">delivered.</span>
             </h1>
             <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-              Hard-to-find WiFi tools, MikroTik and Ubiquiti equipment, Yeastar
-              VoIP systems and beauty electronics — with honest KES pricing and
-              WhatsApp-first ordering.
+              Shop phones, electronics, home appliances, fashion, beauty,
+              groceries, farm produce and livestock supplies — with honest KES
+              pricing and WhatsApp-first ordering.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
               <Link
@@ -47,6 +57,8 @@ export default async function Home() {
               </a>
             </div>
           </div>
+
+          <HeroBrand />
         </div>
       </section>
 
@@ -92,19 +104,28 @@ export default async function Home() {
       <section className="mx-auto w-full max-w-6xl px-4 pb-8 sm:px-6">
         <div className="grid gap-4 rounded-2xl border border-border bg-card p-5 sm:grid-cols-3 sm:p-8">
           <div>
-            <h3 className="font-semibold">Genuine stock only</h3>
+            <span className="inline-flex size-10 items-center justify-center rounded-xl bg-brand-50 text-primary dark:bg-brand-950/40">
+              <ShieldCheckIcon className="size-5" />
+            </span>
+            <h3 className="mt-3 font-semibold">Genuine stock only</h3>
             <p className="mt-1 text-sm text-muted-foreground">
               Sourced from trusted suppliers and checked before delivery.
             </p>
           </div>
           <div>
-            <h3 className="font-semibold">Nairobi &amp; nationwide</h3>
+            <span className="inline-flex size-10 items-center justify-center rounded-xl bg-brand-50 text-primary dark:bg-brand-950/40">
+              <TruckIcon className="size-5" />
+            </span>
+            <h3 className="mt-3 font-semibold">Nairobi &amp; nationwide</h3>
             <p className="mt-1 text-sm text-muted-foreground">
               Same-day where possible; courier delivery to all counties.
             </p>
           </div>
           <div>
-            <h3 className="font-semibold">Talk to a human</h3>
+            <span className="inline-flex size-10 items-center justify-center rounded-xl bg-brand-50 text-primary dark:bg-brand-950/40">
+              <ChatIcon className="size-5" />
+            </span>
+            <h3 className="mt-3 font-semibold">Talk to a human</h3>
             <p className="mt-1 text-sm text-muted-foreground">
               Order, ask questions or request a rare item on WhatsApp.
             </p>

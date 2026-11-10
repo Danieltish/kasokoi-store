@@ -18,28 +18,31 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — Electronics in Kenya`,
+    default: `${SITE.name} — Online Shopping in Kenya`,
     template: `%s | ${SITE.name}`,
   },
   description: SITE.description,
   keywords: [
-    "electronics Kenya",
+    "online shopping Kenya",
     "buy phones Kenya",
-    "TVs Nairobi",
-    "laptops Kenya",
-    "audio accessories",
+    "electronics Kenya",
+    "home appliances Nairobi",
+    "fashion Kenya",
+    "beauty products Kenya",
+    "farm supplies Kenya",
+    "livestock supplies",
     "Kasokoi Store",
   ],
   openGraph: {
     type: "website",
     locale: "en_KE",
     siteName: SITE.name,
-    title: `${SITE.name} — Electronics in Kenya`,
+    title: `${SITE.name} — Online Shopping in Kenya`,
     description: SITE.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} — Electronics in Kenya`,
+    title: `${SITE.name} — Online Shopping in Kenya`,
     description: SITE.description,
   },
 };

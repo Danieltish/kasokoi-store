@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getCategories } from "@/lib/catalog";
+import { getTopLevelCategories } from "@/lib/catalog";
 import { SITE, whatsappUrl } from "@/lib/site";
 
 import { SearchIcon, WhatsAppIcon } from "./icons";
@@ -9,7 +9,7 @@ import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 
 export async function SiteHeader() {
-  const categories = await getCategories();
+  const categories = await getTopLevelCategories();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
@@ -49,14 +49,14 @@ export async function SiteHeader() {
         </div>
       </div>
 
-      <nav className="mx-auto hidden w-full max-w-6xl gap-1 px-4 pb-2 sm:flex sm:px-6">
+      <nav className="no-scrollbar mx-auto hidden w-full max-w-6xl gap-1 overflow-x-auto px-4 pb-2 sm:flex sm:px-6">
         <Link
           href="/products"
           className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           All products
         </Link>
-        {categories.map((category) => (
+        {categories.slice(0, 6).map((category) => (
           <Link
             key={category.id}
             href={`/category/${category.slug}`}
