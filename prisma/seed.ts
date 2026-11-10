@@ -551,7 +551,7 @@ async function main() {
   const superadminPassword = process.env.SUPERADMIN_PASSWORD;
 
   if (superadminEmail && superadminPassword) {
-    const passwordHash = await bcrypt.hash(superadminPassword, 10);
+    const passwordHash = await bcrypt.hash(superadminPassword, 12);
 
     await prisma.adminUser.upsert({
       where: { email: superadminEmail },

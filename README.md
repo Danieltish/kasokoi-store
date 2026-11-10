@@ -30,6 +30,7 @@ npm run dev                 # http://localhost:3000
 | `npm run db:deploy` | Apply pending migrations (production) |
 | `npm run db:studio` | Open Prisma Studio |
 | `npm run seed` | Seed categories and sample products |
+| `npm run seed:admin` | Create/refresh only the superadmin (production-safe) |
 
 > Prisma 7 uses the `prisma-client` generator (`src/generated/prisma`, git-ignored) with the `@prisma/adapter-pg` driver adapter. Client singleton: `src/lib/prisma.ts`.
 
@@ -38,6 +39,7 @@ npm run dev                 # http://localhost:3000
 - **Phase 1** — catalog, category/product pages, search, SEO, seed data
 - **Phase 2** — cart (localStorage), checkout, delivery zones/fees, order creation and WhatsApp handoff
 - **Phase 3** — multi-admin panel: secure login, roles (superadmin/staff), product, category, order and delivery-zone management, password change
+- **Phase 4** — production readiness: security headers, `/api/health`, Vercel region config and a [deployment guide](./DEPLOYMENT.md)
 
 **Admin panel:** `/admin` (redirects to `/admin/login` when signed out). The initial superadmin is created by `npm run seed` from `SUPERADMIN_EMAIL` / `SUPERADMIN_PASSWORD`. Superadmins can add unlimited staff or admin accounts at `/admin/admins`.
 
