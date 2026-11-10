@@ -6,7 +6,7 @@ import { AdminRole } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 const COOKIE_NAME = "kasokoi_admin";
-const SESSION_DAYS = 7;
+const SESSION_DAYS = 30;
 
 export type AdminSession = {
   id: string;
@@ -45,6 +45,9 @@ export async function createAdminSession(session: AdminSession) {
     sameSite: "lax",
     path: "/",
     maxAge: SESSION_DAYS * 24 * 60 * 60,
+    expires: new Date(
+      Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000,
+    ),
   });
 }
 

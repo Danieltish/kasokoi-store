@@ -80,7 +80,7 @@ export async function SiteFooter() {
             &copy; {SITE.name}. All rights reserved.
           </span>
           <Link
-            href="/admin/login"
+            href="/admin"
             className="font-medium hover:text-foreground"
           >
             Admin login

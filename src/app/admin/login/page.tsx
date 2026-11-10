@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { Logo } from "@/components/logo";
+import { getAdminSession } from "@/lib/auth";
 
 import { LoginForm } from "./login-form";
 
@@ -10,7 +12,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminLoginPage() {
+export const instant = false;
+
+export default async function AdminLoginPage() {
+  const session = await getAdminSession();
+
+  if (session) {
+    redirect("/admin");
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-12">
       <div className="w-full max-w-sm">
