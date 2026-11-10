@@ -20,21 +20,28 @@ export function ProductGallery({
 
   return (
     <div>
-      <div className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-square lg:max-h-[calc(100vh-10rem)]">
         {active ? (
           <Image
             src={active.url}
             alt={active.alt ?? name}
             fill
             priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-contain p-4 sm:p-6"
+            quality={90}
+            sizes="(min-width: 1024px) 600px, 100vw"
+            className="object-cover object-center"
           />
         ) : (
           <div className="flex size-full items-center justify-center text-sm text-muted-foreground">
             No image yet
           </div>
         )}
+
+        {images.length > 1 ? (
+          <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
+            {activeIndex + 1} / {images.length}
+          </span>
+        ) : null}
       </div>
 
       {images.length > 1 ? (
