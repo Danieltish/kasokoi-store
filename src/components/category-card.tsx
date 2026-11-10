@@ -10,7 +10,7 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
       className="group relative flex min-h-32 flex-col justify-end overflow-hidden rounded-xl border border-border bg-muted p-4 sm:min-h-40 sm:p-5"
     >
       {category.image ? (
-        <Image
+        <Image draggable={false}
           src={category.image}
           alt=""
           fill

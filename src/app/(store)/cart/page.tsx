@@ -52,7 +52,7 @@ export default function CartPage() {
             <li key={item.slug} className="flex gap-3 p-4 sm:gap-4">
               <div className="relative size-16 shrink-0 overflow-hidden rounded-lg border border-border bg-muted sm:size-20">
                 {item.image ? (
-                  <Image
+                  <Image draggable={false}
                     src={item.image}
                     alt={item.name}
                     fill

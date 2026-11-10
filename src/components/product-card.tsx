@@ -19,7 +19,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-muted">
         {product.image ? (
-          <Image
+          <Image draggable={false}
             src={product.image}
             alt={product.name}
             fill

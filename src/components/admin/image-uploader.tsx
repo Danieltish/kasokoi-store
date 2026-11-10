@@ -285,7 +285,7 @@ export function ImageUploader({
                 multiple ? "cursor-grab active:cursor-grabbing" : ""
               }`}
             >
-              <Image
+              <Image draggable={false}
                 src={image.url}
                 alt=""
                 fill

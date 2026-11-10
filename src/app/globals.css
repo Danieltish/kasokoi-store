@@ -81,6 +81,16 @@
     height: auto;
   }
 
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+
+  a img,
+  button img {
+    -webkit-touch-callout: none;
+  }
+
   ::selection {
     background-color: var(--color-brand-200);
     color: var(--color-brand-950);

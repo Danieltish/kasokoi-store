@@ -78,7 +78,7 @@ export function ProductGallery({
         className="group relative block aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-square lg:max-h-[calc(100vh-10rem)]"
       >
         {active ? (
-          <Image
+          <Image draggable={false}
             src={active.url}
             alt={active.alt ?? name}
             fill
@@ -122,7 +122,7 @@ export function ProductGallery({
                     : "border-border hover:border-primary/50"
                 }`}
               >
-                <Image
+                <Image draggable={false}
                   src={image.url}
                   alt=""
                   fill
@@ -161,7 +161,7 @@ export function ProductGallery({
             onClick={(event) => event.stopPropagation()}
             className="relative min-h-0 flex-1"
           >
-            <Image
+            <Image draggable={false}
               src={active.url}
               alt={active.alt ?? name}
               fill
