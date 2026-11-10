@@ -4,6 +4,7 @@ import { getCategories } from "@/lib/catalog";
 import { SITE, whatsappUrl } from "@/lib/site";
 
 import { WhatsAppIcon } from "./icons";
+import { Logo } from "./logo";
 
 export async function SiteFooter() {
   const categories = await getCategories();
@@ -12,7 +13,9 @@ export async function SiteFooter() {
     <footer className="border-t border-border bg-muted/40">
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
-          <span className="text-lg font-semibold text-primary">{SITE.name}</span>
+          <Link href="/" aria-label={`${SITE.name} home`} className="inline-block">
+            <Logo />
+          </Link>
           <p className="mt-2 max-w-xs text-sm text-muted-foreground">
             {SITE.tagline}. Niche networking gear, WiFi tools and beauty
             electronics — at honest prices in KES.

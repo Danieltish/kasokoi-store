@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { AdminRole } from "@/generated/prisma/client";
 import { AdminNav } from "@/components/admin/admin-nav";
+import { Logo } from "@/components/logo";
 import { requireAdmin } from "@/lib/auth";
 
 import { logoutAction } from "../actions";
@@ -23,8 +24,15 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       <aside className="border-b border-border bg-card md:flex md:w-64 md:shrink-0 md:flex-col md:gap-6 md:border-b-0 md:border-r md:p-4">
         <div className="flex items-center justify-between gap-3 px-4 pt-4 md:block md:p-0">
           <div>
-            <Link href="/admin" className="text-lg font-semibold text-primary">
-              Kasokoi Admin
+            <Link
+              href="/admin"
+              aria-label="Kasokoi admin home"
+              className="inline-flex items-center gap-2"
+            >
+              <Logo showWordmark={false} />
+              <span className="text-lg font-semibold tracking-tight">
+                Kasokoi <span className="text-primary">Admin</span>
+              </span>
             </Link>
             <p className="text-xs text-muted-foreground">Manage your store</p>
           </div>

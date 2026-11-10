@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { SITE } from "@/lib/site";
+import { Logo } from "@/components/logo";
 
 import { LoginForm } from "./login-form";
 
@@ -15,9 +15,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <span className="text-sm font-semibold uppercase tracking-wide text-primary">
-            {SITE.name}
-          </span>
+          <Logo />
           <h1 className="mt-1 text-2xl font-semibold tracking-tight">
             Admin sign in
           </h1>

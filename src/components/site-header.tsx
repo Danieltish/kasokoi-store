@@ -5,6 +5,7 @@ import { SITE, whatsappUrl } from "@/lib/site";
 
 import { SearchIcon, WhatsAppIcon } from "./icons";
 import { CartLink } from "./cart-link";
+import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
 
 export async function SiteHeader() {
@@ -15,9 +16,10 @@ export async function SiteHeader() {
       <div className="mx-auto flex w-full max-w-6xl items-center gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
         <Link
           href="/"
-          className="shrink-0 text-base font-semibold tracking-tight text-primary sm:text-lg"
+          aria-label={`${SITE.name} home`}
+          className="shrink-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
         >
-          {SITE.name}
+          <Logo />
         </Link>
 
         <form action="/search" className="ml-auto hidden min-w-0 flex-1 sm:block">
