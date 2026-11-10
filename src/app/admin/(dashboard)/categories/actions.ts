@@ -5,7 +5,9 @@ import { redirect } from "next/navigation";
 
 import { requireAdmin } from "@/lib/auth";
 import { CATALOG_TAGS } from "@/lib/catalog";
+import { isAllowedImageUrl } from "@/lib/image-urls";
 import { prisma } from "@/lib/prisma";
+import { deleteStorageImages } from "@/lib/storage";
 
 export type CategoryFormState = { error?: string };
 
@@ -32,6 +34,10 @@ export async function saveCategoryAction(
     return { error: "Enter a category name." };
   }
 
+  if (image && !isAllowedImageUrl(image)) {
+    return { error: "That category image link is not supported." };
+  }
+
   const data = {
     name,
     slug: slugify(String(formData.get("slug") ?? "") || name),
@@ -41,7 +47,16 @@ export async function saveCategoryAction(
 
   try {
     if (id) {
+      const existing = await prisma.category.findUnique({
+        where: { id },
+        select: { image: true },
+      });
+
       await prisma.category.update({ where: { id }, data });
+
+      if (existing?.image && existing.image !== data.image) {
+        await deleteStorageImages([existing.image]);
+      }
     } else {
       await prisma.category.create({ data });
     }

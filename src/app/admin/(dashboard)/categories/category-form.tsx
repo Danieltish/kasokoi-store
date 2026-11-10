@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useActionState } from "react";
 
+import { ImageUploader } from "@/components/admin/image-uploader";
+
 import { saveCategoryAction, type CategoryFormState } from "./actions";
 
 export type CategoryInitial = {
@@ -49,15 +51,6 @@ export function CategoryForm({ category }: { category?: CategoryInitial }) {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium sm:col-span-2">
-          Image URL
-          <input
-            name="image"
-            defaultValue={category?.image}
-            placeholder="/products/networking.svg"
-            className={fieldClass}
-          />
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium sm:col-span-2">
           Description
           <textarea
             name="description"
@@ -68,6 +61,14 @@ export function CategoryForm({ category }: { category?: CategoryInitial }) {
           />
         </label>
       </div>
+
+      <ImageUploader
+        name="image"
+        initialImages={category?.image ? [{ url: category.image }] : []}
+        multiple={false}
+        title="Category image"
+        description="Shown on category cards and used as a fallback image for products without photos."
+      />
 
       {state.error ? (
         <p className="rounded-lg border border-danger/30 bg-danger/10 p-3 text-sm text-danger">

@@ -3,8 +3,12 @@
 import Link from "next/link";
 import { useActionState } from "react";
 
+import {
+  ImageUploader,
+  type UploaderImage,
+} from "@/components/admin/image-uploader";
+
 import { saveProductAction, type ProductFormState } from "./actions";
-import { ProductImages, type ProductImageInput } from "./product-images";
 
 type CategoryOption = { id: string; name: string };
 
@@ -21,7 +25,7 @@ export type ProductInitial = {
   compareAtPriceKes: number | null;
   stock: number;
   isActive: boolean;
-  images: ProductImageInput[];
+  images: UploaderImage[];
   specsText: string;
 };
 
@@ -188,7 +192,12 @@ export function ProductForm({
         </div>
       </section>
 
-      <ProductImages initialImages={product?.images ?? []} />
+      <ImageUploader
+        name="imageUrls"
+        initialImages={product?.images ?? []}
+        title="Product images"
+        description="Add as many images as you like. The first one is used as the cover."
+      />
 
       {state.error ? (
         <p

@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, type DragEvent } from "react";
+import { useId, useRef, useState, type DragEvent } from "react";
 
 import { CloseIcon, GripIcon, StarIcon, UploadIcon } from "@/components/icons";
 import { isAllowedImageUrl } from "@/lib/image-urls";
 
-export type ProductImageInput = {
+export type UploaderImage = {
   url: string;
   alt?: string | null;
 };
@@ -58,13 +58,17 @@ async function compressImage(file: File) {
     return file;
   }
 
-  const name = file.name.replace(/\.[^.]+$/, "") || "product-image";
+  const name = file.name.replace(/\.[^.]+$/, "") || "image";
 
   return new File([blob], `${name}.webp`, { type: "image/webp" });
 }
 
 type LoadedImage = {
-  source: CanvasImageSource & { width: number; height: number; close?: () => void };
+  source: CanvasImageSource & {
+    width: number;
+    height: number;
+    close?: () => void;
+  };
   width: number;
   height: number;
 };
@@ -84,13 +88,27 @@ async function loadImage(file: File): Promise<LoadedImage> {
     element.src = url;
   });
 
-  return { source: image, width: image.naturalWidth, height: image.naturalHeight };
+  return {
+    source: image,
+    width: image.naturalWidth,
+    height: image.naturalHeight,
+  };
 }
 
-export function ProductImages({
+export function ImageUploader({
+  name,
   initialImages,
+  multiple = true,
+  title = "Images",
+  description,
+  emptyHint = "JPG, PNG, WebP or GIF · resized and compressed automatically",
 }: {
-  initialImages: ProductImageInput[];
+  name: string;
+  initialImages: UploaderImage[];
+  multiple?: boolean;
+  title?: string;
+  description?: string;
+  emptyHint?: string;
 }) {
   const [images, setImages] = useState<ImageItem[]>(() =>
     initialImages.map((image, index) => ({
@@ -104,6 +122,13 @@ export function ProductImages({
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dragIndex = useRef<number | null>(null);
+  const inputId = useId();
+
+  function addToImages(newItems: ImageItem[]) {
+    setImages((current) =>
+      multiple ? [...current, ...newItems] : newItems.slice(-1),
+    );
+  }
 
   function addUrl(value: string) {
     const url = value.trim();
@@ -118,10 +143,7 @@ export function ProductImages({
       return;
     }
 
-    setImages((current) => [
-      ...current,
-      { key: `url-${Date.now()}-${current.length}`, url },
-    ]);
+    addToImages([{ key: `url-${Date.now()}`, url }]);
     setUrlInput("");
     setError(null);
   }
@@ -154,15 +176,14 @@ export function ProductImages({
           throw new Error(result?.error ?? "Could not upload the image.");
         }
 
-        setImages((current) => [
-          ...current,
-          ...result.images!.map((image, index) => ({
+        addToImages(
+          result.images.map((image, index) => ({
             key: `upload-${Date.now()}-${index}-${Math.random()
               .toString(36)
               .slice(2)}`,
             url: image.url,
           })),
-        ]);
+        );
       } catch (uploadError) {
         setError(
           uploadError instanceof Error
@@ -221,55 +242,71 @@ export function ProductImages({
     <section className="rounded-xl border border-border bg-card p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h2 className="font-semibold">Product images</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Add as many images as you like. The first one is used as the cover.
-          </p>
+          <h2 className="font-semibold">{title}</h2>
+          {description ? (
+            <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+          ) : null}
         </div>
-        <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-          {images.length} image{images.length === 1 ? "" : "s"}
-        </span>
+        {multiple ? (
+          <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+            {images.length} image{images.length === 1 ? "" : "s"}
+          </span>
+        ) : null}
       </div>
 
       {images.length > 0 || pending > 0 ? (
-        <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        <ul
+          className={
+            multiple
+              ? "mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4"
+              : "mt-4 grid max-w-[220px] grid-cols-1"
+          }
+        >
           {images.map((image, index) => (
             <li
               key={image.key}
-              draggable
-              onDragStart={() => {
-                dragIndex.current = index;
-              }}
-              onDragOver={(event) => event.preventDefault()}
-              onDrop={(event) => handleReorderDrop(event, index)}
-              className="group relative aspect-square cursor-grab overflow-hidden rounded-xl border border-border bg-muted active:cursor-grabbing"
+              draggable={multiple}
+              onDragStart={
+                multiple
+                  ? () => {
+                      dragIndex.current = index;
+                    }
+                  : undefined
+              }
+              onDragOver={
+                multiple ? (event) => event.preventDefault() : undefined
+              }
+              onDrop={
+                multiple
+                  ? (event) => handleReorderDrop(event, index)
+                  : undefined
+              }
+              className={`group relative aspect-square overflow-hidden rounded-xl border border-border bg-muted ${
+                multiple ? "cursor-grab active:cursor-grabbing" : ""
+              }`}
             >
               <Image
                 src={image.url}
                 alt=""
                 fill
-                sizes="(min-width: 768px) 25vw, 50vw"
+                sizes={multiple ? "(min-width: 768px) 25vw, 50vw" : "220px"}
                 className="object-cover"
               />
 
-              {index === 0 ? (
+              {multiple && index === 0 ? (
                 <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold text-primary-foreground">
                   <StarIcon className="size-3" />
                   Cover
                 </span>
-              ) : (
+              ) : multiple ? (
                 <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-medium text-white">
                   <GripIcon className="size-3" />
                   {index + 1}
                 </span>
-              )}
+              ) : null}
 
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-2 sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
-                {index === 0 ? (
-                  <span className="text-[11px] font-medium text-white">
-                    Cover image
-                  </span>
-                ) : (
+                {multiple && index > 0 ? (
                   <button
                     type="button"
                     onClick={() => makeCover(index)}
@@ -277,6 +314,10 @@ export function ProductImages({
                   >
                     Set cover
                   </button>
+                ) : (
+                  <span className="text-[11px] font-medium text-white">
+                    {multiple ? "Cover image" : "Image"}
+                  </span>
                 )}
                 <button
                   type="button"
@@ -320,24 +361,24 @@ export function ProductImages({
           ref={inputRef}
           type="file"
           accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-          multiple
+          multiple={multiple}
           className="sr-only"
-          id="product-image-upload"
+          id={inputId}
           onChange={(event) => void uploadFiles(event.target.files)}
         />
         <label
-          htmlFor="product-image-upload"
+          htmlFor={inputId}
           className="flex cursor-pointer flex-col items-center gap-2"
         >
           <span className="inline-flex size-10 items-center justify-center rounded-full bg-card text-primary shadow-sm">
             <UploadIcon className="size-5" />
           </span>
           <span className="text-sm font-semibold">
-            Click to upload or drag &amp; drop
+            {images.length > 0
+              ? "Click to replace or drag & drop"
+              : "Click to upload or drag & drop"}
           </span>
-          <span className="text-xs text-muted-foreground">
-            JPG, PNG, WebP or GIF · resized and compressed automatically
-          </span>
+          <span className="text-xs text-muted-foreground">{emptyHint}</span>
         </label>
       </div>
 
@@ -364,14 +405,23 @@ export function ProductImages({
         </button>
       </div>
 
-      {images.map((image) => (
+      {multiple ? (
+        images.map((image) => (
+          <input
+            key={image.key}
+            type="hidden"
+            name={name}
+            value={image.url}
+          />
+        ))
+      ) : (
         <input
-          key={image.key}
           type="hidden"
-          name="imageUrls"
-          value={image.url}
+          name={name}
+          value={images[0]?.url ?? ""}
+          readOnly
         />
-      ))}
+      )}
 
       {error ? (
         <p
