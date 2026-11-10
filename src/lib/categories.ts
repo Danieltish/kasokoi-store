@@ -42,6 +42,20 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
     image: null,
   },
   {
+    slug: "agriculture-farm-produce",
+    name: "Agriculture & Farm Produce",
+    description:
+      "Seeds, fertilizers, irrigation, farm tools and fresh produce.",
+    image: null,
+  },
+  {
+    slug: "livestock-animal-care",
+    name: "Livestock & Animal Care",
+    description:
+      "Animal feed, poultry, dairy supplies, vet products and livestock equipment.",
+    image: null,
+  },
+  {
     slug: "fashion-accessories",
     name: "Fashion & Accessories",
     description:
@@ -56,20 +70,6 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
     image: "/products/beauty.svg",
   },
   {
-    slug: "health-wellness",
-    name: "Health & Wellness",
-    description:
-      "Supplements, massagers, thermometers, first aid and fitness equipment.",
-    image: null,
-  },
-  {
-    slug: "baby-kids",
-    name: "Baby & Kids",
-    description:
-      "Diapers, feeding, toys, strollers, clothing and school essentials.",
-    image: null,
-  },
-  {
     slug: "groceries-household",
     name: "Groceries & Household",
     description:
@@ -77,9 +77,10 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
     image: null,
   },
   {
-    slug: "home-furniture-decor",
-    name: "Home, Furniture & Decor",
-    description: "Furniture, bedding, kitchenware, storage and home decor.",
+    slug: "health-wellness",
+    name: "Health & Wellness",
+    description:
+      "Supplements, massagers, thermometers, first aid and fitness equipment.",
     image: null,
   },
   {
@@ -104,17 +105,16 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
     image: null,
   },
   {
-    slug: "agriculture-farm-produce",
-    name: "Agriculture & Farm Produce",
+    slug: "baby-kids",
+    name: "Baby & Kids",
     description:
-      "Seeds, fertilizers, irrigation, farm tools and fresh produce.",
+      "Diapers, feeding, toys, strollers, clothing and school essentials.",
     image: null,
   },
   {
-    slug: "livestock-animal-care",
-    name: "Livestock & Animal Care",
-    description:
-      "Animal feed, poultry, dairy supplies, vet products and livestock equipment.",
+    slug: "home-furniture-decor",
+    name: "Home, Furniture & Decor",
+    description: "Furniture, bedding, kitchenware, storage and home decor.",
     image: null,
   },
   {
@@ -131,6 +131,7 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
       "School supplies, office stationery, printing and business essentials.",
     image: null,
   },
+
 ];
 
 export const CATEGORY_ORDER = BROAD_CATEGORIES.map((category) => category.slug);

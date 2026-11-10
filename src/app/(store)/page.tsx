@@ -15,7 +15,7 @@ import { SITE, whatsappUrl } from "@/lib/site";
 
 export default async function Home() {
   const [categories, products] = await Promise.all([
-    getTopLevelCategories(8),
+    getTopLevelCategories(12),
     getProducts({ limit: 8 }),
   ]);
 
