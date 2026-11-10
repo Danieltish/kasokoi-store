@@ -11,15 +11,15 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
         <Link
           href="/"
-          className="text-lg font-semibold tracking-tight text-primary"
+          className="shrink-0 text-base font-semibold tracking-tight text-primary sm:text-lg"
         >
           {SITE.name}
         </Link>
 
-        <form action="/search" className="ml-auto hidden flex-1 sm:block">
+        <form action="/search" className="ml-auto hidden min-w-0 flex-1 sm:block">
           <div className="relative max-w-xs">
             <SearchIcon className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
@@ -27,16 +27,17 @@ export async function SiteHeader() {
               name="q"
               placeholder="Search products"
               aria-label="Search products"
-              className="h-10 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="h-10 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm"
             />
           </div>
         </form>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2 sm:ml-0">
           <CartLink />
           <a
             href={whatsappUrl(`Hi ${SITE.name}, I have a question.`)}
-            className="inline-flex items-center gap-2 rounded-lg bg-whatsapp px-3 py-2 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90"
+            aria-label="Chat on WhatsApp"
+            className="inline-flex size-10 items-center justify-center gap-2 rounded-lg bg-whatsapp px-0 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:size-auto sm:px-3 sm:py-2"
           >
             <WhatsAppIcon className="size-4" />
             <span className="hidden sm:inline">WhatsApp</span>
@@ -44,7 +45,7 @@ export async function SiteHeader() {
         </div>
       </div>
 
-      <nav className="mx-auto flex w-full max-w-6xl gap-1 overflow-x-auto px-4 pb-2 sm:px-6">
+      <nav className="no-scrollbar mx-auto flex w-full max-w-6xl gap-1 overflow-x-auto px-4 pb-2 sm:px-6">
         <Link
           href="/products"
           className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -70,7 +71,7 @@ export async function SiteHeader() {
             name="q"
             placeholder="Search products"
             aria-label="Search products"
-            className="h-10 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"
+            className="h-11 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"
           />
         </div>
       </form>

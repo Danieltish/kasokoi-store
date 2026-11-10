@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
             src={product.image}
             alt={product.name}
             fill
-            sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
             className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />
         ) : null}
@@ -33,8 +33,8 @@ export function ProductCard({ product }: { product: ProductSummary }) {
           </span>
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col gap-1 p-4">
-        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+      <div className="flex flex-1 flex-col gap-1 p-3 sm:p-4">
+        <span className="line-clamp-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:text-xs">
           {product.brand}
         </span>
         <h3 className="line-clamp-2 text-sm font-medium">{product.name}</h3>

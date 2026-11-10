@@ -38,7 +38,80 @@ export default async function AdminProductsPage() {
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-border bg-card">
+      <>
+      <ul className="space-y-3 md:hidden">
+        {products.map((product) => (
+          <li
+            key={product.id}
+            className="rounded-xl border border-border bg-card p-4"
+          >
+            <div className="flex gap-3">
+              <div className="relative size-14 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
+                {product.images[0] ? (
+                  <Image
+                    src={product.images[0].url}
+                    alt=""
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                ) : null}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="line-clamp-2 font-medium">{product.name}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {product.sku} · {product.brand} · {product.category.name}
+                </p>
+                <p className="mt-1 text-sm font-semibold">
+                  {formatKes(product.priceKes)}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span
+                  className={`rounded-full px-2.5 py-1 font-medium ${
+                    product.stock <= 5
+                      ? "bg-danger/10 text-danger"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  Stock {product.stock}
+                </span>
+                <span
+                  className={`rounded-full px-2.5 py-1 font-medium ${
+                    product.isActive
+                      ? "bg-success/10 text-success"
+                      : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {product.isActive ? "Active" : "Hidden"}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Link
+                  href={`/admin/products/${product.id}`}
+                  className="font-medium text-primary hover:underline"
+                >
+                  Edit
+                </Link>
+                <form action={toggleProductActiveAction}>
+                  <input type="hidden" name="id" value={product.id} />
+                  <button
+                    type="submit"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    {product.isActive ? "Hide" : "Show"}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div className="hidden overflow-x-auto rounded-xl border border-border bg-card md:block">
         <table className="w-full min-w-[760px] text-sm">
           <thead className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
@@ -126,6 +199,7 @@ export default async function AdminProductsPage() {
           </tbody>
         </table>
       </div>
+      </>
     </div>
   );
 }

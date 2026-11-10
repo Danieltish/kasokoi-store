@@ -7,14 +7,14 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
   return (
     <Link
       href={`/category/${category.slug}`}
-      className="group relative flex min-h-40 flex-col justify-end overflow-hidden rounded-xl border border-border bg-muted p-5"
+      className="group relative flex min-h-32 flex-col justify-end overflow-hidden rounded-xl border border-border bg-muted p-4 sm:min-h-40 sm:p-5"
     >
       {category.image ? (
         <Image
           src={category.image}
           alt=""
           fill
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          sizes="(min-width: 1024px) 25vw, 50vw"
           className="object-cover opacity-80 transition-transform duration-300 group-hover:scale-105"
         />
       ) : null}

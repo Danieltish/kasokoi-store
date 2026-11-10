@@ -43,7 +43,62 @@ export default async function AdminAdminsPage() {
         </div>
       </section>
 
-      <div className="overflow-x-auto rounded-xl border border-border bg-card">
+      <>
+      <ul className="space-y-3 md:hidden">
+        {admins.map((admin) => (
+          <li
+            key={admin.id}
+            className="rounded-xl border border-border bg-card p-4"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="truncate font-medium">
+                  {admin.name}
+                  {admin.id === session.id ? (
+                    <span className="ml-2 text-xs text-muted-foreground">
+                      (you)
+                    </span>
+                  ) : null}
+                </p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {admin.email}
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-muted px-2.5 py-1 text-xs font-medium">
+                {admin.role === AdminRole.ADMIN ? "Superadmin" : "Staff"}
+              </span>
+            </div>
+            <div className="mt-3 flex items-center justify-between gap-2 text-xs">
+              <span
+                className={`rounded-full px-2.5 py-1 font-medium ${
+                  admin.isActive
+                    ? "bg-success/10 text-success"
+                    : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {admin.isActive ? "Active" : "Disabled"}
+              </span>
+              {admin.id === session.id ? (
+                <span className="text-muted-foreground">
+                  Current session
+                </span>
+              ) : (
+                <form action={toggleAdminActiveAction}>
+                  <input type="hidden" name="id" value={admin.id} />
+                  <button
+                    type="submit"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    {admin.isActive ? "Disable" : "Enable"}
+                  </button>
+                </form>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div className="hidden overflow-x-auto rounded-xl border border-border bg-card md:block">
         <table className="w-full min-w-[700px] text-sm">
           <thead className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
@@ -110,6 +165,7 @@ export default async function AdminAdminsPage() {
           </tbody>
         </table>
       </div>
+      </>
     </div>
   );
 }

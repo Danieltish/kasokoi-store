@@ -84,7 +84,46 @@ export default async function AdminOrdersPage({
           No orders{status ? " with this status" : ""} yet.
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-border bg-card">
+        <>
+          <ul className="space-y-3 md:hidden">
+            {orders.map((order) => (
+              <li
+                key={order.id}
+                className="rounded-xl border border-border bg-card p-4"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <Link
+                      href={`/admin/orders/${order.id}`}
+                      className="font-medium text-primary hover:underline"
+                    >
+                      {order.orderNumber}
+                    </Link>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {order.customerName} · {order.phone}
+                    </p>
+                  </div>
+                  <span className="shrink-0 font-semibold">
+                    {formatKes(order.totalKes)}
+                  </span>
+                </div>
+                <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                  <span className="rounded-full bg-muted px-2.5 py-1 font-medium text-foreground">
+                    {ORDER_STATUS_LABELS[order.status]}
+                  </span>
+                  <span>{PAYMENT_STATUS_LABELS[order.paymentStatus]}</span>
+                  <span>
+                    · {order._count.items} item
+                    {order._count.items === 1 ? "" : "s"}
+                  </span>
+                  <span>· {dateFormatter.format(order.createdAt)}</span>
+                  <span>· {order.deliveryZone?.name ?? "Delivery"}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="hidden overflow-x-auto rounded-xl border border-border bg-card md:block">
           <table className="w-full min-w-[820px] text-sm">
             <thead className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
@@ -137,7 +176,8 @@ export default async function AdminOrdersPage({
               ))}
             </tbody>
           </table>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );

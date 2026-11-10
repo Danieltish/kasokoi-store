@@ -1,10 +1,10 @@
 export function CatalogSkeleton() {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <div className="h-4 w-40 animate-pulse rounded bg-muted" />
       <div className="mt-6 h-8 w-64 animate-pulse rounded bg-muted" />
       <div className="mt-6 h-24 w-full animate-pulse rounded-xl bg-muted" />
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
@@ -25,7 +25,7 @@ export function CatalogSkeleton() {
 
 export function ProductSkeleton() {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <div className="h-4 w-48 animate-pulse rounded bg-muted" />
       <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
         <div className="aspect-square animate-pulse rounded-2xl bg-muted" />

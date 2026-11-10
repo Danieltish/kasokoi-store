@@ -9,7 +9,7 @@ export async function SiteFooter() {
   const categories = await getCategories();
 
   return (
-    <footer className="mt-16 border-t border-border bg-muted/40">
+    <footer className="border-t border-border bg-muted/40">
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
           <span className="text-lg font-semibold text-primary">{SITE.name}</span>
@@ -66,7 +66,7 @@ export async function SiteFooter() {
       </div>
 
       <div className="border-t border-border">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:pr-24">
           <span>
             &copy; {SITE.name}. All rights reserved.
           </span>

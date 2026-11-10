@@ -11,9 +11,13 @@ type AddToCartButtonProps = {
   priceKes: number;
   image: string | null;
   stock: number;
+  className?: string;
 };
 
-export function AddToCartButton(product: AddToCartButtonProps) {
+export function AddToCartButton({
+  className = "",
+  ...product
+}: AddToCartButtonProps) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
   const timer = useRef<number | undefined>(undefined);
@@ -31,7 +35,7 @@ export function AddToCartButton(product: AddToCartButtonProps) {
       <button
         type="button"
         disabled
-        className="inline-flex items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold text-muted-foreground"
+        className={`inline-flex items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold text-muted-foreground ${className}`}
       >
         Out of stock
       </button>
@@ -59,7 +63,7 @@ export function AddToCartButton(product: AddToCartButtonProps) {
 
         timer.current = window.setTimeout(() => setAdded(false), 2000);
       }}
-      className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+      className={`inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 ${className}`}
     >
       {added ? "Added to cart" : "Add to cart"}
     </button>

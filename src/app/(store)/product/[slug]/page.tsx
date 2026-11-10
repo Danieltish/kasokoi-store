@@ -109,25 +109,25 @@ async function ProductContent({
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <nav className="text-sm text-muted-foreground">
+      <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
         <Link href="/" className="hover:text-foreground">
           Home
         </Link>
-        <span className="mx-2">/</span>
+        <span aria-hidden="true">/</span>
         <Link
           href={`/category/${product.category.slug}`}
           className="hover:text-foreground"
         >
           {product.category.name}
         </Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">{product.name}</span>
+        <span aria-hidden="true">/</span>
+        <span className="min-w-0 break-words text-foreground">{product.name}</span>
       </nav>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
@@ -148,7 +148,7 @@ async function ProductContent({
           <span className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
             {product.brand}
           </span>
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+          <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">
             {product.name}
           </h1>
 
@@ -184,17 +184,18 @@ async function ProductContent({
               priceKes={product.priceKes}
               image={product.image}
               stock={product.stock}
+              className="w-full sm:w-auto"
             />
             <a
               href={whatsappUrl(orderMessage)}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:w-auto"
             >
               <WhatsAppIcon className="size-5" />
               {product.stock > 0 ? "Order on WhatsApp" : "Ask about availability"}
             </a>
             <Link
               href={`/category/${product.category.slug}`}
-              className="inline-flex items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold hover:bg-muted"
+              className="inline-flex w-full items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold hover:bg-muted sm:w-auto"
             >
               More {product.category.name.toLowerCase()}
             </Link>
@@ -214,9 +215,9 @@ async function ProductContent({
                 {Object.entries(product.specs).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex gap-4 px-4 py-3 text-sm"
+                    className="flex gap-3 px-4 py-3 text-sm sm:gap-4"
                   >
-                    <dt className="w-40 shrink-0 text-muted-foreground">
+                    <dt className="w-28 shrink-0 text-muted-foreground sm:w-40">
                       {key}
                     </dt>
                     <dd className="font-medium">{value}</dd>
@@ -230,7 +231,7 @@ async function ProductContent({
 
       {related.length > 0 ? (
         <section className="mt-14">
-          <h2 className="text-2xl font-semibold tracking-tight">
+          <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
             You may also like
           </h2>
           <div className="mt-5">

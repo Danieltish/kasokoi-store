@@ -11,7 +11,7 @@ import { normalizeKenyanPhone } from "@/lib/phone";
 import { formatKes } from "@/lib/site";
 
 const fieldClass =
-  "h-11 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "h-11 w-full rounded-lg border border-border bg-card px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm";
 
 export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
   const { items, subtotalKes, hydrated, clear } = useCart();
@@ -143,7 +143,7 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid items-start gap-8 lg:grid-cols-[1fr_360px]"
+      className="grid items-start gap-6 sm:gap-8 lg:grid-cols-[1fr_360px]"
     >
       <div className="space-y-6">
         <section className="rounded-xl border border-border bg-card p-5">
@@ -258,7 +258,7 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
                   onChange={(event) => setAddress(event.target.value)}
                   rows={3}
                   placeholder="Estate, street, building, landmark"
-                  className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"
+                  className="w-full rounded-lg border border-border bg-card px-3 py-2 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm"
                 />
               </label>
             </div>
@@ -271,7 +271,7 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
               onChange={(event) => setNotes(event.target.value)}
               rows={2}
               placeholder="Anything we should know?"
-              className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="w-full rounded-lg border border-border bg-card px-3 py-2 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm"
             />
           </label>
         </section>

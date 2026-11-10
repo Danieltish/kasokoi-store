@@ -14,7 +14,7 @@ import { updateOrderAction, type OrderUpdateState } from "./actions";
 const initialState: OrderUpdateState = {};
 
 const fieldClass =
-  "h-10 rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "h-11 rounded-lg border border-border bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:h-10 sm:text-sm";
 
 export function OrderStatusForm({
   id,
@@ -77,7 +77,7 @@ export function OrderStatusForm({
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60"
+        className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 sm:w-auto sm:py-2"
       >
         {pending ? "Saving…" : "Update order"}
       </button>

@@ -31,7 +31,44 @@ export default async function AdminCategoriesPage() {
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-border bg-card">
+      <>
+      <ul className="space-y-3 md:hidden">
+        {categories.map((category) => (
+          <li
+            key={category.id}
+            className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-4"
+          >
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="relative size-12 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
+                {category.image ? (
+                  <Image
+                    src={category.image}
+                    alt=""
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
+                ) : null}
+              </div>
+              <div className="min-w-0">
+                <p className="truncate font-medium">{category.name}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {category.slug} · {category._count.products} product
+                  {category._count.products === 1 ? "" : "s"}
+                </p>
+              </div>
+            </div>
+            <Link
+              href={`/admin/categories/${category.id}`}
+              className="shrink-0 text-sm font-medium text-primary hover:underline"
+            >
+              Edit
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <div className="hidden overflow-x-auto rounded-xl border border-border bg-card md:block">
         <table className="w-full min-w-[600px] text-sm">
           <thead className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
@@ -84,6 +121,7 @@ export default async function AdminCategoriesPage() {
           </tbody>
         </table>
       </div>
+      </>
     </div>
   );
 }

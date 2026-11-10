@@ -6,7 +6,7 @@ import { updateZoneAction } from "./actions";
 export const instant = false;
 
 const fieldClass =
-  "h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "h-11 w-full rounded-lg border border-border bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:h-10 sm:text-sm";
 
 export default async function AdminZonesPage() {
   await requireAdmin();

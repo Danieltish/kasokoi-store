@@ -7,7 +7,7 @@ import { loginAction, type LoginState } from "../actions";
 const initialState: LoginState = {};
 
 const fieldClass =
-  "h-11 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "h-11 w-full rounded-lg border border-border bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(

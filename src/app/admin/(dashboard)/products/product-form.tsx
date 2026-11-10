@@ -27,7 +27,7 @@ export type ProductInitial = {
 const initialState: ProductFormState = {};
 
 const fieldClass =
-  "h-11 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "h-11 w-full rounded-lg border border-border bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm";
 
 const labelClass = "flex flex-col gap-1 text-sm font-medium";
 
@@ -180,7 +180,7 @@ export function ProductForm({
               rows={4}
               defaultValue={product?.description}
               placeholder="What makes this product special?"
-              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm"
             />
           </label>
           <label className={`${labelClass} sm:col-span-2`}>
@@ -190,7 +190,7 @@ export function ProductForm({
               rows={5}
               defaultValue={product?.specsText}
               placeholder={"Ports: 5x Gigabit\nPoE out: Yes\nRouterOS: Level 4"}
-              className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm"
             />
           </label>
         </div>
@@ -205,17 +205,17 @@ export function ProductForm({
         </p>
       ) : null}
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60"
+          className="w-full rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 sm:w-auto"
         >
           {pending ? "Saving…" : product ? "Save changes" : "Create product"}
         </button>
         <Link
           href="/admin/products"
-          className="text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="text-center text-sm font-medium text-muted-foreground hover:text-foreground sm:text-left"
         >
           Cancel
         </Link>

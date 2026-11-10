@@ -53,17 +53,17 @@ async function ProductsContent({
   ]);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
-      <nav className="text-sm text-muted-foreground">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+      <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
         <Link href="/" className="hover:text-foreground">
           Home
         </Link>
-        <span className="mx-2">/</span>
+        <span aria-hidden="true">/</span>
         <span className="text-foreground">All products</span>
       </nav>
 
       <div className="mt-4">
-        <h1 className="text-3xl font-semibold tracking-tight">
+        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           All products
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">

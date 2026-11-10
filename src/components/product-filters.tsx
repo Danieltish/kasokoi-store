@@ -22,7 +22,7 @@ const sorts = [
 ];
 
 const fieldClass =
-  "h-10 rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "h-11 w-full rounded-lg border border-border bg-card px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:h-10 sm:w-auto sm:text-sm";
 
 export function ProductFilters({
   action,
@@ -41,12 +41,12 @@ export function ProductFilters({
     <form
       action={action}
       method="get"
-      className="flex flex-wrap items-end gap-3 rounded-xl border border-border bg-card p-4"
+      className="grid grid-cols-2 items-end gap-3 rounded-xl border border-border bg-card p-4 sm:flex sm:flex-wrap"
     >
       {values.q ? <input type="hidden" name="q" value={values.q} /> : null}
 
       {brands.length > 0 ? (
-        <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
+        <label className="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted-foreground">
           Brand
           <select
             name="brand"
@@ -63,7 +63,7 @@ export function ProductFilters({
         </label>
       ) : null}
 
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
+      <label className="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted-foreground">
         Condition
         <select
           name="condition"
@@ -79,7 +79,7 @@ export function ProductFilters({
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
+      <label className="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted-foreground">
         Max price (KES)
         <input
           type="number"
@@ -89,11 +89,11 @@ export function ProductFilters({
           inputMode="numeric"
           defaultValue={values.maxPrice ?? ""}
           placeholder="e.g. 20000"
-          className={`${fieldClass} w-36`}
+          className={`${fieldClass} sm:w-36`}
         />
       </label>
 
-      <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
+      <label className="flex min-w-0 flex-col gap-1 text-xs font-medium text-muted-foreground">
         Sort
         <select
           name="sort"
@@ -108,10 +108,10 @@ export function ProductFilters({
         </select>
       </label>
 
-      <div className="flex items-center gap-2">
+      <div className="col-span-2 flex items-center gap-2 sm:col-auto">
         <button
           type="submit"
-          className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+          className="h-11 flex-1 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:h-10 sm:flex-none"
         >
           Apply
         </button>

@@ -62,7 +62,7 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-5">
         {cards.map((card) => (
           <div
             key={card.label}
@@ -71,7 +71,7 @@ export default async function AdminDashboardPage() {
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               {card.label}
             </p>
-            <p className="mt-2 text-2xl font-semibold">{card.value}</p>
+            <p className="mt-2 break-words text-xl font-semibold sm:text-2xl">{card.value}</p>
             <p className="mt-1 text-xs text-muted-foreground">{card.hint}</p>
           </div>
         ))}
@@ -98,17 +98,15 @@ export default async function AdminDashboardPage() {
               <li key={order.id}>
                 <Link
                   href={`/admin/orders/${order.id}`}
-                  className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm hover:bg-muted/50"
+                  className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-3 text-sm hover:bg-muted/50"
                 >
                   <span className="font-medium">{order.orderNumber}</span>
-                  <span className="text-muted-foreground">
-                    {order.customerName} · {order.phone}
-                  </span>
-                  <span className="text-muted-foreground">
-                    {order.deliveryZone?.name ?? "Delivery"}
-                  </span>
                   <span className="text-xs text-muted-foreground">
                     {ORDER_STATUS_LABELS[order.status]}
+                  </span>
+                  <span className="w-full truncate text-xs text-muted-foreground sm:w-auto">
+                    {order.customerName} · {order.phone} ·{" "}
+                    {order.deliveryZone?.name ?? "Delivery"}
                   </span>
                   <span className="font-semibold">
                     {formatKes(order.totalKes)}

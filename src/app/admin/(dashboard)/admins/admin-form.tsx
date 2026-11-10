@@ -7,7 +7,7 @@ import { createAdminAction, type AdminFormState } from "./actions";
 const initialState: AdminFormState = {};
 
 const fieldClass =
-  "h-11 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/30";
+  "h-11 w-full rounded-lg border border-border bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm";
 
 export function CreateAdminForm() {
   const [state, formAction, pending] = useActionState(
@@ -75,7 +75,7 @@ export function CreateAdminForm() {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60"
+          className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 sm:w-auto"
         >
           {pending ? "Creating…" : "Create admin"}
         </button>

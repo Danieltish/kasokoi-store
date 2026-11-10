@@ -20,17 +20,29 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/30 md:flex-row">
-      <aside className="flex flex-col gap-6 border-b border-border bg-card p-4 md:w-64 md:shrink-0 md:border-b-0 md:border-r">
-        <div>
-          <Link href="/admin" className="text-lg font-semibold text-primary">
-            Kasokoi Admin
-          </Link>
-          <p className="text-xs text-muted-foreground">Manage your store</p>
+      <aside className="border-b border-border bg-card md:flex md:w-64 md:shrink-0 md:flex-col md:gap-6 md:border-b-0 md:border-r md:p-4">
+        <div className="flex items-center justify-between gap-3 px-4 pt-4 md:block md:p-0">
+          <div>
+            <Link href="/admin" className="text-lg font-semibold text-primary">
+              Kasokoi Admin
+            </Link>
+            <p className="text-xs text-muted-foreground">Manage your store</p>
+          </div>
+          <form action={logoutAction} className="md:hidden">
+            <button
+              type="submit"
+              className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-danger"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
 
-        <AdminNav isSuperAdmin={session.role === AdminRole.ADMIN} />
+        <div className="mt-3 px-2 pb-2 md:mt-0 md:px-0 md:pb-0">
+          <AdminNav isSuperAdmin={session.role === AdminRole.ADMIN} />
+        </div>
 
-        <div className="mt-auto space-y-3 border-t border-border pt-4 text-sm md:mt-0">
+        <div className="mt-auto hidden space-y-3 border-t border-border pt-4 text-sm md:block">
           <div>
             <p className="font-medium">{session.name}</p>
             <p className="truncate text-xs text-muted-foreground">
@@ -51,13 +63,15 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         </div>
       </aside>
 
-      <div className="flex-1">
-        <header className="flex items-center justify-between border-b border-border bg-card px-4 py-3 sm:px-6">
-          <span className="text-sm text-muted-foreground">Admin console</span>
+      <div className="min-w-0 flex-1">
+        <header className="flex items-center justify-between gap-3 border-b border-border bg-card px-4 py-3 sm:px-6">
+          <span className="truncate text-sm text-muted-foreground">
+            Admin console
+          </span>
           <Link
             href="/"
             target="_blank"
-            className="text-sm font-medium text-primary hover:underline"
+            className="shrink-0 text-sm font-medium text-primary hover:underline"
           >
             View store ↗
           </Link>

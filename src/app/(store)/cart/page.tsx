@@ -12,7 +12,7 @@ export default function CartPage() {
 
   if (!hydrated) {
     return (
-      <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="h-8 w-40 animate-pulse rounded bg-muted" />
         <div className="mt-6 h-40 animate-pulse rounded-xl bg-muted" />
       </div>
@@ -40,17 +40,17 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
-      <h1 className="text-3xl font-semibold tracking-tight">Your cart</h1>
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Your cart</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         {items.length} product{items.length === 1 ? "" : "s"} in your cart
       </p>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_360px]">
+      <div className="mt-6 grid gap-6 sm:gap-8 lg:grid-cols-[1fr_360px]">
         <ul className="divide-y divide-border rounded-xl border border-border bg-card">
           {items.map((item) => (
-            <li key={item.slug} className="flex gap-4 p-4">
-              <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
+            <li key={item.slug} className="flex gap-3 p-4 sm:gap-4">
+              <div className="relative size-16 shrink-0 overflow-hidden rounded-lg border border-border bg-muted sm:size-20">
                 {item.image ? (
                   <Image
                     src={item.image}
@@ -110,7 +110,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <div className="text-right text-sm font-semibold">
+              <div className="shrink-0 whitespace-nowrap text-right text-xs font-semibold sm:text-sm">
                 {formatKes(item.priceKes * item.quantity)}
               </div>
             </li>

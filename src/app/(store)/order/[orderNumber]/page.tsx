@@ -73,11 +73,11 @@ export default async function OrderPage({
     .join("\n");
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
+    <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
       <span className="inline-flex items-center rounded-full bg-success/10 px-3 py-1 text-xs font-semibold text-success">
         Order received
       </span>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight">
+      <h1 className="mt-3 break-words text-2xl font-semibold tracking-tight sm:text-3xl">
         Thank you, {order.customerName.split(" ")[0]}!
       </h1>
       <p className="mt-2 text-muted-foreground">
@@ -88,7 +88,7 @@ export default async function OrderPage({
 
       <a
         href={whatsappUrl(message)}
-        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90"
+        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:w-auto"
       >
         <WhatsAppIcon className="size-5" />
         Send order on WhatsApp

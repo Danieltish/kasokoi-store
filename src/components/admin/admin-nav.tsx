@@ -19,7 +19,7 @@ export function AdminNav({ isSuperAdmin }: { isSuperAdmin: boolean }) {
     : baseItems;
 
   return (
-    <nav className="space-y-1">
+    <nav className="no-scrollbar flex gap-1 overflow-x-auto md:block md:space-y-1 md:overflow-visible">
       {items.map((item) => {
         const active =
           "exact" in item && item.exact
@@ -30,7 +30,8 @@ export function AdminNav({ isSuperAdmin }: { isSuperAdmin: boolean }) {
           <Link
             key={item.href}
             href={item.href}
-            className={`block rounded-lg px-3 py-2 text-sm font-medium ${
+            aria-current={active ? "page" : undefined}
+            className={`block whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium ${
               active
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-muted hover:text-foreground"
