@@ -11,9 +11,11 @@ export type DeliveryZoneOption = {
   isPickup: boolean;
 };
 
+export const DELIVERY_TAG = "delivery-zones";
+
 export async function getDeliveryZones(): Promise<DeliveryZoneOption[]> {
   "use cache";
-  cacheTag("delivery-zones");
+  cacheTag(DELIVERY_TAG);
   cacheLife("days");
 
   const rows = await prisma.deliveryZone.findMany({

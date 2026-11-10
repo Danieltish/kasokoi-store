@@ -1,10 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { CartProvider } from "@/components/cart-provider";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { SITE } from "@/lib/site";
 
 import "./globals.css";
@@ -61,14 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-KE"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
-        <CartProvider>
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-          <WhatsAppFloat />
-        </CartProvider>
-      </body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

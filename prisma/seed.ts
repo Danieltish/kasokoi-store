@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 
 import {
   PrismaClient,
@@ -544,6 +545,30 @@ async function main() {
       update: zone,
       create: zone,
     });
+  }
+
+  const superadminEmail = process.env.SUPERADMIN_EMAIL?.trim().toLowerCase();
+  const superadminPassword = process.env.SUPERADMIN_PASSWORD;
+
+  if (superadminEmail && superadminPassword) {
+    const passwordHash = await bcrypt.hash(superadminPassword, 10);
+
+    await prisma.adminUser.upsert({
+      where: { email: superadminEmail },
+      update: { role: "ADMIN", isActive: true, passwordHash },
+      create: {
+        email: superadminEmail,
+        name: "Superadmin",
+        passwordHash,
+        role: "ADMIN",
+      },
+    });
+
+    console.log(`Superadmin ready: ${superadminEmail}`);
+  } else {
+    console.warn(
+      "Skipping superadmin seed: set SUPERADMIN_EMAIL and SUPERADMIN_PASSWORD.",
+    );
   }
 
   console.log(

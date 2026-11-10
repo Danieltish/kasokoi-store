@@ -37,6 +37,9 @@ npm run dev                 # http://localhost:3000
 - **Phase 0** — Next.js 16 scaffold, Prisma 7 + Supabase, design tokens, CI
 - **Phase 1** — catalog, category/product pages, search, SEO, seed data
 - **Phase 2** — cart (localStorage), checkout, delivery zones/fees, order creation and WhatsApp handoff
+- **Phase 3** — multi-admin panel: secure login, roles (superadmin/staff), product, category, order and delivery-zone management, password change
+
+**Admin panel:** `/admin` (redirects to `/admin/login` when signed out). The initial superadmin is created by `npm run seed` from `SUPERADMIN_EMAIL` / `SUPERADMIN_PASSWORD`. Superadmins can add unlimited staff or admin accounts at `/admin/admins`.
 
 ---
 
