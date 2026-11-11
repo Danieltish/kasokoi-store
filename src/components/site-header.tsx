@@ -14,7 +14,9 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-1.5 px-3 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
+        <MobileMenu categories={categories} />
+
         <Link
           href="/"
           aria-label={`${SITE.name} home`}
@@ -36,18 +38,17 @@ export async function SiteHeader() {
           </div>
         </form>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2 sm:ml-0">
+        <div className="ml-auto flex shrink-0 items-center gap-1 sm:ml-0 sm:gap-2">
           <UserMenu />
           <CartLink />
           <a
             href={whatsappUrl(`Hi ${SITE.name}, I have a question.`)}
             aria-label="Chat on WhatsApp"
-            className="inline-flex size-10 items-center justify-center gap-2 rounded-lg bg-whatsapp px-0 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:size-auto sm:px-3 sm:py-2"
+            className="inline-flex size-9 items-center justify-center gap-2 rounded-lg bg-whatsapp px-0 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:size-auto sm:px-3 sm:py-2"
           >
             <WhatsAppIcon className="size-4" />
             <span className="hidden sm:inline">WhatsApp</span>
           </a>
-          <MobileMenu categories={categories} />
         </div>
       </div>
 

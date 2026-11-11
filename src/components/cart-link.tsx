@@ -12,7 +12,7 @@ export function CartLink() {
     <Link
       href="/cart"
       aria-label={count > 0 ? `Cart, ${count} items` : "Cart"}
-      className="relative inline-flex size-10 items-center justify-center rounded-lg border border-border hover:bg-muted"
+      className="relative inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:size-10"
     >
       <CartIcon className="size-5" />
       {hydrated && count > 0 ? (

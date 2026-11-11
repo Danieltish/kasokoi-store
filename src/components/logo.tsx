@@ -28,9 +28,9 @@ export function Logo({
 }) {
   return (
     <span className={`inline-flex items-center gap-2 ${className}`}>
-      <LogoMark className="size-8 shrink-0 sm:size-9" />
+      <LogoMark className="size-7 shrink-0 sm:size-9" />
       {showWordmark ? (
-        <span className="text-base font-semibold tracking-tight sm:text-lg">
+        <span className="text-sm font-semibold tracking-tight sm:text-lg">
           <span className="text-foreground">Kasokoi</span>{" "}
           <span className="text-primary">Store</span>
         </span>

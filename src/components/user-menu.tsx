@@ -81,7 +81,7 @@ export function UserMenu() {
     return (
       <span
         aria-hidden="true"
-        className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-muted-foreground"
+        className="inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground sm:size-10"
       >
         <UserIcon className="size-5" />
       </span>
@@ -93,7 +93,7 @@ export function UserMenu() {
       <Link
         href="/login"
         aria-label="Sign in"
-        className="inline-flex size-10 items-center justify-center rounded-lg border border-border hover:bg-muted sm:w-auto sm:gap-2 sm:px-3"
+        className="inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:size-auto sm:gap-2 sm:px-3"
       >
         <UserIcon className="size-5" />
         <span className="hidden text-sm font-medium sm:inline">Sign in</span>
@@ -111,7 +111,7 @@ export function UserMenu() {
         aria-expanded={open}
         aria-controls="user-menu"
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-sm font-semibold hover:bg-muted"
+        className="inline-flex size-9 items-center justify-center rounded-lg text-sm font-semibold text-foreground transition-colors hover:bg-muted sm:size-10"
       >
         {initials(user.name)}
       </button>
