@@ -6,7 +6,6 @@ import {
   TruckIcon,
   WhatsAppIcon,
 } from "@/components/icons";
-import { LogoMark } from "@/components/logo";
 import { ProductGrid } from "@/components/product-grid";
 import { ServiceCard } from "@/components/services/service-card";
 import { ServiceCategoryCard } from "@/components/services/service-category-card";
@@ -31,77 +30,24 @@ export default async function Home() {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-      <section className="grid gap-4 lg:grid-cols-2">
+      <h1 className="sr-only">
+        Kasokoi Store — shop products and book trusted services in Kenya
+      </h1>
+
+      <div className="flex gap-2">
         <Link
           href="/products"
-          className="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-brand-50 to-card p-5 sm:p-6 dark:from-brand-950/30"
+          className="inline-flex h-11 flex-1 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground hover:opacity-90 sm:h-10 sm:flex-none"
         >
-          <span className="inline-flex rounded-full bg-card px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-primary ring-1 ring-border">
-            Products
-          </span>
-          <h1 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-            Shop products
-          </h1>
-          <p className="mt-2 max-w-md text-sm text-muted-foreground sm:text-base">
-            Phones, computers, networking, home essentials, solar, fashion,
-            farm supplies and more.
-          </p>
-          <span className="mt-5 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground group-hover:opacity-90">
-            Browse products →
-          </span>
-          <LogoMark className="pointer-events-none absolute -bottom-6 -right-4 size-32 opacity-10" />
+          Our products
         </Link>
-
         <Link
           href="/services"
-          className="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-accent-50 to-card p-5 sm:p-6 dark:from-brand-950/30"
+          className="inline-flex h-11 flex-1 items-center justify-center rounded-lg border border-border bg-card px-4 text-sm font-semibold hover:bg-muted sm:h-10 sm:flex-none"
         >
-          <span className="inline-flex rounded-full bg-card px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-accent-700 ring-1 ring-border dark:text-accent-300">
-            Services
-          </span>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-            Book a service
-          </h2>
-          <p className="mt-2 max-w-md text-sm text-muted-foreground sm:text-base">
-            Beauty, cleaning, repairs, technology, deliveries and errands —
-            request a quote on WhatsApp.
-          </p>
-          <span className="mt-5 inline-flex items-center justify-center rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold group-hover:bg-muted">
-            Browse services →
-          </span>
-          <LogoMark className="pointer-events-none absolute -bottom-6 -right-4 size-32 opacity-10" />
+          Our services
         </Link>
-      </section>
-
-      <nav
-        aria-label="Home sections"
-        className="no-scrollbar mt-6 flex gap-2 overflow-x-auto rounded-xl border border-border bg-card p-2"
-      >
-        <a
-          href="#popular-products"
-          className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          Popular products
-        </a>
-        <a
-          href="#product-categories"
-          className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          Product categories
-        </a>
-        <a
-          href="#popular-services"
-          className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          Popular services
-        </a>
-        <a
-          href="#service-categories"
-          className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          Service categories
-        </a>
-      </nav>
+      </div>
 
       <section id="popular-products" className="scroll-mt-28 pt-8">
         <div className="flex items-end justify-between gap-3">
@@ -122,6 +68,27 @@ export default async function Home() {
             products={products}
             emptyMessage="No products yet — check back soon."
           />
+        </div>
+      </section>
+
+      <section id="popular-services" className="scroll-mt-28 pt-10">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
+              Popular services
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Trusted help for your home, business and everyday life.
+            </p>
+          </div>
+          <Link href="/services" className={`shrink-0 ${sectionLinkClass}`}>
+            View all services
+          </Link>
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
+          {services.map((service) => (
+            <ServiceCard key={service.id} service={service} />
+          ))}
         </div>
       </section>
 
@@ -148,27 +115,6 @@ export default async function Home() {
             >
               {category.name}
             </Link>
-          ))}
-        </div>
-      </section>
-
-      <section id="popular-services" className="scroll-mt-28 pt-10">
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-              Popular services
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Trusted help for your home, business and everyday life.
-            </p>
-          </div>
-          <Link href="/services" className={`shrink-0 ${sectionLinkClass}`}>
-            View all services
-          </Link>
-        </div>
-        <div className="mt-5 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
-          {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
           ))}
         </div>
       </section>
