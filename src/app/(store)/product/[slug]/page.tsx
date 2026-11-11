@@ -125,7 +125,7 @@ async function ProductContent({
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -146,7 +146,7 @@ async function ProductContent({
         <span className="min-w-0 break-words text-foreground">{product.name}</span>
       </nav>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
+      <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
         <ProductGallery images={product.images} name={product.name} />
 
         <div>

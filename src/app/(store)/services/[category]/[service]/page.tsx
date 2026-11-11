@@ -104,7 +104,7 @@ export default async function ServicePage({ params }: { params: Params }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+    <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -129,7 +129,7 @@ export default async function ServicePage({ params }: { params: Params }) {
         <span className="text-foreground">{service.name}</span>
       </nav>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
+      <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-muted lg:aspect-square">
           {service.image ? (
             <Image
@@ -214,7 +214,7 @@ export default async function ServicePage({ params }: { params: Params }) {
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
             More {service.category.name.toLowerCase()} services
           </h2>
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
             {related.map((item) => (
               <ServiceCard key={item.id} service={item} />
             ))}

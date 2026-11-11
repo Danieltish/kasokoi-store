@@ -200,7 +200,7 @@ export function ProductGallery({
       </button>
 
       {images.length > 1 ? (
-        <ul className="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
+        <ul className="no-scrollbar mt-4 flex gap-4 overflow-x-auto pb-1">
           {images.map((image, index) => (
             <li key={`${image.url}-${index}`} className="shrink-0">
               <button
@@ -211,17 +211,18 @@ export function ProductGallery({
                 }}
                 aria-label={`View image ${index + 1} of ${images.length}`}
                 aria-pressed={index === activeIndex}
-                className={`relative size-16 overflow-hidden rounded-lg border bg-muted transition sm:size-20 ${
+                className={`relative size-20 overflow-hidden rounded-lg border bg-muted transition sm:size-24 ${
                   index === activeIndex
                     ? "border-primary ring-2 ring-primary/30"
                     : "border-border hover:border-primary/50"
                 }`}
               >
-                <Image draggable={false}
+                <Image
+                  draggable={false}
                   src={image.url}
                   alt=""
                   fill
-                  sizes="80px"
+                  sizes="120px"
                   className="object-cover"
                 />
               </button>

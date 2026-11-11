@@ -62,7 +62,7 @@ export default async function ServicesPage() {
         <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
           Service categories
         </h2>
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-5">
           {categories.map((category) => (
             <ServiceCategoryCard key={category.id} category={category} />
           ))}
@@ -81,7 +81,7 @@ export default async function ServicesPage() {
             </p>
           </div>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
           {services.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}

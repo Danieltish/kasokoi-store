@@ -22,7 +22,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
           />
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col gap-1 p-3 sm:p-4">
+      <div className="flex flex-1 flex-col gap-1.5 p-4 sm:p-5">
         <span className="line-clamp-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:text-xs">
           {product.brand}
         </span>
