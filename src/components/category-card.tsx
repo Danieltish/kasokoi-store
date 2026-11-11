@@ -26,10 +26,12 @@ export function CategoryCard({ category }: { category: CategorySummary }) {
           <LogoMark className="absolute right-3 top-3 size-8 opacity-90" />
         </>
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
       <div className="relative">
-        <h3 className="text-base font-semibold text-white">{category.name}</h3>
-        <p className="mt-1 text-sm text-white/80">
+        <h3 className="text-base font-semibold text-white drop-shadow-sm">
+          {category.name}
+        </h3>
+        <p className="mt-1 text-sm text-white/85 drop-shadow-sm">
           {category.productCount} product{category.productCount === 1 ? "" : "s"}
         </p>
       </div>
