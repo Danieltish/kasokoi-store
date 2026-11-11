@@ -117,7 +117,7 @@ export function ProductGallery({
             priority
             quality={90}
             sizes="(min-width: 1024px) 600px, 100vw"
-            className="object-contain p-2 sm:p-4"
+            className="object-cover p-0 sm:object-contain sm:p-4"
           />
         ) : (
           <span className="flex size-full items-center justify-center text-sm text-muted-foreground">
