@@ -110,7 +110,7 @@ export function SiteMenu({
                 className={`${tab === "products" ? "block" : "hidden"} p-2 md:block md:p-2`}
               >
                 <p className="px-2 pb-2 pt-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                  Our Categories
+                  Our Products
                 </p>
                 <ul className="max-h-[48vh] space-y-0.5 overflow-y-auto pr-1">
                   {categories.map((category) => (

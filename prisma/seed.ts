@@ -311,7 +311,7 @@ const products: SeedProduct[] = [
     sku: "BTY-DYS-SUP",
     stock: 5,
     condition: ProductCondition.REFURBISHED,
-    categorySlug: "beauty-personal-care",
+    categorySlug: "fashion-beauty-health",
     image: "/products/beauty.svg",
   },
   {
@@ -329,7 +329,7 @@ const products: SeedProduct[] = [
     priceKes: 4500,
     sku: "BTY-PHL-HP8320",
     stock: 18,
-    categorySlug: "beauty-personal-care",
+    categorySlug: "fashion-beauty-health",
     image: "/products/beauty.svg",
   },
   {
@@ -347,7 +347,7 @@ const products: SeedProduct[] = [
     priceKes: 8500,
     sku: "BTY-LED-MASK",
     stock: 10,
-    categorySlug: "beauty-personal-care",
+    categorySlug: "fashion-beauty-health",
     image: "/products/beauty.svg",
   },
   {
@@ -365,7 +365,7 @@ const products: SeedProduct[] = [
     priceKes: 6900,
     sku: "BTY-MASSAGE-PRO",
     stock: 14,
-    categorySlug: "beauty-personal-care",
+    categorySlug: "fashion-beauty-health",
     image: "/products/beauty.svg",
   },
 ];

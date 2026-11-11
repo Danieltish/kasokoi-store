@@ -7,114 +7,59 @@ export type BroadCategory = {
 
 export const BROAD_CATEGORIES: BroadCategory[] = [
   {
-    slug: "phones-tablets",
-    name: "Phones & Tablets",
+    slug: "phones-electronics",
+    name: "Phones & Electronics",
     description:
-      "Smartphones, tablets, chargers, cases, power banks and mobile accessories.",
-    image: null,
-  },
-  {
-    slug: "computers-accessories",
-    name: "Computers & Accessories",
-    description:
-      "Laptops, desktops, monitors, printers, storage and computer accessories.",
-    image: null,
-  },
-  {
-    slug: "tv-audio-cameras",
-    name: "TV, Audio & Cameras",
-    description:
-      "TVs, soundbars, speakers, cameras, CCTV and home entertainment.",
-    image: null,
-  },
-  {
-    slug: "home-appliances",
-    name: "Home Appliances",
-    description:
-      "Fridges, cookers, microwaves, blenders, fans, irons and kitchen appliances.",
-    image: null,
-  },
-  {
-    slug: "solar-power",
-    name: "Solar & Power",
-    description:
-      "Solar panels, inverters, batteries, generators, bulbs and power backup.",
-    image: null,
-  },
-  {
-    slug: "agriculture-farm-produce",
-    name: "Agriculture & Farm Produce",
-    description:
-      "Seeds, fertilizers, irrigation, farm tools and fresh produce.",
-    image: null,
-  },
-  {
-    slug: "livestock-animal-care",
-    name: "Livestock & Animal Care",
-    description:
-      "Animal feed, poultry, dairy supplies, vet products and livestock equipment.",
-    image: null,
-  },
-  {
-    slug: "fashion-accessories",
-    name: "Fashion & Accessories",
-    description:
-      "Clothing, shoes, bags, watches, sunglasses and everyday accessories.",
-    image: null,
-  },
-  {
-    slug: "beauty-personal-care",
-    name: "Beauty & Personal Care",
-    description:
-      "Skincare, haircare, wigs, makeup, grooming and personal care devices.",
-    image: "/products/beauty.svg",
-  },
-  {
-    slug: "groceries-household",
-    name: "Groceries & Household",
-    description:
-      "Everyday foods, snacks, cleaning supplies and household essentials.",
-    image: null,
-  },
-  {
-    slug: "health-wellness",
-    name: "Health & Wellness",
-    description:
-      "Supplements, massagers, thermometers, first aid and fitness equipment.",
+      "Phones, tablets, computers, TVs, audio, cameras and everyday electronics.",
     image: null,
   },
   {
     slug: "networking-security",
     name: "Networking & Security",
     description:
-      "Routers, switches, WiFi tools, VoIP, CCTV and smart home security.",
+      "Routers, switches, WiFi tools, VoIP, CCTV and smart security.",
     image: "/products/networking.svg",
   },
   {
-    slug: "building-tools-hardware",
-    name: "Building, Tools & Hardware",
+    slug: "home-kitchen",
+    name: "Home & Kitchen",
     description:
-      "Power tools, hand tools, plumbing, electrical and building supplies.",
+      "Home appliances, furniture, decor, groceries, cleaning and household essentials.",
     image: null,
   },
   {
-    slug: "automotive-motorbike",
-    name: "Automotive & Motorbike",
+    slug: "solar-power",
+    name: "Solar & Power",
     description:
-      "Car and motorbike parts, accessories, tyres, tools and car care.",
+      "Solar panels, inverters, batteries, generators and power backup.",
     image: null,
+  },
+  {
+    slug: "fashion-beauty-health",
+    name: "Fashion, Beauty & Health",
+    description:
+      "Clothing, shoes, bags, watches, beauty, personal care and wellness.",
+    image: "/products/beauty.svg",
   },
   {
     slug: "baby-kids",
     name: "Baby & Kids",
     description:
-      "Diapers, feeding, toys, strollers, clothing and school essentials.",
+      "Baby care, kids' clothing, toys, strollers and school essentials.",
     image: null,
   },
   {
-    slug: "home-furniture-decor",
-    name: "Home, Furniture & Decor",
-    description: "Furniture, bedding, kitchenware, storage and home decor.",
+    slug: "farm-livestock",
+    name: "Farm & Livestock",
+    description:
+      "Farm produce, seeds, tools, animal feed, poultry and livestock supplies.",
+    image: null,
+  },
+  {
+    slug: "building-auto",
+    name: "Building & Auto",
+    description:
+      "Building materials, tools, hardware, car and motorbike parts and accessories.",
     image: null,
   },
   {
@@ -131,7 +76,6 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
       "School supplies, office stationery, printing and business essentials.",
     image: null,
   },
-
 ];
 
 export const CATEGORY_ORDER = BROAD_CATEGORIES.map((category) => category.slug);
@@ -140,6 +84,19 @@ export const LEGACY_CATEGORY_MAP: Record<string, string> = {
   "networking-equipment": "networking-security",
   "wifi-tools-testers": "networking-security",
   "voip-pbx-systems": "networking-security",
-  "beauty-electronics": "beauty-personal-care",
-  laptops: "computers-accessories",
+  "beauty-electronics": "fashion-beauty-health",
+  laptops: "phones-electronics",
+  "phones-tablets": "phones-electronics",
+  "computers-accessories": "phones-electronics",
+  "tv-audio-cameras": "phones-electronics",
+  "home-appliances": "home-kitchen",
+  "home-furniture-decor": "home-kitchen",
+  "groceries-household": "home-kitchen",
+  "fashion-accessories": "fashion-beauty-health",
+  "beauty-personal-care": "fashion-beauty-health",
+  "health-wellness": "fashion-beauty-health",
+  "agriculture-farm-produce": "farm-livestock",
+  "livestock-animal-care": "farm-livestock",
+  "building-tools-hardware": "building-auto",
+  "automotive-motorbike": "building-auto",
 };
