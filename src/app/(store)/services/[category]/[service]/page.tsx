@@ -214,7 +214,7 @@ export default async function ServicePage({ params }: { params: Params }) {
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
             More {service.category.name.toLowerCase()} services
           </h2>
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
             {related.map((item) => (
               <ServiceCard key={item.id} service={item} />
             ))}

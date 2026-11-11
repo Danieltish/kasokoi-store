@@ -6,11 +6,9 @@ import { ProductCard } from "./product-card";
 export function ProductGrid({
   products,
   emptyMessage = "No products found.",
-  variant = "default",
 }: {
   products: ProductSummary[];
   emptyMessage?: string;
-  variant?: "default" | "featured";
 }) {
   if (products.length === 0) {
     return (
@@ -25,15 +23,9 @@ export function ProductGrid({
   }
 
   return (
-    <div
-      className={
-        variant === "featured"
-          ? "grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8"
-          : "grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4"
-      }
-    >
+    <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} variant={variant} />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );

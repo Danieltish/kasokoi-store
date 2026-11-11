@@ -50,7 +50,7 @@ export default function CartPage() {
         <ul className="divide-y divide-border rounded-xl border border-border bg-card">
           {items.map((item) => (
             <li key={item.slug} className="flex gap-3 p-4 sm:gap-4">
-              <div className="relative size-16 shrink-0 overflow-hidden rounded-lg border border-border bg-muted sm:size-20">
+              <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border border-border bg-muted sm:size-24">
                 {item.image ? (
                   <Image draggable={false}
                     src={item.image}

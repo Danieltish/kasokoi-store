@@ -19,14 +19,14 @@ export function ServiceCard({ service }: { service: ServiceSummary }) {
       href={`/services/${service.category.slug}/${service.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-md"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <div className="relative aspect-square overflow-hidden bg-muted">
         {service.image ? (
           <Image
             draggable={false}
             src={service.image}
             alt={service.name}
             fill
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
+            sizes="(min-width: 1024px) 33vw, 50vw"
             className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />
         ) : (

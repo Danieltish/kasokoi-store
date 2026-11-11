@@ -12,7 +12,7 @@ export function ServiceCategoryCard({
   return (
     <Link
       href={`/services/${category.slug}`}
-      className="group relative flex min-h-36 flex-col justify-end overflow-hidden rounded-xl border border-border bg-muted p-4 sm:min-h-44 sm:p-5"
+      className="group relative flex min-h-44 flex-col justify-end overflow-hidden rounded-xl border border-border bg-muted p-4 sm:min-h-56 sm:p-5"
     >
       {category.image ? (
         <Image

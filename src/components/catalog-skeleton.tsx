@@ -4,13 +4,13 @@ export function CatalogSkeleton() {
       <div className="h-4 w-40 animate-pulse rounded bg-muted" />
       <div className="mt-6 h-8 w-64 animate-pulse rounded bg-muted" />
       <div className="mt-6 h-24 w-full animate-pulse rounded-xl bg-muted" />
-      <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
             className="overflow-hidden rounded-xl border border-border bg-card"
           >
-            <div className="aspect-[4/3] animate-pulse bg-muted" />
+            <div className="aspect-square animate-pulse bg-muted" />
             <div className="space-y-2 p-4">
               <div className="h-3 w-16 animate-pulse rounded bg-muted" />
               <div className="h-4 w-full animate-pulse rounded bg-muted" />
