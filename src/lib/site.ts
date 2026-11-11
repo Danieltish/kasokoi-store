@@ -9,6 +9,7 @@ const siteUrl =
 
 const whatsappNumber =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "254717376964";
+const mpesaTill = process.env.NEXT_PUBLIC_MPESA_TILL ?? "1609886";
 
 export const SITE = {
   name: "Kasokoi Store",
@@ -17,6 +18,7 @@ export const SITE = {
     "Shop phones, electronics, home appliances, fashion, beauty and farm supplies, or book trusted services — cleaning, beauty, repairs, tech, delivery and more. Order or request a quote on WhatsApp with delivery in Nairobi and nationwide.",
   url: siteUrl,
   whatsappNumber,
+  mpesaTill,
   whatsappDisplay: `+${whatsappNumber.slice(0, 3)} ${whatsappNumber.slice(3, 6)} ${whatsappNumber.slice(6)}`,
   currency: "KES",
 } as const;

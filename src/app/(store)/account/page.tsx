@@ -3,10 +3,11 @@ import Link from "next/link";
 
 import { LogoMark } from "@/components/logo";
 import { isAdminRole, requireUser } from "@/lib/auth";
-import { displayKenyanPhone } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 import { formatKes } from "@/lib/site";
 import { ORDER_STATUS_LABELS } from "@/lib/status";
+
+import { ProfileForm } from "./profile-form";
 
 export const metadata: Metadata = {
   title: "My account",
@@ -53,24 +54,11 @@ export default async function AccountPage() {
 
       <section className="mt-6 rounded-xl border border-border bg-card p-5">
         <h2 className="font-semibold">Profile</h2>
-        <dl className="mt-4 space-y-2 text-sm">
-          <div className="flex justify-between gap-4">
-            <dt className="text-muted-foreground">Name</dt>
-            <dd className="text-right font-medium">{user.name}</dd>
-          </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-muted-foreground">Email</dt>
-            <dd className="text-right font-medium">{user.email}</dd>
-          </div>
-          {user.phone ? (
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">Phone</dt>
-              <dd className="text-right font-medium">
-                {displayKenyanPhone(user.phone)}
-              </dd>
-            </div>
-          ) : null}
-        </dl>
+        <ProfileForm
+          initialName={user.name}
+          initialPhone={user.phone ?? ""}
+          email={user.email}
+        />
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
           {isAdminRole(user.role) ? (

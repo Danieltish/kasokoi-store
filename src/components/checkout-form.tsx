@@ -9,24 +9,39 @@ import { LogoMark } from "@/components/logo";
 import type { DeliveryZoneOption } from "@/lib/delivery";
 import { deliveryFeeFor } from "@/lib/pricing";
 import { normalizeKenyanPhone } from "@/lib/phone";
-import { formatKes } from "@/lib/site";
+import { formatKes, SITE } from "@/lib/site";
 
 const fieldClass =
   "h-11 w-full rounded-lg border border-border bg-card px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm";
 
-export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
+type InitialCustomer = {
+  name: string;
+  phone: string;
+  email: string;
+};
+
+export function CheckoutForm({
+  zones,
+  initialCustomer,
+}: {
+  zones: DeliveryZoneOption[];
+  initialCustomer?: InitialCustomer;
+}) {
   const { items, subtotalKes, hydrated, clear } = useCart();
   const router = useRouter();
 
-  const [customerName, setCustomerName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [customerName, setCustomerName] = useState(
+    initialCustomer?.name ?? "",
+  );
+  const [phone, setPhone] = useState(initialCustomer?.phone ?? "");
+  const [email, setEmail] = useState(initialCustomer?.email ?? "");
   const [method, setMethod] = useState<"delivery" | "pickup">("delivery");
   const [county, setCounty] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [copiedTill, setCopiedTill] = useState(false);
 
   const pickupZone = zones.find((zone) => zone.isPickup);
 
@@ -78,6 +93,16 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
         </Link>
       </div>
     );
+  }
+
+  async function copyTill() {
+    try {
+      await navigator.clipboard.writeText(SITE.mpesaTill);
+      setCopiedTill(true);
+      window.setTimeout(() => setCopiedTill(false), 2000);
+    } catch {
+      setCopiedTill(false);
+    }
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -150,6 +175,12 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
       <div className="space-y-6">
         <section className="rounded-xl border border-border bg-card p-5">
           <h2 className="font-semibold">1. Contact details</h2>
+          {initialCustomer ? (
+            <p className="mt-1 text-xs text-muted-foreground">
+              Prefilled from your account. You can change these details for this
+              order.
+            </p>
+          ) : null}
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="flex flex-col gap-1 text-sm font-medium">
               Full name
@@ -325,6 +356,23 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
           <span>{formatKes(totalKes)}</span>
         </div>
 
+        <div className="mt-4 rounded-lg border border-border bg-muted/40 p-3 text-xs">
+          <p className="font-semibold text-foreground">Pay via M-Pesa</p>
+          <p className="mt-1 text-muted-foreground">
+            Buy Goods Till{" "}
+            <span className="font-mono text-sm font-semibold text-foreground">
+              {SITE.mpesaTill}
+            </span>
+          </p>
+          <button
+            type="button"
+            onClick={copyTill}
+            className="mt-2 rounded-md border border-border bg-card px-2.5 py-1 font-medium text-foreground hover:bg-muted"
+          >
+            {copiedTill ? "Copied" : "Copy till number"}
+          </button>
+        </div>
+
         {error ? (
           <p
             role="alert"
@@ -342,8 +390,8 @@ export function CheckoutForm({ zones }: { zones: DeliveryZoneOption[] }) {
           {submitting ? "Placing order…" : "Place order on WhatsApp"}
         </button>
         <p className="mt-2 text-xs text-muted-foreground">
-          You&apos;ll confirm and arrange payment on WhatsApp. No payment is
-          taken on this site yet.
+          Place your order, then pay via the M-Pesa till above and send the
+          confirmation on WhatsApp. No payment is taken on this site.
         </p>
       </aside>
     </form>

@@ -25,6 +25,7 @@ Set these in **Vercel → Project → Settings → Environment Variables** (Prod
 | `DIRECT_URL` | Supabase **session pooler** URI, port `5432` (migrations/seed) |
 | `NEXT_PUBLIC_SITE_URL` | `https://kasokoi.co.ke` |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | `254717376964` (digits only) |
+| `NEXT_PUBLIC_MPESA_TILL` | `1609886` (M-Pesa Buy Goods till) |
 | `AUTH_SECRET` | `openssl rand -base64 32` — unique, never committed |
 | `OWNER_EMAIL` | `tishtitoh@gmail.com` — only this account can create superadmins |
 | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |

@@ -1,10 +1,11 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { AdminRole } from "@/generated/prisma/client";
-import { createSession } from "@/lib/auth";
+import { createSession, requireUser } from "@/lib/auth";
 import { normalizeKenyanPhone } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
 
@@ -110,4 +111,35 @@ export async function customerRegisterAction(
   });
 
   redirect("/account");
+}
+
+export type ProfileState = { error?: string; success?: boolean };
+
+export async function updateProfileAction(
+  _previous: ProfileState,
+  formData: FormData,
+): Promise<ProfileState> {
+  const session = await requireUser();
+
+  const name = String(formData.get("name") ?? "").trim();
+  const rawPhone = String(formData.get("phone") ?? "").trim();
+
+  if (name.length < 2) {
+    return { error: "Enter your full name." };
+  }
+
+  const phone = rawPhone ? normalizeKenyanPhone(rawPhone) : null;
+
+  if (rawPhone && !phone) {
+    return { error: "Enter a valid Kenyan phone number, e.g. 0712 345 678." };
+  }
+
+  await prisma.user.update({
+    where: { id: session.id },
+    data: { name, phone },
+  });
+
+  revalidatePath("/account");
+
+  return { success: true };
 }

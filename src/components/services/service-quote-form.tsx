@@ -1,11 +1,22 @@
 "use client";
 
-import { useState, useSyncExternalStore, type FormEvent } from "react";
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type FormEvent,
+} from "react";
 
 import { WhatsAppIcon } from "@/components/icons";
 import { formatKes, SITE, whatsappUrl } from "@/lib/site";
 
 const subscribe = () => () => {};
+
+type Customer = {
+  name: string;
+  email: string;
+  phone: string | null;
+};
 
 const fieldClass =
   "h-11 w-full rounded-lg border border-border bg-background px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm";
@@ -26,11 +37,33 @@ export function ServiceQuoteForm({
   priceNote: string | null;
 }) {
   const [error, setError] = useState<string | null>(null);
+  const [customer, setCustomer] = useState<Customer | null>(null);
   const origin = useSyncExternalStore(
     subscribe,
     () => window.location.origin,
     () => SITE.url,
   );
+
+  useEffect(() => {
+    let active = true;
+
+    fetch("/api/auth/me", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data: { user: Customer | null }) => {
+        if (active) {
+          setCustomer(data.user);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setCustomer(null);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -74,6 +107,7 @@ export function ServiceQuoteForm({
 
   return (
     <form
+      key={customer?.email ?? "guest"}
       onSubmit={handleSubmit}
       className="space-y-4 rounded-xl border border-border bg-card p-5"
     >
@@ -83,6 +117,12 @@ export function ServiceQuoteForm({
           Share your details and we&apos;ll confirm pricing, availability and
           booking on WhatsApp.
         </p>
+        {customer ? (
+          <p className="mt-1 text-xs text-muted-foreground">
+            Prefilled from your account. You can change these details for this
+            request.
+          </p>
+        ) : null}
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -91,6 +131,7 @@ export function ServiceQuoteForm({
           <input
             name="name"
             required
+            defaultValue={customer?.name ?? ""}
             autoComplete="name"
             placeholder="Jane Wanjiku"
             className={fieldClass}
@@ -101,6 +142,7 @@ export function ServiceQuoteForm({
           <input
             name="phone"
             required
+            defaultValue={customer?.phone ?? ""}
             inputMode="tel"
             autoComplete="tel"
             placeholder="0712 345 678"

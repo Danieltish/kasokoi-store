@@ -90,6 +90,7 @@ export async function SiteFooter() {
             </li>
             <li>Delivery in Nairobi &amp; nationwide</li>
             <li>Order on WhatsApp</li>
+            <li>Pay via M-Pesa Till {SITE.mpesaTill}</li>
             <li>Prices in Kenyan Shillings</li>
             <li>
               <a

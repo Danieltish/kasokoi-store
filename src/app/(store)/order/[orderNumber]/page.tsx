@@ -85,6 +85,7 @@ export default async function OrderPage({
       order.deliveryFeeKes === 0 ? "Free" : formatKes(order.deliveryFeeKes)
     }${order.deliveryZone ? ` (${order.deliveryZone.name})` : ""}`,
     `Total: ${formatKes(order.totalKes)}`,
+    `Payment: M-Pesa Buy Goods Till ${SITE.mpesaTill}`,
     "",
     `Name: ${order.customerName}`,
     `Phone: ${displayKenyanPhone(order.phone)}`,
@@ -117,6 +118,20 @@ export default async function OrderPage({
         <WhatsAppIcon className="size-5" />
         Send order on WhatsApp
       </a>
+
+      <div className="mt-6 rounded-xl border border-border bg-card p-5 text-sm">
+        <h2 className="font-semibold">Pay via M-Pesa</h2>
+        <p className="mt-2 text-muted-foreground">
+          Buy Goods Till{" "}
+          <span className="font-mono text-base font-semibold text-foreground">
+            {SITE.mpesaTill}
+          </span>
+        </p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Use your order number {order.orderNumber} as the reference if asked.
+          Send the payment confirmation on WhatsApp.
+        </p>
+      </div>
 
       <div className="mt-8 rounded-xl border border-border bg-card">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-4 text-sm">
