@@ -17,7 +17,9 @@
     "seed": "prisma db seed",
     "seed:admin": "tsx prisma/seed-admin.ts",
     "seed:categories": "tsx prisma/seed-categories.ts",
-    "seed:services": "tsx prisma/seed-services.ts"
+    "seed:services": "tsx prisma/seed-services.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",
@@ -39,9 +41,11 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "fast-check": "^4.10.2",
     "prisma": "7.10.1",
     "tailwindcss": "4.3.3",
     "tsx": "4.23.15",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.7"
   }
 }

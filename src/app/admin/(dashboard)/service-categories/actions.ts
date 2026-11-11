@@ -1,5 +1,6 @@
 "use server";
 
+import { slugify } from "@/lib/slug";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -10,14 +11,6 @@ import { SERVICE_TAGS } from "@/lib/services";
 import { deleteStorageImages } from "@/lib/storage";
 
 export type ServiceCategoryFormState = { error?: string };
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 function revalidateServices() {
   revalidateTag(SERVICE_TAGS.categories, { expire: 0 });

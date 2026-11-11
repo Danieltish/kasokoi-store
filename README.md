@@ -24,6 +24,7 @@ npm run dev                 # http://localhost:3000
 | `npm run build` | Production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript (`tsc --noEmit`) |
+| `npm run test` | Run property-based unit tests (Vitest + fast-check) |
 | `npm run db:generate` | Regenerate the Prisma client |
 | `npm run db:push` | Push schema to the database (no migration) |
 | `npm run db:migrate` | Create and apply a migration |

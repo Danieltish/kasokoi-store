@@ -1,5 +1,6 @@
 "use server";
 
+import { slugify } from "@/lib/slug";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -14,14 +15,6 @@ import { prisma } from "@/lib/prisma";
 import { deleteStorageImages } from "@/lib/storage";
 
 export type ProductFormState = { error?: string };
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 const MAX_INT = 2_147_483_647;
 

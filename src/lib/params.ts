@@ -37,7 +37,7 @@ export function parseTextFilter(value: string | undefined, maxLength = 80) {
     return undefined;
   }
 
-  return trimmed.slice(0, maxLength);
+  return trimmed.slice(0, maxLength).trim() || undefined;
 }
 
 export function parseMaxPrice(value: string | undefined) {
