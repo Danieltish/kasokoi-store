@@ -7,7 +7,7 @@ import { SITE, whatsappUrl } from "@/lib/site";
 import { SearchIcon, WhatsAppIcon } from "./icons";
 import { CartLink } from "./cart-link";
 import { Logo } from "./logo";
-import { MobileMenu } from "./mobile-menu";
+import { SiteMenu } from "./site-menu";
 import { UserMenu } from "./user-menu";
 
 export async function SiteHeader() {
@@ -19,7 +19,7 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-1.5 px-3 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
-        <MobileMenu
+        <SiteMenu
           categories={categories}
           serviceCategories={serviceCategories}
         />
@@ -59,29 +59,6 @@ export async function SiteHeader() {
         </div>
       </div>
 
-      <nav className="no-scrollbar mx-auto hidden w-full max-w-6xl gap-1 overflow-x-auto px-4 pb-2 sm:flex sm:px-6">
-        <Link
-          href="/products"
-          className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          All products
-        </Link>
-        <Link
-          href="/services"
-          className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-primary hover:bg-muted"
-        >
-          Services
-        </Link>
-        {categories.slice(0, 6).map((category) => (
-          <Link
-            key={category.id}
-            href={`/category/${category.slug}`}
-            className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-          >
-            {category.name}
-          </Link>
-        ))}
-      </nav>
 
       <form action="/search" className="px-4 pb-3 sm:hidden">
         <div className="relative">
