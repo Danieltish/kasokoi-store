@@ -28,6 +28,34 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.supabase.co" },
     ],
   },
+  async redirects() {
+    const legacyCategories: Record<string, string> = {
+      "phones-tablets": "phones-electronics",
+      "computers-accessories": "phones-electronics",
+      "tv-audio-cameras": "phones-electronics",
+      laptops: "phones-electronics",
+      "networking-equipment": "networking-security",
+      "wifi-tools-testers": "networking-security",
+      "voip-pbx-systems": "networking-security",
+      "home-appliances": "home-kitchen",
+      "home-furniture-decor": "home-kitchen",
+      "groceries-household": "home-kitchen",
+      "fashion-accessories": "fashion-beauty-health",
+      "beauty-personal-care": "fashion-beauty-health",
+      "health-wellness": "fashion-beauty-health",
+      "beauty-electronics": "fashion-beauty-health",
+      "agriculture-farm-produce": "farm-livestock",
+      "livestock-animal-care": "farm-livestock",
+      "building-tools-hardware": "building-auto",
+      "automotive-motorbike": "building-auto",
+    };
+
+    return Object.entries(legacyCategories).map(([slug, target]) => ({
+      source: `/category/${slug}`,
+      destination: `/category/${target}`,
+      permanent: true,
+    }));
+  },
   async headers() {
     return [
       {
