@@ -10,6 +10,7 @@ datasource db {
 enum AdminRole {
   ADMIN
   STAFF
+  CUSTOMER
 }
 
 enum ProductCondition {
@@ -174,15 +175,18 @@ model Payment {
   @@index([status])
 }
 
-model AdminUser {
+model User {
   id           String    @id @default(cuid())
   name         String
   email        String    @unique
+  phone        String?
   passwordHash String
-  role         AdminRole @default(STAFF)
+  role         AdminRole @default(CUSTOMER)
   isActive     Boolean   @default(true)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+
+  @@map("AdminUser")
 }
 
 model Setting {

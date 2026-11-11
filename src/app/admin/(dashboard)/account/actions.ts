@@ -29,7 +29,7 @@ export async function changePasswordAction(
     return { error: "New passwords do not match." };
   }
 
-  const admin = await prisma.adminUser.findUnique({
+  const admin = await prisma.user.findUnique({
     where: { id: session.id },
     select: { passwordHash: true },
   });
@@ -46,7 +46,7 @@ export async function changePasswordAction(
 
   const passwordHash = await bcrypt.hash(newPassword, 10);
 
-  await prisma.adminUser.update({
+  await prisma.user.update({
     where: { id: session.id },
     data: { passwordHash },
   });

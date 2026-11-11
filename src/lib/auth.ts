@@ -8,12 +8,27 @@ import { prisma } from "@/lib/prisma";
 const COOKIE_NAME = "kasokoi_admin";
 const SESSION_DAYS = 30;
 
-export type AdminSession = {
+export const OWNER_EMAIL = (
+  process.env.OWNER_EMAIL ?? "tishtitoh@gmail.com"
+)
+  .trim()
+  .toLowerCase();
+
+export type SessionUser = {
   id: string;
   name: string;
   email: string;
+  phone: string | null;
   role: AdminRole;
 };
+
+export function isAdminRole(role: AdminRole) {
+  return role === AdminRole.ADMIN || role === AdminRole.STAFF;
+}
+
+export function isOwner(email: string) {
+  return email.trim().toLowerCase() === OWNER_EMAIL;
+}
 
 function getSecret() {
   const secret = process.env.AUTH_SECRET;
@@ -25,14 +40,14 @@ function getSecret() {
   return new TextEncoder().encode(secret);
 }
 
-export async function createAdminSession(session: AdminSession) {
+export async function createSession(user: SessionUser) {
   const token = await new SignJWT({
-    name: session.name,
-    email: session.email,
-    role: session.role,
+    name: user.name,
+    email: user.email,
+    role: user.role,
   })
     .setProtectedHeader({ alg: "HS256" })
-    .setSubject(session.id)
+    .setSubject(user.id)
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DAYS}d`)
     .sign(getSecret());
@@ -51,12 +66,12 @@ export async function createAdminSession(session: AdminSession) {
   });
 }
 
-export async function destroyAdminSession() {
+export async function destroySession() {
   const store = await cookies();
   store.delete(COOKIE_NAME);
 }
 
-export async function getAdminSession(): Promise<AdminSession | null> {
+export async function getSessionUser(): Promise<SessionUser | null> {
   const store = await cookies();
   const token = store.get(COOKIE_NAME)?.value;
 
@@ -72,43 +87,59 @@ export async function getAdminSession(): Promise<AdminSession | null> {
       return null;
     }
 
-    const admin = await prisma.adminUser.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id },
       select: {
         id: true,
         name: true,
         email: true,
+        phone: true,
         role: true,
         isActive: true,
       },
     });
 
-    if (!admin?.isActive) {
+    if (!user?.isActive) {
       return null;
     }
 
     return {
-      id: admin.id,
-      name: admin.name,
-      email: admin.email,
-      role: admin.role,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
     };
   } catch {
     return null;
   }
 }
 
-export async function requireAdmin(): Promise<AdminSession> {
-  const session = await getAdminSession();
+export async function requireUser(): Promise<SessionUser> {
+  const session = await getSessionUser();
 
   if (!session) {
-    redirect("/admin/login");
+    redirect("/login");
   }
 
   return session;
 }
 
-export async function requireSuperAdmin(): Promise<AdminSession> {
+export async function requireAdmin(): Promise<SessionUser> {
+  const session = await getSessionUser();
+
+  if (!session) {
+    redirect("/admin/login");
+  }
+
+  if (!isAdminRole(session.role)) {
+    redirect("/account");
+  }
+
+  return session;
+}
+
+export async function requireSuperAdmin(): Promise<SessionUser> {
   const session = await requireAdmin();
 
   if (session.role !== AdminRole.ADMIN) {

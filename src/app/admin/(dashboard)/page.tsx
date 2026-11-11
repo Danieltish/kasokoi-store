@@ -25,7 +25,9 @@ export default async function AdminDashboardPage() {
     prisma.product.count({ where: { isActive: true, stock: { lte: 5 } } }),
     prisma.order.count(),
     prisma.order.count({ where: { status: "PENDING" } }),
-    prisma.adminUser.count({ where: { isActive: true } }),
+    prisma.user.count({
+      where: { isActive: true, role: { in: ["ADMIN", "STAFF"] } },
+    }),
     prisma.order.aggregate({
       _sum: { totalKes: true },
       where: { status: { notIn: ["CANCELLED", "RETURNED"] } },

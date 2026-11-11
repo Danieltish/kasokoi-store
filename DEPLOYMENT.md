@@ -26,6 +26,7 @@ Set these in **Vercel → Project → Settings → Environment Variables** (Prod
 | `NEXT_PUBLIC_SITE_URL` | `https://kasokoi.co.ke` |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | `254717376964` (digits only) |
 | `AUTH_SECRET` | `openssl rand -base64 32` — unique, never committed |
+| `OWNER_EMAIL` | `tishtitoh@gmail.com` — only this account can create superadmins |
 | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase **secret key** — server-only, never expose |
 | `SUPABASE_STORAGE_BUCKET` | `product-images` (created and made public on first upload) |

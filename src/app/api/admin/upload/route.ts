@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 
-import { getAdminSession } from "@/lib/auth";
+import { getSessionUser, isAdminRole } from "@/lib/auth";
 import { StorageError, uploadProductImage } from "@/lib/storage";
 
 export async function POST(request: Request) {
-  const session = await getAdminSession();
+  const session = await getSessionUser();
 
-  if (!session) {
+  if (!session || !isAdminRole(session.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

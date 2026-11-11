@@ -7,6 +7,7 @@ import { SearchIcon, WhatsAppIcon } from "./icons";
 import { CartLink } from "./cart-link";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
+import { UserMenu } from "./user-menu";
 
 export async function SiteHeader() {
   const categories = await getTopLevelCategories();
@@ -36,6 +37,7 @@ export async function SiteHeader() {
         </form>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 sm:ml-0">
+          <UserMenu />
           <CartLink />
           <a
             href={whatsappUrl(`Hi ${SITE.name}, I have a question.`)}

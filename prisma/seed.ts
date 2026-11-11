@@ -529,7 +529,7 @@ async function main() {
   if (superadminEmail && superadminPassword) {
     const passwordHash = await bcrypt.hash(superadminPassword, 12);
 
-    await prisma.adminUser.upsert({
+    await prisma.user.upsert({
       where: { email: superadminEmail },
       update: { role: "ADMIN", isActive: true, passwordHash },
       create: {

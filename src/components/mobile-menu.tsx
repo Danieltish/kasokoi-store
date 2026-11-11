@@ -87,9 +87,16 @@ export function MobileMenu({ categories }: { categories: CategorySummary[] }) {
             </ul>
             <div className="border-t border-border">
               <Link
-                href="/about"
+                href="/account"
                 onClick={() => setOpen(false)}
                 className="block px-4 py-3 text-sm font-semibold hover:bg-muted"
+              >
+                My account
+              </Link>
+              <Link
+                href="/about"
+                onClick={() => setOpen(false)}
+                className="block border-t border-border px-4 py-3 text-sm font-semibold hover:bg-muted"
               >
                 About us
               </Link>

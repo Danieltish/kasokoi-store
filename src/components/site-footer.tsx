@@ -54,6 +54,11 @@ export async function SiteFooter() {
           <h2 className="text-sm font-semibold">Help</h2>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             <li>
+              <Link href="/account" className="hover:text-foreground">
+                My account
+              </Link>
+            </li>
+            <li>
               <Link href="/about" className="hover:text-foreground">
                 About us
               </Link>
@@ -80,10 +85,10 @@ export async function SiteFooter() {
             &copy; {SITE.name}. All rights reserved.
           </span>
           <Link
-            href="/admin"
+            href="/account"
             className="font-medium hover:text-foreground"
           >
-            Admin login
+            My account
           </Link>
         </div>
       </div>

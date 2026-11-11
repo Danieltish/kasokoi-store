@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { Logo } from "@/components/logo";
-import { getAdminSession } from "@/lib/auth";
+import { getSessionUser, isAdminRole } from "@/lib/auth";
 
 import { LoginForm } from "./login-form";
 
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 export const instant = false;
 
 export default async function AdminLoginPage() {
-  const session = await getAdminSession();
+  const session = await getSessionUser();
 
-  if (session) {
+  if (session && isAdminRole(session.role)) {
     redirect("/admin");
   }
 
@@ -32,6 +32,16 @@ export default async function AdminLoginPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             Manage products, orders and delivery.
           </p>
+          {session ? (
+            <p className="mt-4 rounded-lg border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
+              You are signed in as a customer. Use an admin account to manage
+              the store, or{" "}
+              <Link href="/account" className="font-medium text-primary hover:underline">
+                go to your account
+              </Link>
+              .
+            </p>
+          ) : null}
           <div className="mt-6">
             <LoginForm />
           </div>

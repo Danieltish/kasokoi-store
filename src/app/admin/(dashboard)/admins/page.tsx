@@ -1,5 +1,5 @@
 import { AdminRole } from "@/generated/prisma/client";
-import { requireSuperAdmin } from "@/lib/auth";
+import { isOwner, requireSuperAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 import { toggleAdminActiveAction } from "./actions";
@@ -14,7 +14,8 @@ const dateFormatter = new Intl.DateTimeFormat("en-KE", {
 export default async function AdminAdminsPage() {
   const session = await requireSuperAdmin();
 
-  const admins = await prisma.adminUser.findMany({
+  const admins = await prisma.user.findMany({
+    where: { role: { not: AdminRole.CUSTOMER } },
     orderBy: [{ role: "asc" }, { createdAt: "asc" }],
     select: {
       id: true,
@@ -31,15 +32,16 @@ export default async function AdminAdminsPage() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Admins</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Add as many team members as you need. Only superadmins can manage
-          admins.
+          Add team members or promote an existing customer account. Only
+          superadmins can manage admins, and only the store owner can create
+          another superadmin.
         </p>
       </div>
 
       <section className="rounded-xl border border-border bg-card p-5">
         <h2 className="font-semibold">Add an admin</h2>
         <div className="mt-4">
-          <CreateAdminForm />
+          <CreateAdminForm canCreateSuperAdmin={isOwner(session.email)} />
         </div>
       </section>
 

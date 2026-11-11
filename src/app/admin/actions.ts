@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 
-import { createAdminSession, destroyAdminSession } from "@/lib/auth";
+import { createSession, destroySession, isAdminRole } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export type LoginState = { error?: string };
@@ -21,10 +21,14 @@ export async function loginAction(
     return { error: "Enter your email and password." };
   }
 
-  const admin = await prisma.adminUser.findUnique({ where: { email } });
+  const admin = await prisma.user.findUnique({ where: { email } });
 
   if (!admin || !admin.isActive) {
     return { error: "Invalid email or password." };
+  }
+
+  if (!isAdminRole(admin.role)) {
+    return { error: "This account is not an admin." };
   }
 
   const passwordMatches = await bcrypt.compare(password, admin.passwordHash);
@@ -33,10 +37,11 @@ export async function loginAction(
     return { error: "Invalid email or password." };
   }
 
-  await createAdminSession({
+  await createSession({
     id: admin.id,
     name: admin.name,
     email: admin.email,
+    phone: admin.phone,
     role: admin.role,
   });
 
@@ -44,6 +49,6 @@ export async function loginAction(
 }
 
 export async function logoutAction() {
-  await destroyAdminSession();
+  await destroySession();
   redirect("/admin/login");
 }

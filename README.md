@@ -42,7 +42,9 @@ npm run dev                 # http://localhost:3000
 - **Phase 3** — multi-admin panel: secure login, roles (superadmin/staff), product, category, order and delivery-zone management, password change
 - **Phase 4** — production readiness: security headers, `/api/health`, Vercel region config and a [deployment guide](./DEPLOYMENT.md)
 
-**Admin panel:** `/admin` (redirects to `/admin/login` when signed out). The initial superadmin is created by `npm run seed` from `SUPERADMIN_EMAIL` / `SUPERADMIN_PASSWORD`. Superadmins can add unlimited staff or admin accounts at `/admin/admins`.
+**Customer accounts:** optional registration and login at `/register` and `/login`. Guests can still browse, check out and order on WhatsApp without an account. Sessions last 30 days on the same device.
+
+**Admin panel:** `/admin` (redirects to `/admin/login` when signed out). The initial superadmin is created by `npm run seed` from `SUPERADMIN_EMAIL` / `SUPERADMIN_PASSWORD`. Superadmins can add staff or promote an existing customer account at `/admin/admins`. Only the store owner (`OWNER_EMAIL`, default `tishtitoh@gmail.com`) can create another superadmin.
 
 ---
 
@@ -79,7 +81,7 @@ npm run dev                 # http://localhost:3000
 
 **Out of scope (v1):**
 - Multi-vendor marketplace, commissions, seller payouts
-- Customer accounts, wishlists, product reviews
+- Wishlists and product reviews
 - Automated WhatsApp Business API messaging
 - Advanced inventory/warehouse management
 
