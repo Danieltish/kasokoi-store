@@ -20,7 +20,7 @@ import {
 } from "@/lib/params";
 
 export const metadata: Metadata = {
-  title: "Products",
+  title: "Our products",
   description:
     "Browse phones, computers, networking, home essentials, solar, fashion, farm supplies and more in Kenya.",
 };
@@ -66,33 +66,17 @@ async function ProductsContent({
           Home
         </Link>
         <span aria-hidden="true">/</span>
-        <span className="text-foreground">Products</span>
+        <span className="text-foreground">Our products</span>
       </nav>
 
       <div className="mt-4">
         <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-          Products
+          Our products
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Browse by category or shop all products.
-        </p>
       </div>
 
-      <section className="mt-8">
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-              Product categories
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Choose a category to see the products inside it.
-            </p>
-          </div>
-          <span className="shrink-0 text-sm text-muted-foreground">
-            {categories.length} categories
-          </span>
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+      <section className="mt-6">
+        <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-6">
           {categories.map((category) => (
             <CategoryCard key={category.id} category={category} />
           ))}
