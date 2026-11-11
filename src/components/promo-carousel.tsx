@@ -41,36 +41,37 @@ export function PromoCarousel() {
       case 0:
         return (
           <span className="inline-flex items-center gap-2 sm:gap-3">
-            <LogoMark className="size-5 shrink-0 sm:size-6" />
-            <span className="text-[11px] font-bold tracking-[0.18em] text-white sm:text-sm">
+            <LogoMark className="size-6 shrink-0 sm:size-7" />
+            <span className="text-sm font-bold tracking-[0.22em] text-white sm:text-lg">
               KASOKOI
             </span>
-            <span className="h-4 w-px bg-white/25" />
-            <span className="rounded-full bg-accent-400/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-300 ring-1 ring-accent-400/40 sm:px-2.5 sm:text-xs">
+            <span className="h-5 w-px bg-white/25 sm:h-6" />
+            <span className="rounded-full bg-accent-400/15 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-accent-300 ring-1 ring-accent-400/40 sm:px-3 sm:text-sm">
               Black Friday
             </span>
           </span>
         );
       case 1:
         return (
-          <span className="inline-flex items-center gap-2 text-xs font-semibold sm:text-sm">
+          <span className="inline-flex items-center gap-2.5 text-base font-bold sm:text-xl">
             <span className="text-brand-400">Kila Kitu</span>
             <span className="text-white">Iko</span>
-            <span className="size-1.5 rounded-full bg-accent-400" />
+            <span className="size-2 rounded-full bg-accent-400" />
           </span>
         );
       case 2:
         return (
-          <span className="inline-flex items-center gap-2 text-xs font-semibold sm:text-sm">
-            <TruckIcon className="size-4 shrink-0 text-brand-400 sm:size-5" />
-            <span className="text-white">Door to door delivery</span>
-            <span className="text-accent-300">across Kenya</span>
+          <span className="inline-flex items-center gap-2.5 text-sm font-semibold sm:text-lg">
+            <TruckIcon className="size-5 shrink-0 text-brand-400 sm:size-6" />
+            <span className="whitespace-nowrap text-white">
+              Door to door delivery
+            </span>
           </span>
         );
       case 3:
         return (
-          <span className="inline-flex items-center gap-2 text-xs font-semibold sm:text-sm">
-            <ShieldCheckIcon className="size-4 shrink-0 text-accent-400 sm:size-5" />
+          <span className="inline-flex items-center gap-2.5 text-sm font-semibold sm:text-lg">
+            <ShieldCheckIcon className="size-5 shrink-0 text-accent-400 sm:size-6" />
             <span className="text-white">Lipa after</span>
             <span className="text-brand-400">umepata</span>
           </span>
@@ -83,16 +84,18 @@ export function PromoCarousel() {
             )}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold hover:underline sm:gap-2 sm:text-sm"
+            className="inline-flex items-center gap-2 hover:opacity-90 sm:gap-2.5"
           >
             <WhatsAppIcon className="size-4 shrink-0 text-[#25D366] sm:size-5" />
-            <span className="whitespace-nowrap text-white">
+            <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-wide text-white/70 sm:text-xs">
               Call/WhatsApp
             </span>
-            <span className="whitespace-nowrap font-bold text-accent-300">
+            <span className="whitespace-nowrap text-lg font-extrabold tracking-tight text-accent-300 sm:text-2xl">
               0717376964
             </span>
-            <span className="whitespace-nowrap text-white">to order</span>
+            <span className="whitespace-nowrap text-[11px] font-medium text-white/70 sm:text-xs">
+              to order
+            </span>
           </a>
         );
     }
@@ -109,35 +112,18 @@ export function PromoCarousel() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-16 top-1/2 size-40 -translate-y-1/2 rounded-full bg-brand-600/35 blur-3xl"
+        className="pointer-events-none absolute -left-16 top-1/2 size-48 -translate-y-1/2 rounded-full bg-brand-600/35 blur-3xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-16 top-1/2 size-40 -translate-y-1/2 rounded-full bg-accent-500/25 blur-3xl"
+        className="pointer-events-none absolute -right-16 top-1/2 size-48 -translate-y-1/2 rounded-full bg-accent-500/25 blur-3xl"
       />
 
       <div
         key={index}
-        className="relative z-10 mx-auto flex min-h-11 w-full max-w-6xl animate-[promo-slide_350ms_ease-out] items-center justify-center px-4 py-2 pr-14 text-center motion-reduce:animate-none sm:min-h-12 sm:px-6 sm:pr-20"
+        className="relative z-10 mx-auto flex min-h-14 w-full max-w-6xl animate-[promo-slide_350ms_ease-out] items-center justify-center px-4 py-2.5 text-center font-display motion-reduce:animate-none sm:min-h-16 sm:px-6 sm:py-3"
       >
         {slide()}
-      </div>
-
-      <div className="absolute right-3 top-1/2 z-20 flex -translate-y-1/2 items-center gap-1.5 sm:right-6">
-        {Array.from({ length: SLIDE_COUNT }).map((_, dotIndex) => (
-          <button
-            key={dotIndex}
-            type="button"
-            aria-label={`Show promotion ${dotIndex + 1}`}
-            aria-current={dotIndex === index ? "true" : undefined}
-            onClick={() => setIndex(dotIndex)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              dotIndex === index
-                ? "w-5 bg-accent-400"
-                : "w-1.5 bg-white/30 hover:bg-white/60"
-            }`}
-          />
-        ))}
       </div>
 
       <div
