@@ -19,6 +19,8 @@ function slugify(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+const MAX_INT = 2_147_483_647;
+
 function parsePrice(value: FormDataEntryValue | null) {
   if (value === null || String(value).trim() === "") {
     return null;
@@ -26,7 +28,9 @@ function parsePrice(value: FormDataEntryValue | null) {
 
   const parsed = Math.round(Number(value));
 
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+  return Number.isFinite(parsed) && parsed > 0 && parsed <= MAX_INT
+    ? parsed
+    : null;
 }
 
 function revalidateServices() {

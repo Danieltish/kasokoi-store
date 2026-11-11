@@ -28,12 +28,19 @@ export function parseSort(value: string | undefined): ProductSort {
   return PRODUCT_SORTS.find((sort) => sort === value) ?? "newest";
 }
 
+const MAX_PRICE_KES = 2_147_483_647;
+
 export function parseMaxPrice(value: string | undefined) {
   if (!value) {
     return undefined;
   }
 
-  const parsed = Number(value);
+  const parsed = Math.floor(Number(value));
 
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return undefined;
+  }
+
+  // Keep the value inside PostgreSQL's 32-bit integer range.
+  return Math.min(parsed, MAX_PRICE_KES);
 }
