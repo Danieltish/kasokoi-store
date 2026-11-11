@@ -14,6 +14,7 @@ import {
   getProducts,
   getRelatedProducts,
 } from "@/lib/catalog";
+import { serializeJsonLd } from "@/lib/json-ld";
 import { SITE } from "@/lib/site";
 
 const conditionLabels = {
@@ -128,7 +129,7 @@ async function ProductContent({
     <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
       <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
