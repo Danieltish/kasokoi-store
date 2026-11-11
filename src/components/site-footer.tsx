@@ -2,9 +2,9 @@ import Link from "next/link";
 
 import { getTopLevelCategories } from "@/lib/catalog";
 import { getServiceCategories } from "@/lib/services";
-import { SITE, whatsappUrl } from "@/lib/site";
+import { callUrl, SITE, whatsappUrl } from "@/lib/site";
 
-import { WhatsAppIcon } from "./icons";
+import { PhoneIcon, WhatsAppIcon } from "./icons";
 import { Logo, LogoMark } from "./logo";
 
 export async function SiteFooter() {
@@ -30,6 +30,13 @@ export async function SiteFooter() {
           >
             <WhatsAppIcon className="size-4 text-whatsapp" />
             {SITE.whatsappDisplay}
+          </a>
+          <a
+            href={callUrl()}
+            className="mt-2 flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary"
+          >
+            <PhoneIcon className="size-4 text-primary" />
+            Call {SITE.whatsappDisplay}
           </a>
         </div>
 

@@ -3,11 +3,11 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { WhatsAppIcon } from "@/components/icons";
+import { PhoneIcon, WhatsAppIcon } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
 import { displayKenyanPhone } from "@/lib/phone";
 import { prisma } from "@/lib/prisma";
-import { formatKes, SITE, whatsappUrl } from "@/lib/site";
+import { callUrl, formatKes, SITE, whatsappUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Order confirmation",
@@ -85,9 +85,10 @@ export default async function OrderPage({
       order.deliveryFeeKes === 0 ? "Free" : formatKes(order.deliveryFeeKes)
     }${order.deliveryZone ? ` (${order.deliveryZone.name})` : ""}`,
     `Total: ${formatKes(order.totalKes)}`,
-    `Payment: M-Pesa Buy Goods Till ${SITE.mpesaTill}`,
     "",
-    `Name: ${order.customerName}`,
+    order.customerName.trim().toLowerCase() === "superadmin"
+      ? ""
+      : `Name: ${order.customerName}`,
     `Phone: ${displayKenyanPhone(order.phone)}`,
     order.county ? `Delivery: ${order.county}` : "",
     order.address ? `Address: ${order.address}` : "",
@@ -111,13 +112,22 @@ export default async function OrderPage({
         delivery and payment.
       </p>
 
-      <a
-        href={whatsappUrl(message)}
-        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:w-auto"
-      >
-        <WhatsAppIcon className="size-5" />
-        Send order on WhatsApp
-      </a>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <a
+          href={whatsappUrl(message)}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition-opacity hover:opacity-90 sm:w-auto"
+        >
+          <WhatsAppIcon className="size-5" />
+          Send order on WhatsApp
+        </a>
+        <a
+          href={callUrl()}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-5 py-3 text-sm font-semibold hover:bg-muted sm:w-auto"
+        >
+          <PhoneIcon className="size-5" />
+          Call to order
+        </a>
+      </div>
 
       <div className="mt-6 rounded-xl border border-border bg-card p-5 text-sm">
         <h2 className="font-semibold">Pay via M-Pesa</h2>

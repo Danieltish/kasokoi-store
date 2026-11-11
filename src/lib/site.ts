@@ -29,6 +29,10 @@ export function whatsappUrl(message?: string) {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
+export function callUrl() {
+  return `tel:+${SITE.whatsappNumber}`;
+}
+
 export function formatKes(amount: number) {
   return new Intl.NumberFormat("en-KE", {
     style: "currency",

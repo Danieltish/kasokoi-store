@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, type FormEvent } from "react";
 
 import { useCart } from "@/components/cart-provider";
+import { PhoneIcon } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
 import type { DeliveryZoneOption } from "@/lib/delivery";
 import { deliveryFeeFor } from "@/lib/pricing";
 import { normalizeKenyanPhone } from "@/lib/phone";
-import { formatKes, SITE } from "@/lib/site";
+import { callUrl, formatKes, SITE } from "@/lib/site";
 
 const fieldClass =
   "h-11 w-full rounded-lg border border-border bg-card px-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm";
@@ -389,6 +390,13 @@ export function CheckoutForm({
         >
           {submitting ? "Placing order…" : "Place order on WhatsApp"}
         </button>
+        <a
+          href={callUrl()}
+          className="mt-3 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+        >
+          <PhoneIcon className="size-4" />
+          Call {SITE.whatsappDisplay} to order
+        </a>
         <p className="mt-2 text-xs text-muted-foreground">
           Place your order, then pay via the M-Pesa till above and send the
           confirmation on WhatsApp. No payment is taken on this site.

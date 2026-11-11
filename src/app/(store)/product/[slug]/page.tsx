@@ -5,6 +5,7 @@ import { Suspense } from "react";
 
 import { ProductSkeleton } from "@/components/catalog-skeleton";
 import { AddToCartButton } from "@/components/add-to-cart-button";
+import { PhoneIcon } from "@/components/icons";
 import { Price } from "@/components/price";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductGrid } from "@/components/product-grid";
@@ -15,7 +16,7 @@ import {
   getRelatedProducts,
 } from "@/lib/catalog";
 import { serializeJsonLd } from "@/lib/json-ld";
-import { SITE } from "@/lib/site";
+import { callUrl, SITE } from "@/lib/site";
 
 const conditionLabels = {
   NEW: "New",
@@ -203,6 +204,13 @@ async function ProductContent({
               priceKes={product.priceKes}
               inStock={product.stock > 0}
             />
+            <a
+              href={callUrl()}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border px-5 py-3 text-sm font-semibold hover:bg-muted sm:w-auto"
+            >
+              <PhoneIcon className="size-5" />
+              Call to order
+            </a>
             <Link
               href={`/category/${product.category.slug}`}
               className="inline-flex w-full items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold hover:bg-muted sm:w-auto"

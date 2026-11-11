@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 
 import {
+  PhoneIcon,
   ShieldCheckIcon,
   TruckIcon,
   WhatsAppIcon,
 } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
-import { whatsappUrl } from "@/lib/site";
+import { callUrl, whatsappUrl } from "@/lib/site";
 
 const SLIDE_COUNT = 5;
 const ROTATE_MS = 2000;
@@ -78,25 +79,39 @@ export function PromoCarousel() {
         );
       default:
         return (
-          <a
-            href={whatsappUrl(
-              "Hi Kasokoi Store, I would like to place an order.",
-            )}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 hover:opacity-90 sm:gap-2.5"
-          >
-            <WhatsAppIcon className="size-4 shrink-0 text-[#25D366] sm:size-5" />
-            <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-wide text-white/70 sm:text-xs">
-              Call/WhatsApp
+          <span className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
+            <a
+              href={callUrl()}
+              className="inline-flex items-center gap-1.5 hover:opacity-90 sm:gap-2"
+            >
+              <PhoneIcon className="size-4 shrink-0 text-brand-400 sm:size-5" />
+              <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-wide text-white/70 sm:text-xs">
+                Call
+              </span>
+              <span className="whitespace-nowrap text-lg font-extrabold tracking-tight text-accent-300 sm:text-2xl">
+                0717376964
+              </span>
+            </a>
+            <span className="text-[11px] font-medium text-white/40 sm:text-xs">
+              or
             </span>
-            <span className="whitespace-nowrap text-lg font-extrabold tracking-tight text-accent-300 sm:text-2xl">
-              0717376964
-            </span>
-            <span className="whitespace-nowrap text-[11px] font-medium text-white/70 sm:text-xs">
-              to order
-            </span>
-          </a>
+            <a
+              href={whatsappUrl(
+                "Hi Kasokoi Store, I would like to place an order.",
+              )}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 hover:opacity-90 sm:gap-2"
+            >
+              <WhatsAppIcon className="size-4 shrink-0 text-[#25D366] sm:size-5" />
+              <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-wide text-white/70 sm:text-xs">
+                WhatsApp
+              </span>
+              <span className="whitespace-nowrap text-[11px] font-medium text-white/70 sm:text-xs">
+                to order
+              </span>
+            </a>
+          </span>
         );
     }
   }

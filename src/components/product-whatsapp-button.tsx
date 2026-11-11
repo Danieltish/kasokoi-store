@@ -27,18 +27,32 @@ function buildMessage(
   customer: Customer | null,
 ) {
   const productUrl = `${origin}/product/${product.slug}`;
+  const customerName =
+    customer && customer.name.trim().toLowerCase() !== "superadmin"
+      ? customer.name
+      : null;
 
-  return [
+  const lines = [
     `Hi ${SITE.name}, I'd like to order:`,
     "",
     `${product.name} (${product.brand})`,
     `Price: ${formatKes(product.priceKes)}`,
     `Link: ${productUrl}`,
-    "",
-    ...(customer ? [`Name: ${customer.name}`] : []),
-    ...(customer?.phone ? [`Phone: ${customer.phone}`] : []),
-    `Payment: M-Pesa Buy Goods Till ${SITE.mpesaTill}`,
-  ].join("\n");
+  ];
+
+  if (customerName || customer?.phone) {
+    lines.push("");
+
+    if (customerName) {
+      lines.push(`Name: ${customerName}`);
+    }
+
+    if (customer?.phone) {
+      lines.push(`Phone: ${customer.phone}`);
+    }
+  }
+
+  return lines.join("\n");
 }
 
 export function ProductWhatsAppButton(product: ProductWhatsAppButtonProps) {

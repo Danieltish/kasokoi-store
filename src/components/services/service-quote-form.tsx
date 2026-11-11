@@ -84,6 +84,8 @@ export function ServiceQuoteForm({
     const price = priceFromKes
       ? `From ${formatKes(priceFromKes)}`
       : (priceNote ?? "Request a quote");
+    const displayName =
+      name.trim().toLowerCase() === "superadmin" ? "" : `Name: ${name}`;
 
     const message = [
       `Hi ${SITE.name}, I would like a quote for:`,
@@ -93,7 +95,7 @@ export function ServiceQuoteForm({
       `Price: ${price}`,
       `Link: ${origin}/services/${categorySlug}/${serviceSlug}`,
       "",
-      `Name: ${name}`,
+      displayName,
       `Phone: ${phone}`,
       `Location: ${location}`,
       preferred ? `Preferred date/time: ${preferred}` : "",
