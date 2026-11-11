@@ -19,7 +19,7 @@ import { SITE } from "@/lib/site";
 const conditionLabels = {
   NEW: "New",
   REFURBISHED: "Refurbished",
-  USED: "Used",
+  USED: "Second hand",
 } as const;
 
 const schemaConditions = {
@@ -161,9 +161,6 @@ async function ProductContent({
               compareAtKes={product.compareAtPriceKes}
               size="lg"
             />
-            <span className="rounded-full border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground">
-              {conditionLabels[product.condition]}
-            </span>
             <span
               className={
                 product.stock > 0
@@ -178,6 +175,13 @@ async function ProductContent({
           </div>
 
           <p className="mt-4 text-muted-foreground">{product.description}</p>
+
+          <div className="mt-4 inline-flex flex-wrap items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm">
+            <span className="text-muted-foreground">Condition:</span>
+            <span className="font-medium">
+              {conditionLabels[product.condition]}
+            </span>
+          </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <AddToCartButton

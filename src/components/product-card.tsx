@@ -5,12 +5,6 @@ import type { ProductSummary } from "@/lib/catalog";
 
 import { Price } from "./price";
 
-const conditionLabels: Record<ProductSummary["condition"], string> = {
-  NEW: "New",
-  REFURBISHED: "Refurbished",
-  USED: "Used",
-};
-
 export function ProductCard({ product }: { product: ProductSummary }) {
   return (
     <Link
@@ -26,11 +20,6 @@ export function ProductCard({ product }: { product: ProductSummary }) {
             sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
             className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />
-        ) : null}
-        {product.condition !== "NEW" ? (
-          <span className="absolute left-3 top-3 rounded-full bg-accent px-2.5 py-1 text-xs font-semibold text-accent-foreground">
-            {conditionLabels[product.condition]}
-          </span>
         ) : null}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3 sm:p-4">
