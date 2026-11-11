@@ -12,23 +12,12 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
-  ExpandIcon,
-  GripIcon,
 } from "@/components/icons";
 
 type GalleryImage = {
   url: string;
   alt: string | null;
 };
-
-type Position = {
-  x: number;
-  y: number;
-};
-
-function clampPercentage(value: number) {
-  return Math.min(100, Math.max(0, value));
-}
 
 export function ProductGallery({
   images,
@@ -39,16 +28,8 @@ export function ProductGallery({
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const [position, setPosition] = useState<Position>({ x: 50, y: 50 });
   const active = images[activeIndex] ?? images[0];
-  const drag = useRef<{
-    startX: number;
-    startY: number;
-    posX: number;
-    posY: number;
-    moved: boolean;
-  } | null>(null);
-  const hasDragged = useRef(false);
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -81,67 +62,6 @@ export function ProductGallery({
     };
   }, [isOpen, images.length]);
 
-  function handlePointerDown(event: ReactPointerEvent<HTMLButtonElement>) {
-    if (event.pointerType === "touch") {
-      return;
-    }
-
-    hasDragged.current = false;
-    drag.current = {
-      startX: event.clientX,
-      startY: event.clientY,
-      posX: position.x,
-      posY: position.y,
-      moved: false,
-    };
-    event.currentTarget.setPointerCapture(event.pointerId);
-  }
-
-  function handlePointerMove(event: ReactPointerEvent<HTMLButtonElement>) {
-    const state = drag.current;
-
-    if (!state) {
-      return;
-    }
-
-    const dx = event.clientX - state.startX;
-    const dy = event.clientY - state.startY;
-
-    if (!state.moved && Math.hypot(dx, dy) > 4) {
-      state.moved = true;
-      hasDragged.current = true;
-    }
-
-    if (!state.moved) {
-      return;
-    }
-
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    setPosition({
-      x: clampPercentage(state.posX - (dx / rect.width) * 100),
-      y: clampPercentage(state.posY - (dy / rect.height) * 100),
-    });
-  }
-
-  function handlePointerUp() {
-    drag.current = null;
-    window.setTimeout(() => {
-      hasDragged.current = false;
-    }, 0);
-  }
-
-  function handleImageClick() {
-    if (hasDragged.current) {
-      hasDragged.current = false;
-      return;
-    }
-
-    if (active) {
-      setIsOpen(true);
-    }
-  }
-
   function showPrevious() {
     setActiveIndex((index) => (index - 1 + images.length) % images.length);
   }
@@ -150,47 +70,60 @@ export function ProductGallery({
     setActiveIndex((index) => (index + 1) % images.length);
   }
 
+  function handleSwipeStart(event: ReactPointerEvent<HTMLDivElement>) {
+    swipeStart.current = { x: event.clientX, y: event.clientY };
+  }
+
+  function handleSwipeEnd(event: ReactPointerEvent<HTMLDivElement>) {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+
+    if (!start || images.length < 2) {
+      return;
+    }
+
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) {
+      return;
+    }
+
+    if (dx < 0) {
+      showNext();
+    } else {
+      showPrevious();
+    }
+  }
+
   return (
     <div>
       <button
         type="button"
-        onClick={handleImageClick}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onClick={() => {
+          if (active) {
+            setIsOpen(true);
+          }
+        }}
         aria-label="View full-size image"
-        className="group relative block aspect-[4/3] w-full touch-pan-y select-none overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-square sm:cursor-grab sm:touch-none sm:active:cursor-grabbing lg:aspect-[4/3] lg:max-h-[calc(100vh-10rem)]"
+        className="group relative block aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-square lg:aspect-[4/3] lg:max-h-[calc(100vh-10rem)]"
       >
         {active ? (
-          <Image draggable={false}
+          <Image
+            draggable={false}
             src={active.url}
             alt={active.alt ?? name}
             fill
             priority
             quality={90}
             sizes="(min-width: 1024px) 600px, 100vw"
-            style={{ objectPosition: `${position.x}% ${position.y}%` }}
-            className="object-cover"
+            className="object-contain p-2 sm:p-4"
           />
         ) : (
           <span className="flex size-full items-center justify-center text-sm text-muted-foreground">
             No image yet
           </span>
         )}
-
-        {active ? (
-          <>
-            <span className="pointer-events-none absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm sm:hidden">
-              <ExpandIcon className="size-3.5" />
-              Tap to enlarge
-            </span>
-            <span className="pointer-events-none absolute bottom-3 left-3 hidden items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm sm:inline-flex">
-              <GripIcon className="size-3.5" />
-              Drag to move
-            </span>
-          </>
-        ) : null}
 
         {images.length > 1 ? (
           <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
@@ -205,10 +138,7 @@ export function ProductGallery({
             <li key={`${image.url}-${index}`} className="shrink-0">
               <button
                 type="button"
-                onClick={() => {
-                  setActiveIndex(index);
-                  setPosition({ x: 50, y: 50 });
-                }}
+                onClick={() => setActiveIndex(index)}
                 aria-label={`View image ${index + 1} of ${images.length}`}
                 aria-pressed={index === activeIndex}
                 className={`relative size-20 overflow-hidden rounded-lg border bg-muted transition sm:size-24 ${
@@ -255,9 +185,15 @@ export function ProductGallery({
 
           <div
             onClick={(event) => event.stopPropagation()}
-            className="relative min-h-0 flex-1"
+            onPointerDown={handleSwipeStart}
+            onPointerUp={handleSwipeEnd}
+            onPointerCancel={() => {
+              swipeStart.current = null;
+            }}
+            className="relative min-h-0 flex-1 touch-none select-none"
           >
-            <Image draggable={false}
+            <Image
+              draggable={false}
               src={active.url}
               alt={active.alt ?? name}
               fill
@@ -272,17 +208,17 @@ export function ProductGallery({
                   type="button"
                   onClick={showPrevious}
                   aria-label="Previous image"
-                  className="absolute left-3 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+                  className="absolute left-3 top-1/2 inline-flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white shadow-lg backdrop-blur-sm hover:bg-white/25"
                 >
-                  <ChevronLeftIcon className="size-6" />
+                  <ChevronLeftIcon className="size-7" />
                 </button>
                 <button
                   type="button"
                   onClick={showNext}
                   aria-label="Next image"
-                  className="absolute right-3 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+                  className="absolute right-3 top-1/2 inline-flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white shadow-lg backdrop-blur-sm hover:bg-white/25"
                 >
-                  <ChevronRightIcon className="size-6" />
+                  <ChevronRightIcon className="size-7" />
                 </button>
               </>
             ) : null}
