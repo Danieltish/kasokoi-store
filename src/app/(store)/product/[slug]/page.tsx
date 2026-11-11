@@ -20,12 +20,14 @@ const conditionLabels = {
   NEW: "New",
   REFURBISHED: "Refurbished",
   USED: "Second hand",
+  EX_UK: "Ex UK",
 } as const;
 
 const schemaConditions = {
   NEW: "https://schema.org/NewCondition",
   REFURBISHED: "https://schema.org/RefurbishedCondition",
   USED: "https://schema.org/UsedCondition",
+  EX_UK: "https://schema.org/UsedCondition",
 } as const;
 
 export async function generateStaticParams() {

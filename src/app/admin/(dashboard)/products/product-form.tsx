@@ -120,6 +120,7 @@ export function ProductForm({
               <option value="NEW">New</option>
               <option value="REFURBISHED">Refurbished</option>
               <option value="USED">Second hand</option>
+              <option value="EX_UK">Ex UK</option>
             </select>
           </label>
           <label className={labelClass}>

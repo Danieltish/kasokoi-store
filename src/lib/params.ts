@@ -2,7 +2,12 @@ export function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export const PRODUCT_CONDITIONS = ["NEW", "REFURBISHED", "USED"] as const;
+export const PRODUCT_CONDITIONS = [
+  "NEW",
+  "REFURBISHED",
+  "USED",
+  "EX_UK",
+] as const;
 export const PRODUCT_SORTS = [
   "newest",
   "price-asc",

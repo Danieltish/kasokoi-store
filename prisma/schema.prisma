@@ -16,6 +16,7 @@ enum ProductCondition {
   NEW
   REFURBISHED
   USED
+  EX_UK
 }
 
 enum OrderStatus {

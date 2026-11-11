@@ -12,6 +12,7 @@ const conditions = [
   { value: "NEW", label: "New" },
   { value: "REFURBISHED", label: "Refurbished" },
   { value: "USED", label: "Second hand" },
+  { value: "EX_UK", label: "Ex UK" },
 ];
 
 const sorts = [

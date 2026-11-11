@@ -92,8 +92,12 @@ export async function saveProductAction(
   const stock = Math.max(0, Math.round(Number(formData.get("stock") ?? 0)));
 
   const condition = (
-    [ProductCondition.NEW, ProductCondition.REFURBISHED, ProductCondition.USED]
-      .find((value) => value === conditionValue) ?? ProductCondition.NEW
+    [
+      ProductCondition.NEW,
+      ProductCondition.REFURBISHED,
+      ProductCondition.USED,
+      ProductCondition.EX_UK,
+    ].find((value) => value === conditionValue) ?? ProductCondition.NEW
   ) as ProductCondition;
 
   if (name.length < 2) {
