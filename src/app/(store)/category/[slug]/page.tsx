@@ -17,6 +17,7 @@ import {
   parseCondition,
   parseMaxPrice,
   parseSort,
+  parseTextFilter,
 } from "@/lib/params";
 
 type Params = Promise<{ slug: string }>;
@@ -79,7 +80,7 @@ async function CategoryContent({
   }
 
   const query = await searchParams;
-  const brand = first(query.brand) || undefined;
+  const brand = parseTextFilter(first(query.brand));
   const condition = parseCondition(first(query.condition));
   const maxPrice = parseMaxPrice(first(query.maxPrice));
   const sort = parseSort(first(query.sort));
@@ -124,7 +125,7 @@ async function CategoryContent({
           values={{
             brand,
             condition: first(query.condition),
-            maxPrice: first(query.maxPrice),
+            maxPrice: maxPrice ? String(maxPrice) : undefined,
             sort,
           }}
         />

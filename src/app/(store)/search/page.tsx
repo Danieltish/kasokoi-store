@@ -12,6 +12,7 @@ import {
   parseCondition,
   parseMaxPrice,
   parseSort,
+  parseTextFilter,
 } from "@/lib/params";
 
 export const metadata: Metadata = {
@@ -41,8 +42,8 @@ async function SearchContent({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  const q = first(params.q)?.trim() ?? "";
-  const brand = first(params.brand) || undefined;
+  const q = parseTextFilter(first(params.q)) ?? "";
+  const brand = parseTextFilter(first(params.brand));
   const condition = parseCondition(first(params.condition));
   const maxPrice = parseMaxPrice(first(params.maxPrice));
   const sort = parseSort(first(params.sort));
@@ -72,7 +73,7 @@ async function SearchContent({
               values={{
                 brand,
                 condition: first(params.condition),
-                maxPrice: first(params.maxPrice),
+                maxPrice: maxPrice ? String(maxPrice) : undefined,
                 sort,
                 q,
               }}

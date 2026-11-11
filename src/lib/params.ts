@@ -28,7 +28,17 @@ export function parseSort(value: string | undefined): ProductSort {
   return PRODUCT_SORTS.find((sort) => sort === value) ?? "newest";
 }
 
-const MAX_PRICE_KES = 2_147_483_647;
+export const MAX_PRICE_KES = 2_147_483_647;
+
+export function parseTextFilter(value: string | undefined, maxLength = 80) {
+  const trimmed = value?.trim();
+
+  if (!trimmed) {
+    return undefined;
+  }
+
+  return trimmed.slice(0, maxLength);
+}
 
 export function parseMaxPrice(value: string | undefined) {
   if (!value) {

@@ -38,6 +38,7 @@ export async function SiteHeader() {
             <input
               type="search"
               name="q"
+              maxLength={80}
               placeholder="Search products"
               aria-label="Search products"
               className="h-10 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30 sm:text-sm"
@@ -66,6 +67,7 @@ export async function SiteHeader() {
           <input
             type="search"
             name="q"
+            maxLength={80}
             placeholder="Search products"
             aria-label="Search products"
             className="h-11 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-ring/30"

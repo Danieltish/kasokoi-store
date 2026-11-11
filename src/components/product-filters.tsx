@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { MAX_PRICE_KES } from "@/lib/params";
+
 export type ProductFilterValues = {
   brand?: string;
   condition?: string;
@@ -86,6 +88,7 @@ export function ProductFilters({
           type="number"
           name="maxPrice"
           min={0}
+          max={MAX_PRICE_KES}
           step={100}
           inputMode="numeric"
           defaultValue={values.maxPrice ?? ""}

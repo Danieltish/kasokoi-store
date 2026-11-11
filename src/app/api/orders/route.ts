@@ -26,6 +26,7 @@ const orderSchema = z.object({
     .max(50),
 });
 
+const MAX_INT = 2_147_483_647;
 const ORDER_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 function generateOrderNumber() {
@@ -137,12 +138,21 @@ export async function POST(request: Request) {
       );
     }
 
+    const lineTotalKes = product.priceKes * quantity;
+
+    if (lineTotalKes > MAX_INT) {
+      return NextResponse.json(
+        { error: "Order total is too large. Please contact us on WhatsApp." },
+        { status: 400 },
+      );
+    }
+
     orderItems.push({
       productId: product.id,
       name: product.name,
       unitPriceKes: product.priceKes,
       quantity,
-      lineTotalKes: product.priceKes * quantity,
+      lineTotalKes,
     });
   }
 
@@ -168,8 +178,23 @@ export async function POST(request: Request) {
     (total, item) => total + item.lineTotalKes,
     0,
   );
+
+  if (subtotalKes > MAX_INT) {
+    return NextResponse.json(
+      { error: "Order total is too large. Please contact us on WhatsApp." },
+      { status: 400 },
+    );
+  }
+
   const deliveryFeeKes = deliveryFeeFor(zone, subtotalKes);
   const totalKes = subtotalKes + deliveryFeeKes;
+
+  if (totalKes > MAX_INT) {
+    return NextResponse.json(
+      { error: "Order total is too large. Please contact us on WhatsApp." },
+      { status: 400 },
+    );
+  }
 
   for (let attempt = 0; attempt < 5; attempt += 1) {
     try {
