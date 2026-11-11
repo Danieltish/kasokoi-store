@@ -17,8 +17,8 @@ export const instant = false;
 export default async function AdminLoginPage() {
   const session = await getSessionUser();
 
-  if (session && isAdminRole(session.role)) {
-    redirect("/admin");
+  if (session) {
+    redirect(isAdminRole(session.role) ? "/admin" : "/account");
   }
 
   return (
@@ -32,16 +32,6 @@ export default async function AdminLoginPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             Manage products, orders and delivery.
           </p>
-          {session ? (
-            <p className="mt-4 rounded-lg border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
-              You are signed in as a customer. Use an admin account to manage
-              the store, or{" "}
-              <Link href="/account" className="font-medium text-primary hover:underline">
-                go to your account
-              </Link>
-              .
-            </p>
-          ) : null}
           <div className="mt-6">
             <LoginForm />
           </div>
