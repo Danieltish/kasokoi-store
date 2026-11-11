@@ -28,6 +28,7 @@ export default async function Home() {
       <div className="mt-6">
         <ProductGrid
           products={products}
+          variant="featured"
           emptyMessage="No products yet — check back soon."
         />
       </div>

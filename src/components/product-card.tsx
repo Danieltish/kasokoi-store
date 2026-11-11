@@ -5,19 +5,34 @@ import type { ProductSummary } from "@/lib/catalog";
 
 import { Price } from "./price";
 
-export function ProductCard({ product }: { product: ProductSummary }) {
+export function ProductCard({
+  product,
+  variant = "default",
+}: {
+  product: ProductSummary;
+  variant?: "default" | "featured";
+}) {
+  const featured = variant === "featured";
   return (
     <Link
       href={`/product/${product.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-md"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <div
+        className={`relative overflow-hidden bg-muted ${
+          featured ? "aspect-square" : "aspect-[4/3]"
+        }`}
+      >
         {product.image ? (
           <Image draggable={false}
             src={product.image}
             alt={product.name}
             fill
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
+            sizes={
+              featured
+                ? "(min-width: 1024px) 33vw, 50vw"
+                : "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
+            }
             className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />
         ) : null}
