@@ -1,5 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
 
+import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export const SERVICE_TAGS = {
@@ -28,6 +29,25 @@ export type ServiceSummary = {
   coverage: string | null;
   image: string | null;
 };
+
+type ServiceWithCategory = Prisma.ServiceGetPayload<{
+  include: { category: { select: { slug: true; name: true } } };
+}>;
+
+function toServiceSummary(row: ServiceWithCategory): ServiceSummary {
+  return {
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    category: row.category,
+    description: row.description,
+    priceFromKes: row.priceFromKes,
+    priceNote: row.priceNote,
+    duration: row.duration,
+    coverage: row.coverage,
+    image: row.image,
+  };
+}
 
 export async function getServiceCategories(): Promise<
   ServiceCategorySummary[]
@@ -111,18 +131,7 @@ export async function getServices(categorySlug?: string): Promise<
     },
   });
 
-  return rows.map((row) => ({
-    id: row.id,
-    name: row.name,
-    slug: row.slug,
-    category: row.category,
-    description: row.description,
-    priceFromKes: row.priceFromKes,
-    priceNote: row.priceNote,
-    duration: row.duration,
-    coverage: row.coverage,
-    image: row.image,
-  }));
+  return rows.map(toServiceSummary);
 }
 
 export async function getServiceBySlug(
@@ -148,18 +157,64 @@ export async function getServiceBySlug(
     return null;
   }
 
-  return {
-    id: row.id,
-    name: row.name,
-    slug: row.slug,
-    category: row.category,
-    description: row.description,
-    priceFromKes: row.priceFromKes,
-    priceNote: row.priceNote,
-    duration: row.duration,
-    coverage: row.coverage,
-    image: row.image,
-  };
+  return toServiceSummary(row);
+}
+
+export async function getFeaturedServices(
+  limit = 6,
+): Promise<ServiceSummary[]> {
+  "use cache";
+  cacheTag(SERVICE_TAGS.services);
+  cacheLife("hours");
+
+  const rows = await prisma.service.findMany({
+    where: { isActive: true, category: { isActive: true } },
+    orderBy: [
+      { category: { position: "asc" } },
+      { position: "asc" },
+      { name: "asc" },
+    ],
+    include: {
+      category: { select: { slug: true, name: true } },
+    },
+  });
+
+  const groups = new Map<string, ServiceSummary[]>();
+
+  for (const row of rows) {
+    const summary = toServiceSummary(row);
+    const group = groups.get(summary.category.slug) ?? [];
+    group.push(summary);
+    groups.set(summary.category.slug, group);
+  }
+
+  const featured: ServiceSummary[] = [];
+  let round = 0;
+
+  while (featured.length < limit) {
+    let added = false;
+
+    for (const group of groups.values()) {
+      const item = group[round];
+
+      if (item) {
+        featured.push(item);
+        added = true;
+
+        if (featured.length >= limit) {
+          break;
+        }
+      }
+    }
+
+    if (!added) {
+      break;
+    }
+
+    round += 1;
+  }
+
+  return featured;
 }
 
 export async function getRelatedServices(
@@ -184,16 +239,5 @@ export async function getRelatedServices(
     },
   });
 
-  return rows.map((row) => ({
-    id: row.id,
-    name: row.name,
-    slug: row.slug,
-    category: row.category,
-    description: row.description,
-    priceFromKes: row.priceFromKes,
-    priceNote: row.priceNote,
-    duration: row.duration,
-    coverage: row.coverage,
-    image: row.image,
-  }));
+  return rows.map(toServiceSummary);
 }
