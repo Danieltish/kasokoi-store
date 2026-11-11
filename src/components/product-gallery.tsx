@@ -106,7 +106,7 @@ export function ProductGallery({
           }
         }}
         aria-label="View full-size image"
-        className="group relative block aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border bg-muted sm:aspect-square lg:aspect-[4/3] lg:max-h-[calc(100vh-10rem)]"
+        className="group relative block aspect-square w-full overflow-hidden rounded-2xl border border-border bg-muted lg:max-h-[calc(100vh-10rem)]"
       >
         {active ? (
           <Image
