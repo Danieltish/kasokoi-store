@@ -7,10 +7,24 @@ export type BroadCategory = {
 
 export const BROAD_CATEGORIES: BroadCategory[] = [
   {
-    slug: "phones-electronics",
-    name: "Phones & Electronics",
+    slug: "phones-tablets",
+    name: "Phones & Tablets",
     description:
-      "Phones, tablets, computers, TVs, audio, cameras and everyday electronics.",
+      "Smartphones, tablets, chargers, cases, power banks and mobile accessories.",
+    image: null,
+  },
+  {
+    slug: "computers-accessories",
+    name: "Computers & Accessories",
+    description:
+      "Laptops, desktops, monitors, printers, storage and computer accessories.",
+    image: null,
+  },
+  {
+    slug: "tv-audio-cameras",
+    name: "TV, Audio & Cameras",
+    description:
+      "TVs, soundbars, speakers, cameras and home entertainment.",
     image: null,
   },
   {
@@ -35,11 +49,25 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
     image: null,
   },
   {
-    slug: "fashion-beauty-health",
-    name: "Fashion, Beauty & Health",
+    slug: "fashion-accessories",
+    name: "Fashion & Accessories",
     description:
-      "Clothing, shoes, bags, watches, beauty, personal care and wellness.",
+      "Clothing, shoes, bags, watches, sunglasses and everyday accessories.",
+    image: null,
+  },
+  {
+    slug: "beauty-personal-care",
+    name: "Beauty & Personal Care",
+    description:
+      "Skincare, haircare, wigs, makeup, grooming and personal care devices.",
     image: "/products/beauty.svg",
+  },
+  {
+    slug: "health-wellness",
+    name: "Health & Wellness",
+    description:
+      "Supplements, massagers, thermometers, first aid and fitness equipment.",
+    image: null,
   },
   {
     slug: "baby-kids",
@@ -81,22 +109,29 @@ export const BROAD_CATEGORIES: BroadCategory[] = [
 export const CATEGORY_ORDER = BROAD_CATEGORIES.map((category) => category.slug);
 
 export const LEGACY_CATEGORY_MAP: Record<string, string> = {
+  "phones-electronics": "phones-tablets",
+  "fashion-beauty-health": "fashion-accessories",
   "networking-equipment": "networking-security",
   "wifi-tools-testers": "networking-security",
   "voip-pbx-systems": "networking-security",
-  "beauty-electronics": "fashion-beauty-health",
-  laptops: "phones-electronics",
-  "phones-tablets": "phones-electronics",
-  "computers-accessories": "phones-electronics",
-  "tv-audio-cameras": "phones-electronics",
+  "beauty-electronics": "beauty-personal-care",
+  laptops: "computers-accessories",
   "home-appliances": "home-kitchen",
   "home-furniture-decor": "home-kitchen",
   "groceries-household": "home-kitchen",
-  "fashion-accessories": "fashion-beauty-health",
-  "beauty-personal-care": "fashion-beauty-health",
-  "health-wellness": "fashion-beauty-health",
   "agriculture-farm-produce": "farm-livestock",
   "livestock-animal-care": "farm-livestock",
   "building-tools-hardware": "building-auto",
   "automotive-motorbike": "building-auto",
+};
+
+export const PRODUCT_CATEGORY_OVERRIDES: Record<string, string> = {
+  "hp-elite-book-840-g3": "computers-accessories",
+  "hp-elitebook-830-g5-8th-gen-core-i5-8gb-ram-256gb-ssd":
+    "computers-accessories",
+  "hp-probook-650-g4": "computers-accessories",
+  "dyson-supersonic": "beauty-personal-care",
+  "led-facial-mask": "beauty-personal-care",
+  "philips-hp8320-straightener": "beauty-personal-care",
+  "massage-gun-pro": "health-wellness",
 };

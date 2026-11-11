@@ -6,6 +6,7 @@ import { PrismaClient } from "../src/generated/prisma/client";
 import {
   BROAD_CATEGORIES,
   LEGACY_CATEGORY_MAP,
+  PRODUCT_CATEGORY_OVERRIDES,
 } from "../src/lib/categories";
 
 const connectionString = process.env.DIRECT_URL ?? process.env.DATABASE_URL;
@@ -63,6 +64,21 @@ async function main() {
         `Moved ${moved.count} products; kept "${legacySlug}" (${remaining} left).`,
       );
     }
+  }
+
+  for (const [productSlug, targetSlug] of Object.entries(
+    PRODUCT_CATEGORY_OVERRIDES,
+  )) {
+    const targetId = categoryIdBySlug.get(targetSlug);
+
+    if (!targetId) {
+      continue;
+    }
+
+    await prisma.product.updateMany({
+      where: { slug: productSlug },
+      data: { categoryId: targetId },
+    });
   }
 
   console.log(
