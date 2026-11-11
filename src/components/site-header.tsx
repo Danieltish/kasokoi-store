@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { getTopLevelCategories } from "@/lib/catalog";
+import { getServiceCategories } from "@/lib/services";
 import { SITE, whatsappUrl } from "@/lib/site";
 
 import { SearchIcon, WhatsAppIcon } from "./icons";
@@ -10,12 +11,18 @@ import { MobileMenu } from "./mobile-menu";
 import { UserMenu } from "./user-menu";
 
 export async function SiteHeader() {
-  const categories = await getTopLevelCategories();
+  const [categories, serviceCategories] = await Promise.all([
+    getTopLevelCategories(),
+    getServiceCategories(),
+  ]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-1.5 px-3 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
-        <MobileMenu categories={categories} />
+        <MobileMenu
+          categories={categories}
+          serviceCategories={serviceCategories}
+        />
 
         <Link
           href="/"
@@ -58,6 +65,12 @@ export async function SiteHeader() {
           className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
         >
           All products
+        </Link>
+        <Link
+          href="/services"
+          className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-primary hover:bg-muted"
+        >
+          Services
         </Link>
         {categories.slice(0, 6).map((category) => (
           <Link

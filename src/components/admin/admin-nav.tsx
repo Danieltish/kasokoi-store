@@ -11,6 +11,8 @@ const baseItems = [
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/categories", label: "Categories" },
+  { href: "/admin/services", label: "Services" },
+  { href: "/admin/service-categories", label: "Service categories" },
   { href: "/admin/zones", label: "Delivery zones" },
   { href: "/admin/account", label: "Account" },
 ];

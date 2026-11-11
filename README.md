@@ -32,6 +32,7 @@ npm run dev                 # http://localhost:3000
 | `npm run seed` | Seed categories and sample products |
 | `npm run seed:admin` | Create/refresh only the superadmin (production-safe) |
 | `npm run seed:categories` | Add broad categories and move products off legacy categories (production-safe) |
+| `npm run seed:services` | Add the 5 service categories and 20 services (production-safe) |
 
 > Prisma 7 uses the `prisma-client` generator (`src/generated/prisma`, git-ignored) with the `@prisma/adapter-pg` driver adapter. Client singleton: `src/lib/prisma.ts`.
 

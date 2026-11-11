@@ -12,9 +12,9 @@ const whatsappNumber =
 
 export const SITE = {
   name: "Kasokoi Store",
-  tagline: "Everyday essentials, delivered across Kenya",
+  tagline: "Everyday essentials and trusted services, delivered across Kenya",
   description:
-    "Shop phones, electronics, home appliances, fashion, beauty, farm supplies and more in Kenya. Order on WhatsApp with delivery in Nairobi and nationwide.",
+    "Shop phones, electronics, home appliances, fashion, beauty and farm supplies, or book trusted services — cleaning, beauty, repairs, tech, delivery and more. Order or request a quote on WhatsApp with delivery in Nairobi and nationwide.",
   url: siteUrl,
   whatsappNumber,
   whatsappDisplay: `+${whatsappNumber.slice(0, 3)} ${whatsappNumber.slice(3, 6)} ${whatsappNumber.slice(6)}`,

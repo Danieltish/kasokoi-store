@@ -4,11 +4,18 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import type { CategorySummary } from "@/lib/catalog";
+import type { ServiceCategorySummary } from "@/lib/services";
 
 import { CloseIcon, MenuIcon } from "./icons";
 import { Logo } from "./logo";
 
-export function MobileMenu({ categories }: { categories: CategorySummary[] }) {
+export function MobileMenu({
+  categories,
+  serviceCategories,
+}: {
+  categories: CategorySummary[];
+  serviceCategories: ServiceCategorySummary[];
+}) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -63,7 +70,7 @@ export function MobileMenu({ categories }: { categories: CategorySummary[] }) {
 
             <div className="py-2">
               <p className="px-4 pb-1 pt-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-                Categories
+                Our Categories
               </p>
               <ul>
                 {categories.map((category) => (
@@ -84,6 +91,32 @@ export function MobileMenu({ categories }: { categories: CategorySummary[] }) {
                 className="mx-4 mt-2 flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
               >
                 All products
+              </Link>
+            </div>
+
+            <div className="border-t border-border py-2">
+              <p className="px-4 pb-1 pt-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                Our Services
+              </p>
+              <ul>
+                {serviceCategories.map((category) => (
+                  <li key={category.id}>
+                    <Link
+                      href={`/services/${category.slug}`}
+                      onClick={() => setOpen(false)}
+                      className="block px-4 py-2.5 text-left text-sm hover:bg-muted"
+                    >
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/services"
+                onClick={() => setOpen(false)}
+                className="mx-4 mt-2 flex items-center justify-center rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold hover:bg-muted"
+              >
+                All services
               </Link>
             </div>
 

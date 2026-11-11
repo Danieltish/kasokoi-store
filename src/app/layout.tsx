@@ -38,6 +38,9 @@ export const metadata: Metadata = {
     "beauty products Kenya",
     "farm supplies Kenya",
     "livestock supplies",
+    "home services Kenya",
+    "cleaning services Nairobi",
+    "beauty services Kenya",
     "Kasokoi Store",
   ],
   openGraph: {
