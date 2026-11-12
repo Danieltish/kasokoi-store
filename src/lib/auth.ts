@@ -40,8 +40,8 @@ function getSecret() {
   return new TextEncoder().encode(secret);
 }
 
-export async function createSession(user: SessionUser) {
-  const token = await new SignJWT({
+export async function createUserToken(user: SessionUser) {
+  return new SignJWT({
     name: user.name,
     email: user.email,
     role: user.role,
@@ -51,6 +51,10 @@ export async function createSession(user: SessionUser) {
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DAYS}d`)
     .sign(getSecret());
+}
+
+export async function createSession(user: SessionUser) {
+  const token = await createUserToken(user);
 
   const store = await cookies();
 
@@ -71,14 +75,7 @@ export async function destroySession() {
   store.delete(COOKIE_NAME);
 }
 
-export async function getSessionUser(): Promise<SessionUser | null> {
-  const store = await cookies();
-  const token = store.get(COOKIE_NAME)?.value;
-
-  if (!token) {
-    return null;
-  }
-
+export async function getTokenUser(token: string): Promise<SessionUser | null> {
   try {
     const { payload } = await jwtVerify(token, getSecret());
     const id = payload.sub;
@@ -113,6 +110,35 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   } catch {
     return null;
   }
+}
+
+export async function getRequestUser(
+  request: Request,
+): Promise<SessionUser | null> {
+  const header = request.headers.get("authorization") ?? "";
+
+  if (!header.startsWith("Bearer ")) {
+    return null;
+  }
+
+  const token = header.slice("Bearer ".length).trim();
+
+  if (!token) {
+    return null;
+  }
+
+  return getTokenUser(token);
+}
+
+export async function getSessionUser(): Promise<SessionUser | null> {
+  const store = await cookies();
+  const token = store.get(COOKIE_NAME)?.value;
+
+  if (!token) {
+    return null;
+  }
+
+  return getTokenUser(token);
 }
 
 export async function requireUser(): Promise<SessionUser> {
