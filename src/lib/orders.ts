@@ -37,6 +37,13 @@ export type CreateOrderResult =
 const MAX_INT = 2_147_483_647;
 const ORDER_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+class OutOfStockError extends Error {
+  constructor(readonly productName: string) {
+    super(`${productName} is out of stock.`);
+    this.name = "OutOfStockError";
+  }
+}
+
 function generateOrderNumber() {
   let suffix = "";
 
@@ -233,30 +240,55 @@ export async function createOrder(
 
   for (let attempt = 0; attempt < 5; attempt += 1) {
     try {
-      const order = await prisma.order.create({
-        data: {
-          orderNumber: generateOrderNumber(),
-          customerName: data.customerName,
-          phone,
-          email: data.email ? data.email : null,
-          county: zone.isPickup ? "Nairobi (Pickup)" : (county ?? null),
-          address: zone.isPickup ? null : (data.address ?? null),
-          notes: data.notes ? data.notes : null,
-          deliveryZoneId: zone.id,
-          subtotalKes,
-          deliveryFeeKes,
-          totalKes,
-          status: "PENDING",
-          paymentStatus: "UNPAID",
-          paymentMethod: "WHATSAPP",
-          channel: options.source,
-          items: { create: orderItems },
-        },
-        select: { orderNumber: true },
+      const order = await prisma.$transaction(async (tx) => {
+        for (const item of orderItems) {
+          const updated = await tx.product.updateMany({
+            where: {
+              id: item.productId,
+              isActive: true,
+              stock: { gte: item.quantity },
+            },
+            data: { stock: { decrement: item.quantity } },
+          });
+
+          if (updated.count === 0) {
+            throw new OutOfStockError(item.name);
+          }
+        }
+
+        return tx.order.create({
+          data: {
+            orderNumber: generateOrderNumber(),
+            customerName: data.customerName,
+            phone,
+            email: data.email ? data.email : null,
+            county: zone.isPickup ? "Nairobi (Pickup)" : (county ?? null),
+            address: zone.isPickup ? null : (data.address ?? null),
+            notes: data.notes ? data.notes : null,
+            deliveryZoneId: zone.id,
+            subtotalKes,
+            deliveryFeeKes,
+            totalKes,
+            status: "PENDING",
+            paymentStatus: "UNPAID",
+            paymentMethod: "WHATSAPP",
+            channel: options.source,
+            items: { create: orderItems },
+          },
+          select: { orderNumber: true },
+        });
       });
 
       return { ok: true, orderNumber: order.orderNumber };
     } catch (error) {
+      if (error instanceof OutOfStockError) {
+        return {
+          ok: false,
+          status: 409,
+          error: `${error.productName} just went out of stock or has fewer units left. Refresh your cart.`,
+        };
+      }
+
       if ((error as { code?: string }).code === "P2002") {
         continue;
       }
