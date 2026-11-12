@@ -1,6 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
 
-import type { ProductCondition } from "@/generated/prisma/client";
+import type { Prisma, ProductCondition } from "@/generated/prisma/client";
 import { CATEGORY_ORDER } from "@/lib/categories";
 import { prisma } from "@/lib/prisma";
 
@@ -45,6 +45,7 @@ export type ProductFilters = {
   q?: string;
   sort?: "newest" | "price-asc" | "price-desc" | "name";
   limit?: number;
+  offset?: number;
 };
 
 function toSpecs(value: unknown): Record<string, string> | null {
@@ -148,14 +149,8 @@ export async function getCategoryBySlug(
   };
 }
 
-export async function getProducts(
-  filters: ProductFilters = {},
-): Promise<ProductSummary[]> {
-  "use cache";
-  cacheTag(CATALOG_TAGS.products);
-  cacheLife("hours");
-
-  const where = {
+function productWhere(filters: ProductFilters): Prisma.ProductWhereInput {
+  return {
     isActive: true,
     ...(filters.categorySlug
       ? { category: { slug: filters.categorySlug } }
@@ -178,6 +173,16 @@ export async function getProducts(
         }
       : {}),
   };
+}
+
+export async function getProducts(
+  filters: ProductFilters = {},
+): Promise<ProductSummary[]> {
+  "use cache";
+  cacheTag(CATALOG_TAGS.products);
+  cacheLife("hours");
+
+  const where = productWhere(filters);
 
   const orderBy = (() => {
     switch (filters.sort) {
@@ -195,6 +200,7 @@ export async function getProducts(
   const rows = await prisma.product.findMany({
     where,
     orderBy,
+    skip: filters.offset,
     take: filters.limit,
     include: {
       category: { select: { slug: true, name: true } },
@@ -214,6 +220,16 @@ export async function getProducts(
     image: row.images[0]?.url ?? null,
     category: row.category,
   }));
+}
+
+export async function getProductCount(
+  filters: ProductFilters = {},
+): Promise<number> {
+  "use cache";
+  cacheTag(CATALOG_TAGS.products);
+  cacheLife("hours");
+
+  return prisma.product.count({ where: productWhere(filters) });
 }
 
 export async function getPopularProducts(

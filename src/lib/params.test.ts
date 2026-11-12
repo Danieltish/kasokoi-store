@@ -2,12 +2,17 @@ import { assert, integer, property, string } from "fast-check";
 import { describe, expect, it } from "vitest";
 
 import {
+  DEFAULT_PER_PAGE,
+  MAX_PAGE,
+  MAX_PER_PAGE,
   MAX_PRICE_KES,
   PRODUCT_CONDITIONS,
   PRODUCT_SORTS,
   first,
   parseCondition,
   parseMaxPrice,
+  parsePage,
+  parsePerPage,
   parseSort,
   parseTextFilter,
 } from "./params";
@@ -123,5 +128,41 @@ describe("first", () => {
     expect(first(["a", "b"])).toBe("a");
     expect(first("a")).toBe("a");
     expect(first(undefined)).toBeUndefined();
+  });
+});
+
+describe("parsePage", () => {
+  it("defaults to page 1 for invalid values", () => {
+    expect(parsePage(undefined)).toBe(1);
+    expect(parsePage("")).toBe(1);
+    expect(parsePage("0")).toBe(1);
+    expect(parsePage("-4")).toBe(1);
+    expect(parsePage("nope")).toBe(1);
+  });
+
+  it("clamps very large pages", () => {
+    expect(parsePage("999999999")).toBe(MAX_PAGE);
+  });
+
+  it("keeps valid pages", () => {
+    expect(parsePage("3")).toBe(3);
+    expect(parsePage("2.9")).toBe(2);
+  });
+});
+
+describe("parsePerPage", () => {
+  it("defaults to the standard page size for invalid values", () => {
+    expect(parsePerPage(undefined)).toBe(DEFAULT_PER_PAGE);
+    expect(parsePerPage("0")).toBe(DEFAULT_PER_PAGE);
+    expect(parsePerPage("-1")).toBe(DEFAULT_PER_PAGE);
+    expect(parsePerPage("abc")).toBe(DEFAULT_PER_PAGE);
+  });
+
+  it("clamps very large page sizes", () => {
+    expect(parsePerPage("1000")).toBe(MAX_PER_PAGE);
+  });
+
+  it("keeps valid page sizes", () => {
+    expect(parsePerPage("10")).toBe(10);
   });
 });

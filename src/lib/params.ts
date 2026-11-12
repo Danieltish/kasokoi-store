@@ -29,6 +29,29 @@ export function parseSort(value: string | undefined): ProductSort {
 }
 
 export const MAX_PRICE_KES = 2_147_483_647;
+export const MAX_PAGE = 10_000;
+export const MAX_PER_PAGE = 48;
+export const DEFAULT_PER_PAGE = 20;
+
+export function parsePage(value: string | undefined) {
+  const parsed = Math.floor(Number(value));
+
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return 1;
+  }
+
+  return Math.min(parsed, MAX_PAGE);
+}
+
+export function parsePerPage(value: string | undefined) {
+  const parsed = Math.floor(Number(value));
+
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return DEFAULT_PER_PAGE;
+  }
+
+  return Math.min(parsed, MAX_PER_PAGE);
+}
 
 export function parseTextFilter(value: string | undefined, maxLength = 80) {
   const trimmed = value?.trim();
